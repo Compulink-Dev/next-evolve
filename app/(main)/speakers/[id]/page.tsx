@@ -3,7 +3,7 @@ import React from 'react'
 
 const getSpeakerById = async (id: any) => {
     try {
-        const res = await fetch(`http://localhost:3000/api/speakers/${id}`, {
+        const res = await fetch(`${process.env.API_ROUTE}/api/speakers/${id}`, {
             cache: "no-store",
         });
 

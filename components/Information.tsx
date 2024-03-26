@@ -5,7 +5,7 @@ import { Colors } from "@/constant/colors";
 
 const getIntroById = async (id: any) => {
   try {
-    const res = await fetch(`http://localhost:3000/api/about/${id}`, {
+    const res = await fetch(`${process.env.API_ROUTE}/api/about/${id}`, {
       cache: "no-store",
     });
 

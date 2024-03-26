@@ -10,7 +10,7 @@ import Link from 'next/link'
 
 const getSpeakers = async () => {
   try {
-    const res = await fetch("http://localhost:3000/api/speakers", {
+    const res = await fetch(`${process.env.API_ROUTE}/api/speakers`, {
       cache: "no-store"
     })
 
@@ -28,7 +28,7 @@ const getSpeakers = async () => {
 
 const getHosts = async () => {
   try {
-    const res = await fetch("http://localhost:3000/api/hosts", {
+    const res = await fetch(`${process.env.API_ROUTE}/api/hosts`, {
       cache: "no-store"
     })
 

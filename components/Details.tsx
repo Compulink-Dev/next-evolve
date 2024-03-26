@@ -7,7 +7,7 @@ import { GoDotFill } from "react-icons/go";
 
 const getDetailsById = async (id: any) => {
   try {
-    const res = await fetch(`http://localhost:3000/api/home/${id}`, {
+    const res = await fetch(`${process.env.API_ROUTE}/api/home/${id}`, {
       cache: "no-store",
     });
 

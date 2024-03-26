@@ -3,7 +3,7 @@ import React from 'react'
 
 const getHostById = async (id: any) => {
     try {
-        const res = await fetch(`http://localhost:3000/api/hosts/${id}`, {
+        const res = await fetch(`${process.env.API_ROUTE}/api/hosts/${id}`, {
             cache: "no-store",
         });
 
