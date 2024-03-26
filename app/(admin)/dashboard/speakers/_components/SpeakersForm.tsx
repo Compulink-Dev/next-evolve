@@ -67,7 +67,7 @@ function SpeakersFrom() {
 
 
         try {
-            const res = await fetch(`https://next-evolve.vercel.app/api/speakers`, {
+            const res = await fetch(`https://www.evolveictsummit.com/api/speakers`, {
                 method: "POST",
                 headers: {
                     "Content-type": "application/json"
