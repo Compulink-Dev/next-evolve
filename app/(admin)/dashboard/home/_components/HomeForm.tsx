@@ -58,7 +58,7 @@ function HomeForm() {
         const description = values.description
 
         try {
-            const res = await fetch("http://localhost:3000/api/home", {
+            const res = await fetch(`${process.env.API_ROUTE}/api/home`, {
                 method: "POST",
                 headers: {
                     "Content-type": "application/json"

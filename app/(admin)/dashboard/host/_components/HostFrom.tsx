@@ -67,7 +67,7 @@ function HostForm() {
 
 
         try {
-            const res = await fetch("http://localhost:3000/api/hosts", {
+            const res = await fetch(`${process.env.API_ROUTE}/api/hosts`, {
                 method: "POST",
                 headers: {
                     "Content-type": "application/json"

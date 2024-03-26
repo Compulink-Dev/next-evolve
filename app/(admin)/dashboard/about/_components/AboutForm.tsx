@@ -64,7 +64,7 @@ function AboutForm() {
         const imageUrl = values.imageUrl
 
         try {
-            const res = await fetch("http://localhost:3000/api/about", {
+            const res = await fetch(`${process.env.API_ROUTE}/api/about`, {
                 method: "POST",
                 headers: {
                     "Content-type": "application/json"
