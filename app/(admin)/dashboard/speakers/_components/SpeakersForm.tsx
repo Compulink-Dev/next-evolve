@@ -67,7 +67,7 @@ function SpeakersFrom() {
 
 
         try {
-            const res = await fetch(`${process.env.API_ROUTE}/api/speakers`, {
+            const res = await fetch(`https://next-evolve.vercel.app/api/speakers`, {
                 method: "POST",
                 headers: {
                     "Content-type": "application/json"
@@ -75,10 +75,13 @@ function SpeakersFrom() {
                 body: JSON.stringify({ name, company, position, bio, imageUrl })
             })
 
+            console.log(res);
+
+
             if (res.ok) {
-                router.push('/dashboard/')
+                router.push('/')
             } else {
-                throw new Error("Failed to create a paragraph")
+                throw new Error("Failed to create a speaker")
             }
         } catch (error) {
             console.log(error);
