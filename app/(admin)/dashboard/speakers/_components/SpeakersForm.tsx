@@ -31,7 +31,7 @@ const formSchema = z.object({
     }).max(50),
     position: z.string().min(2, {
         message: "Enter position"
-    }).max(50),
+    }).max(200),
     imageUrl: z.string().min(2, {
         message: "Enter image"
     }).max(50),
