@@ -62,7 +62,7 @@ function Login() {
                         <p className="my-8 font-bold text-2xl">Login</p>
                     </div>
                     <Form {...form}>
-                        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+                        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
                             <FormField
                                 control={form.control}
                                 name="email"
@@ -92,7 +92,7 @@ function Login() {
                             <Button
                                 style={{ backgroundColor: Colors.blue }}
                                 type="submit"
-                                className='w-full'>Login</Button>
+                                className='w-full mt-4'>Login</Button>
                         </form>
                         <div className="mt-4">
                             <Link href={'/forgotPassword'} className="text-xs">Forgot password?</Link>
