@@ -17,6 +17,7 @@ import {
 import { Input } from "@/components/ui/input"
 import Image from 'next/image'
 import { Colors } from '@/constant/colors'
+import Link from 'next/link'
 
 type LoginProps = {
     email: string,
@@ -56,7 +57,7 @@ function Login() {
                 <div className="flex items-center justify-center bg-white px-8">
                     <Image src={'/home/logo.png'} width={200} height={200} alt='logo' />
                 </div>
-                <div className="p-8 text-white">
+                <div className="p-12 text-white">
                     <div className="">
                         <p className="my-8 font-bold text-2xl">Login</p>
                     </div>
@@ -89,10 +90,18 @@ function Login() {
                                 )}
                             />
                             <Button
-                                style={{ backgroundColor: Colors.primary }}
+                                style={{ backgroundColor: Colors.blue }}
                                 type="submit"
                                 className='w-full'>Login</Button>
                         </form>
+                        <div className="mt-4">
+                            <Link href={'/forgotPassword'} className="text-xs">Forgot password?</Link>
+                            <div className="mt-4 text-xs">
+                                <p className="">Don't have an account ? <span className="">
+                                    <Link href={'/registry'} className='font-bold text-md'>{" "}Sign up</Link>
+                                </span> </p>
+                            </div>
+                        </div>
                     </Form>
                 </div>
             </div>

@@ -25,6 +25,7 @@ import { toast } from "@/components/ui/use-toast"
 import { Input } from "@/components/ui/input"
 import Image from 'next/image'
 import { Colors } from '@/constant/colors'
+import Link from 'next/link'
 
 type LoginProps = {
     firstName: string,
@@ -340,6 +341,11 @@ function Registry() {
                             className='w-full'>Submit</Button>
                     </form>
                 </Form>
+                <div className="mt-4 text-xs">
+                    <p className="">Already have an account ? <span className="">
+                        <Link href={'/login'} className='font-bold text-md'>{" "}Login</Link>
+                    </span> </p>
+                </div>
             </div>
         </div>
     )

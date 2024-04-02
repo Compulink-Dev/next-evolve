@@ -17,7 +17,7 @@ function Hero() {
         <Button
           style={{ backgroundColor: Colors.blue }}
           className='bg-blue-950 p-8 w-full md:w-3/5'>
-          <Link href={'/login'}>
+          <Link href={'/registry'}>
             Register your interest for the Evolve Summit
           </Link>
         </Button>
