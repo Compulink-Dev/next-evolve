@@ -25,7 +25,6 @@ import { toast } from "@/components/ui/use-toast"
 import { Input } from "@/components/ui/input"
 import Image from 'next/image'
 import { Colors } from '@/constant/colors'
-import Link from 'next/link'
 
 type LoginProps = {
     firstName: string,
@@ -49,43 +48,39 @@ const formSchema = z.object({
         message: "Enter valid username"
     }).max(50),
     lastName: z.string().min(2, {
-        message: 'Password must contain 8 characters'
+        message: 'Enter valid last name'
     }),
-    jobTitle: z.string().min(2, {
-        message: "Enter valid username"
-    }).max(50),
-    company: z.string().min(2, {
-        message: "Enter valid email"
-    }).max(50),
+    jobTitle: z.string().max(50),
+    company: z.string().max(50),
     email: z.string().min(2, {
-        message: 'Password must contain 8 characters'
+        message: 'Enter valid email'
     }),
     country: z.string().min(2, {
-        message: "Enter valid username"
+        message: "Enter valid country"
     }).max(50),
     state: z.string().min(2, {
-        message: 'Password must contain 8 characters'
+        message: 'Enter valid state'
     }),
     industry: z.string().min(2, {
-        message: "Enter valid username"
+        message: "Enter valid industry"
     }).max(50),
     function: z.string().min(2, {
-        message: "Enter valid email"
+        message: "Enter valid function"
     }).max(50),
     phoneNumber: z.string().min(2, {
-        message: "Enter valid email"
+        message: "Enter valid phone number"
     }).max(50),
     companySize: z.string().min(2, {
-        message: 'Password must contain 8 characters'
+        message: 'Company size is invalid'
     }),
     position: z.string().min(2, {
-        message: "Enter valid username"
+        message: "Enter valid position"
     }).max(50),
     password: z.string().min(2, {
         message: 'Password must contain 8 characters'
     }),
     confirmPassword: z.string().min(2, {
-        message: "Enter valid username"
+        message: "Password do not match"
     }).max(50),
 })
 
@@ -146,7 +141,7 @@ function Registry() {
                                     <FormItem>
                                         <FormLabel>First Name</FormLabel>
                                         <FormControl>
-                                            <Input placeholder="Enter first name" {...field} className='placeholder:text-white' />
+                                            <Input placeholder="Enter first name" {...field} className='' />
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>
@@ -174,7 +169,7 @@ function Registry() {
                                     <FormItem>
                                         <FormLabel>Job Title</FormLabel>
                                         <FormControl>
-                                            <Input placeholder="Enter first name" {...field} />
+                                            <Input placeholder="Enter job title" {...field} />
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>
@@ -187,7 +182,7 @@ function Registry() {
                                     <FormItem>
                                         <FormLabel>Company Name</FormLabel>
                                         <FormControl>
-                                            <Input placeholder="Enter last name" {...field} />
+                                            <Input placeholder="Enter company name" {...field} />
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>
@@ -202,7 +197,7 @@ function Registry() {
                                     <FormItem>
                                         <FormLabel>Email</FormLabel>
                                         <FormControl>
-                                            <Input placeholder="Enter first name" {...field} />
+                                            <Input placeholder="Enter email address" {...field} />
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>
@@ -215,7 +210,7 @@ function Registry() {
                                     <FormItem>
                                         <FormLabel>Phone Number</FormLabel>
                                         <FormControl>
-                                            <Input placeholder="Enter last name" {...field} />
+                                            <Input placeholder="Enter phone number" {...field} />
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>
@@ -227,11 +222,11 @@ function Registry() {
                                 control={form.control}
                                 name="country"
                                 render={({ field }) => (
-                                    <FormItem>
+                                    <FormItem >
                                         <FormLabel>Country/Region</FormLabel>
                                         <Select onValueChange={field.onChange} defaultValue={field.value}>
                                             <FormControl>
-                                                <SelectTrigger className='border'>
+                                                <SelectTrigger className='border text-gray-500'>
                                                     <SelectValue placeholder="Country/Region" />
                                                 </SelectTrigger>
                                             </FormControl>
@@ -254,7 +249,7 @@ function Registry() {
                                         <Select
                                             onValueChange={field.onChange} defaultValue={field.value}>
                                             <FormControl>
-                                                <SelectTrigger>
+                                                <SelectTrigger className='border text-gray-500' >
                                                     <SelectValue placeholder="State/Province" />
                                                 </SelectTrigger>
                                             </FormControl>
@@ -278,8 +273,8 @@ function Registry() {
                                         <FormLabel>Industry of your company</FormLabel>
                                         <Select onValueChange={field.onChange} defaultValue={field.value}>
                                             <FormControl>
-                                                <SelectTrigger className='border'>
-                                                    <SelectValue placeholder="Country/Region" />
+                                                <SelectTrigger className='border text-gray-500'>
+                                                    <SelectValue placeholder="Industry of your company" />
                                                 </SelectTrigger>
                                             </FormControl>
                                             <SelectContent>
@@ -297,12 +292,12 @@ function Registry() {
                                 name="state"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel>Select your job function</FormLabel>
+                                        <FormLabel>Department</FormLabel>
                                         <Select
                                             onValueChange={field.onChange} defaultValue={field.value}>
                                             <FormControl className='p-4 w-full'>
-                                                <SelectTrigger>
-                                                    <SelectValue placeholder="State/Province" />
+                                                <SelectTrigger className='border text-gray-500'>
+                                                    <SelectValue placeholder="Department" />
                                                 </SelectTrigger>
                                             </FormControl>
                                             <SelectContent>
@@ -316,53 +311,29 @@ function Registry() {
                                 )}
                             />
                         </div>
-                        <div className="flex gap-4 w-full">
-                            <FormField
-                                control={form.control}
-                                name="country"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>Which oh the following best describes your seniority level?</FormLabel>
-                                        <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                            <FormControl>
-                                                <SelectTrigger className='border'>
-                                                    <SelectValue placeholder="Country/Region" />
-                                                </SelectTrigger>
-                                            </FormControl>
-                                            <SelectContent>
-                                                <SelectItem value="m@example.com">m@example.com</SelectItem>
-                                                <SelectItem value="m@google.com">m@google.com</SelectItem>
-                                                <SelectItem value="m@support.com">m@support.com</SelectItem>
-                                            </SelectContent>
-                                        </Select>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
-                            <FormField
-                                control={form.control}
-                                name="state"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>Select your company size</FormLabel>
-                                        <Select
-                                            onValueChange={field.onChange} defaultValue={field.value}>
-                                            <FormControl className='p-4 w-full'>
-                                                <SelectTrigger>
-                                                    <SelectValue placeholder="State/Province" />
-                                                </SelectTrigger>
-                                            </FormControl>
-                                            <SelectContent>
-                                                <SelectItem value="m@example.com">m@example.com</SelectItem>
-                                                <SelectItem value="m@google.com">m@google.com</SelectItem>
-                                                <SelectItem value="m@support.com">m@support.com</SelectItem>
-                                            </SelectContent>
-                                        </Select>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
-                        </div>
+                        <FormField
+                            control={form.control}
+                            name="state"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Select your company size</FormLabel>
+                                    <Select
+                                        onValueChange={field.onChange} defaultValue={field.value}>
+                                        <FormControl className='p-4 w-full'>
+                                            <SelectTrigger className='border text-gray-500'>
+                                                <SelectValue placeholder="Select your company size" />
+                                            </SelectTrigger>
+                                        </FormControl>
+                                        <SelectContent>
+                                            <SelectItem value="m@example.com">m@example.com</SelectItem>
+                                            <SelectItem value="m@google.com">m@google.com</SelectItem>
+                                            <SelectItem value="m@support.com">m@support.com</SelectItem>
+                                        </SelectContent>
+                                    </Select>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
                         <Button
                             style={{ backgroundColor: Colors.primary }}
                             type="submit"
