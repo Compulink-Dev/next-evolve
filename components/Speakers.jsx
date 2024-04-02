@@ -115,65 +115,6 @@ async function Speakers() {
           ))
         }
       </div>
-
-      {/* <div className="flex items-center justify-center my-8">
-        <Button
-          style={{ backgroundColor: Colors.blue }}
-          className='md:w-1/5 p-6 bg-blue-950 mb-8'>
-          <Link href={'/speakers'}>View all speakers</Link>
-        </Button>
-      </div> */}
-
-      <div className=''>
-        <div className='my-8'>
-          <div className='mx-8'>
-            <Title color={Colors.white} name='Hosts' />
-            <Subtitle title='Evolve ICT Summit' color='text-white' />
-          </div>
-          <div className=''>
-            {/* {
-              hosts.map((host) => (
-
-                !host ?
-                  <div className='text-white'>
-                    Null
-                    {
-                      console.log(!host)
-                    }
-                  </div>
-                  :
-                  <Speaker
-                    key={host._id}
-                    name={host.name}
-                    imageUrl={host.imageUrl}
-                    desc={host.company}
-                    post={host.position}
-                    link={`/hosts/${host._id}`}
-                  />
-
-              ))
-            } */}
-
-            {
-              hosts.length > 0 ? (
-                <div className='grid grid-cols-1 md:grid-cols-4 gap-4 md:gap-0 gap-x-4 mt-8'>
-                  <Speaker
-                    key={host._id}
-                    name={host.name}
-                    imageUrl={host.imageUrl}
-                    desc={host.company}
-                    post={host.position}
-                    link={`/hosts/${host._id}`}
-                  />
-                </div>
-              ) :
-                (
-                  <Loader />
-                )
-            }
-          </div>
-        </div>
-      </div>
     </div>
   )
 }
