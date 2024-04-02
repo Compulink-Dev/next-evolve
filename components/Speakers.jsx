@@ -3,9 +3,10 @@ import Subtitle from './subtitle'
 import React from 'react'
 import Title from './Title'
 import { Colors } from '@/constant/colors'
-import { hosts } from '@/constant/data'
 import Image from 'next/image'
 import Link from 'next/link'
+import PulseLoader from "react-spinners/PulseLoader";
+import Loader from './Loader'
 
 
 const getSpeakers = async () => {
@@ -129,21 +130,48 @@ async function Speakers() {
             <Title color={Colors.white} name='Hosts' />
             <Subtitle title='Evolve ICT Summit' color='text-white' />
           </div>
-          <div className='grid grid-cols-1 md:grid-cols-4 gap-4 md:gap-0 gap-x-4 mt-8'>
-            {
+          <div className=''>
+            {/* {
               hosts.map((host) => (
-                <Speaker
-                  key={host._id}
-                  name={host.name}
-                  imageUrl={host.imageUrl}
-                  desc={host.company}
-                  post={host.position}
-                  link={`/hosts/${host._id}`}
-                />
+
+                !host ?
+                  <div className='text-white'>
+                    Null
+                    {
+                      console.log(!host)
+                    }
+                  </div>
+                  :
+                  <Speaker
+                    key={host._id}
+                    name={host.name}
+                    imageUrl={host.imageUrl}
+                    desc={host.company}
+                    post={host.position}
+                    link={`/hosts/${host._id}`}
+                  />
+
               ))
+            } */}
+
+            {
+              hosts.length > 0 ? (
+                <div className='grid grid-cols-1 md:grid-cols-4 gap-4 md:gap-0 gap-x-4 mt-8'>
+                  <Speaker
+                    key={host._id}
+                    name={host.name}
+                    imageUrl={host.imageUrl}
+                    desc={host.company}
+                    post={host.position}
+                    link={`/hosts/${host._id}`}
+                  />
+                </div>
+              ) :
+                (
+                  <Loader />
+                )
             }
           </div>
-          {/* <Image src={'/simonn.png'} width={400} height={500} alt='logo' /> */}
         </div>
       </div>
     </div>
