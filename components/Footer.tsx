@@ -101,7 +101,7 @@ function Footer() {
               style={{ color: Colors.white }}
               target="_blank"
               href="https://twitter.com/EvolveICTSummit" className="text-gray-500 hover:text-gray-900 dark:hover:text-white">
-              <FaAddressCard />
+              <FaXTwitter />
             </Link>
             <Link
               style={{ color: Colors.white }}
