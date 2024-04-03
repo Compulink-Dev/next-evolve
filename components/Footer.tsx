@@ -1,7 +1,7 @@
 import React from "react";
 import { Colors } from "@/constant/colors";
 import Link from "next/link";
-import { FaThreads, FaLinkedin, FaTwitter, FaInstagram, FaFacebook } from "react-icons/fa6";
+import { FaThreads, FaLinkedin, FaTwitter, FaInstagram, FaFacebook, FaAddressCard } from "react-icons/fa6";
 import { FaXTwitter } from "react-icons/fa6";
 import Image from "next/image";
 
@@ -101,7 +101,7 @@ function Footer() {
               style={{ color: Colors.white }}
               target="_blank"
               href="https://twitter.com/EvolveICTSummit" className="text-gray-500 hover:text-gray-900 dark:hover:text-white">
-              <FaXTwitter />
+              <FaAddressCard />
             </Link>
             <Link
               style={{ color: Colors.white }}

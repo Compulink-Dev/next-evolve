@@ -3,7 +3,9 @@ import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import Layout from '@/components/Layout'
-import { DialogDemo } from './_components/dialog'
+import { SpeakerDialog } from './dialog'
+import { Colors } from '@/constant/colors'
+
 
 
 const getSpeakers = async () => {
@@ -25,16 +27,16 @@ const getSpeakers = async () => {
 
 
 
-async function Speaker() {
+async function Speakers() {
     const { speakers } = await getSpeakers()
     console.log(speakers._id);
     return (
-        <Layout>
+        <>
 
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4 md:gap-0 gap-x-4 bg-blue-500 py-12">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-4 md:gap-0 gap-x-4 bg-blue-500 py-12" style={{ backgroundColor: Colors.primary }}>
                 {
                     speakers.map((speak: any) => (
-                        <DialogDemo
+                        <SpeakerDialog
                             key={speak._id}
                             link={`/speakers/${speak._id}`}
                             name={speak.name}
@@ -46,8 +48,9 @@ async function Speaker() {
                     ))
                 }
             </div>
-        </Layout>
+
+        </>
     )
 }
 
-export default Speaker
+export default Speakers
