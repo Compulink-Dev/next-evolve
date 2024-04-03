@@ -5,7 +5,7 @@ import React from 'react'
 import Schedule from '@/components/Schedule'
 import About from './_components/about'
 import Partners from '@/components/Partner'
-import Speakers from './_components/speakers'
+import Speakers from './speakers/_components/speakers'
 
 
 function HomePage() {
