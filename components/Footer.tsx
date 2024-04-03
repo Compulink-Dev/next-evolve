@@ -27,7 +27,7 @@ function Footer() {
                 className="mb-6 text-sm font-semibold text-blue-900 uppercase dark:text-white">Resources</h2>
               <ul
                 style={{ color: Colors.white }}
-                className=" dark:text-gray-400 text-blue-700">
+                className=" dark:text-gray-400 text-xs md:text-md text-blue-700">
                 <li className="mb-4">
                   <Link href="/about" className="hover:underline">About</Link>
                 </li>
@@ -42,7 +42,7 @@ function Footer() {
                 className="mb-6 text-sm font-semibold text-purple-900 uppercase dark:text-white">Follow us</h2>
               <ul
                 style={{ color: Colors.white }}
-                className="text-blue-700 dark:text-gray-400">
+                className="text-blue-700 text-xs dark:text-gray-400">
                 <li className="mb-4">
                   <Link href="https://www.facebook.com/profile.php?id=61556472505176&mibextid=ZbWKwL" className="hover:underline ">Facebook</Link>
                 </li>
@@ -60,7 +60,7 @@ function Footer() {
                 className="mb-6 text-sm font-semibold text-purple-900 uppercase dark:text-white">Legal</h2>
               <ul
                 style={{ color: Colors.white }}
-                className="text-blue-700 dark:text-gray-400">
+                className="text-blue-700 text-xs dark:text-gray-400">
                 <li className="mb-4">
                   <Link href="#" className="hover:underline">Privacy Policy</Link>
                 </li>
