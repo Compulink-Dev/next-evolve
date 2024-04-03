@@ -3,7 +3,7 @@ import nodemailer from 'nodemailer'
 
 export async function POST(request: NextRequest) {
     try {
-        const { firstName, lastName, email, message } = await request.json()
+        const { email } = await request.json()
 
         const transporter = nodemailer.createTransport({
             host: "sandbox.smtp.mailtrap.io",
@@ -21,9 +21,8 @@ export async function POST(request: NextRequest) {
             subject: "Send Email Tutorial",
             html: `
         <h3>Hi Evolve ICT Summit</h3>
-        <li> My name is: ${firstName}   ${lastName}</li>
+        <li>${email} is requesting permission to receive newsletters concerning the Evolve ICT Summit </li>
         <div/>
-        <li> Message: ${message}</li> 
         `
         }
 

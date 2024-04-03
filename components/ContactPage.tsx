@@ -67,6 +67,7 @@ function ContactPage() {
   function onSubmit(data: z.infer<typeof formSchema>) {
     // Do something with the form data.
     // ✅ This will be type-safe and validated.
+
     console.log(data)
   }
 

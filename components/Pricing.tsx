@@ -69,10 +69,10 @@ function Pricing() {
           <div className='flex justify-between col-span-4'>
             <div className=''>
               <div className="">
-                <h1 className="font-bold text-lg md:text-2xl" style={{ color: Colors.white }}>Early Birds</h1>
+                <h1 className="font-bold text-lg md:text-2xl" style={{ color: Colors.white }}>Registration Fee</h1>
                 <h1
                   style={{ color: Colors.white }}
-                  className="text-xs md:text-sm text-end text-gray-500"><span className="hidden md:flex">Before</span> March 20, 2024</h1>
+                  className="text-xs md:text-sm text-end text-gray-500">May 02, 2024</h1>
               </div>
               <div className='mt-3 text-end'>
                 <p
@@ -90,7 +90,7 @@ function Pricing() {
                 <h1 className="font-bold text-lg md:text-2xl" style={{ color: Colors.bgColor }}>Registration Fee</h1>
                 <h1
                   style={{ color: Colors.white }}
-                  className="text-sm text-end text-gray-500">Starts Mar 20, 2024</h1>
+                  className="text-sm text-end text-gray-500">May 03, 2024</h1>
               </div>
               <div className='mt-2 text-end'>
                 <p
@@ -110,8 +110,6 @@ function Pricing() {
       <Details
         text="At this stage, the event is planned to be hosted onsite. If required, further options will be considered while approaching the event dates."
       />
-      <Details text="VAT at 5% to be added to the registration fees." />
-
       <Details text="Registration fees cover the access to the conference, the conference materials and documents and catering (lunch and coffee breaks)." />
       <Details text="Student participant should be able to produce a valid student ID at the registration desk when requested." />
       <Details text="Company Employee even if he/she is a student cannot be considered as a 'Student Participant' and should register as 'Company Participant'." />
