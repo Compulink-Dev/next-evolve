@@ -97,7 +97,7 @@ function Login() {
                         <div className="mt-4">
                             <Link href={'/forgotPassword'} className="text-xs">Forgot password?</Link>
                             <div className="mt-4 text-xs">
-                                <p className="">Don't have an account ? <span className="">
+                                <p className="">{"Don't have an account ? "}<span className="">
                                     <Link href={'/registry'} className='font-bold text-md'>{" "}Sign up</Link>
                                 </span> </p>
                             </div>
