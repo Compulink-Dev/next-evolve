@@ -193,7 +193,7 @@ function RegistryForm() {
                 {
                   countries.map((country) => (
 
-                    <option value={country.name}>{country.name}</option>
+                    <option key={country.name} value={country.name}>{country.name}</option>
 
                   ))
                 }
