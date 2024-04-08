@@ -76,8 +76,12 @@ function Header() {
           </Link>
           <Timer />
           <div className="text-blue-950 text-sm text-end">
-            <p className="font-bold text-xs md:text-sm">Core Agenda & Exhibition: 02 May 2024</p>
-            <p className="text-xs md:text-sm">Exhibition Opening Dates: 02 - 03 May 2024</p>
+            <p className="font-bold text-xs md:text-sm">2 days conference</p>
+            <p className="text-xs md:text-sm">Exhibition Dates: 02
+              <span className="font-bold">{" "}(Business){" "} </span>
+              - 03
+              <span className="font-bold">{"  "}(General) {" "}</span>
+              May 2024</p>
             <p className="">Rainbow Towers, Harare</p>
           </div>
         </div>
