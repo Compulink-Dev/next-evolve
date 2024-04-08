@@ -250,10 +250,11 @@ function RegistryForm() {
               })}
               className="text-black p-2 text-sm rounded-lg w-full">
               <option></option>
-              <option value={'0-5'}>0-5</option>
-              <option value={'5-10'}>5-10</option>
-              <option value={'10-15'}> 10-15</option>
-              <option value={'15-20'}>15-20</option>
+              <option value={'Micro Enterprise: 1-9 employees'}>Micro Enterprise: 1-9 employees</option>
+              <option value={'Small Enterprise: 10-49 employees'}>Small Enterprise: 10-49 employees</option>
+              <option value={'Medium Enterprise: 50-249 employees'}>Medium Enterprise: 50-249 employees</option>
+              <option value={'Large Enterprise: 250-999 employees'}>Large Enterprise: 250-999 employees</option>
+              <option value={'Enterprise: 1000+ employees'}>Enterprise: 1000+ employees</option>
             </select>
           </div>
           <Button

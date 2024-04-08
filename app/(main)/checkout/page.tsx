@@ -71,7 +71,7 @@ const MyForm: React.FC = () => {
         <form onSubmit={handleSubmit} className='bg-blue-600'>
             <div className="flex gap-6 w-full placeholder:text-white">
                 <div className=''>
-                    <label>First Name:</label>
+                    <label>First Name</label>
                     <input
                         type="text"
                         name="firstName"
@@ -83,7 +83,7 @@ const MyForm: React.FC = () => {
                     {errors.email && <span style={{ color: 'red' }}>{errors.email}</span>}
                 </div>
                 <div>
-                    <label>Last Name:</label>
+                    <label>Last Name</label>
                     <input
                         type="text"
                         name="lastName"
@@ -96,7 +96,7 @@ const MyForm: React.FC = () => {
             </div>
             <div className="flex gap-6 w-full placeholder:text-white">
                 <div className=''>
-                    <label>First Name:</label>
+                    <label>Job Title</label>
                     <input
                         type="text"
                         name="firstName"
@@ -108,7 +108,32 @@ const MyForm: React.FC = () => {
                     {errors.email && <span style={{ color: 'red' }}>{errors.email}</span>}
                 </div>
                 <div>
-                    <label>Last Name:</label>
+                    <label>Company name</label>
+                    <input
+                        type="text"
+                        name="lastName"
+                        value={formData.lastName}
+                        onChange={handleChange}
+                        className="text-black p-2 text-sm rounded-lg w-full"
+                    />
+                    {errors.email && <span style={{ color: 'red' }}>{errors.email}</span>}
+                </div>
+            </div>
+            <div className="flex gap-6 w-full placeholder:text-white">
+                <div className=''>
+                    <label>Email</label>
+                    <input
+                        type="text"
+                        name="firstName"
+                        value={formData.firstName}
+                        placeholder='Enter name'
+                        onChange={handleChange}
+                        className="text-black p-2 text-sm rounded-lg w-full"
+                    />
+                    {errors.email && <span style={{ color: 'red' }}>{errors.email}</span>}
+                </div>
+                <div>
+                    <label>Company name</label>
                     <input
                         type="text"
                         name="lastName"
