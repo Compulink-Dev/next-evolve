@@ -59,7 +59,7 @@ function RegistryForm() {
       ) {
         toast.warn("Fill all the fields ");
       }
-      const res = await fetch(`${process.env.API_ROUTE}/api/registration `, {
+      const res = await fetch(`/api/registration `, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
