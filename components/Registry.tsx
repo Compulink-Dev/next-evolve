@@ -44,21 +44,21 @@ function RegistryForm() {
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     try {
-      if (
-        !firstName ||
-        !lastName ||
-        !jobTitle ||
-        !company ||
-        !phoneNumber ||
-        !country ||
-        !state ||
-        !email ||
-        !industry ||
-        !position ||
-        !companySize
-      ) {
-        toast.warn("Fill all the fields ");
-      }
+      // if (
+      //   !firstName ||
+      //   !lastName ||
+      //   !jobTitle ||
+      //   !company ||
+      //   !phoneNumber ||
+      //   !country ||
+      //   !state ||
+      //   !email ||
+      //   !industry ||
+      //   !position ||
+      //   !companySize
+      // ) {
+      //   toast.warn("Fill all the fields ");
+      // }
       const res = await fetch(`/api/registration `, {
         method: "POST",
         headers: {
