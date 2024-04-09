@@ -1,5 +1,5 @@
 import React from 'react'
-import { MdEmail, MdFlag, MdHomeWork, MdLocationPin, MdPerson, MdPhone } from 'react-icons/md'
+import { MdDelete, MdEdit, MdEmail, MdFlag, MdHomeWork, MdLocationPin, MdPerson, MdPhone, MdUpdate } from 'react-icons/md'
 
 interface VisitorProps {
     name: string
@@ -69,12 +69,22 @@ const VisitorCard = ({ name, surname, position, company, status, number, email, 
                     </div>
                 </div>
             </div>
-            <div className="space-y-2">
-                <div className="p-4 h-6 bg-red-400 rounded flex items-center justify-center text-white text-sm">
-                    {status}
+            <div className="flex flex-col items-center justify-between">
+                <div className="space-y-2">
+                    <div className="p-4 h-6 bg-red-400 rounded flex items-center justify-center text-white text-sm">
+                        {status}
+                    </div>
+                    <div className="p-4 h-6 bg-blue-400 rounded flex items-center justify-center text-white text-sm">
+                        {status}
+                    </div>
                 </div>
-                <div className="p-4 h-6 bg-blue-400 rounded flex items-center justify-center text-white text-sm">
-                    {status}
+                <div className="flex items-center gap-2">
+                    <div className="border  h-8 w-8 text-slate-600 flex items-center justify-center rounded-full">
+                        <MdEdit />
+                    </div>
+                    <div className="bg-red-700 h-8 w-8 text-white flex items-center justify-center rounded-full">
+                        <MdDelete />
+                    </div>
                 </div>
             </div>
         </div>
