@@ -112,6 +112,7 @@ async function Visitors() {
                 {
                     visitors.map((visitor: any) => (
                         <VisitorCard
+                            key={visitors._id}
                             name={visitor.firstName}
                             surname={visitor.lastName}
                             position={visitor.position}
