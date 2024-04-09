@@ -17,7 +17,7 @@ interface VisitorProps {
 
 const getVisitors = async () => {
     try {
-        const res = await fetch(`${process.env.API_ROUTE}/api/registration/`)
+        const res = await fetch(`https://next-evolve.vercel.app/api/registration/`)
 
         if (!res.ok) {
             throw new Error("Failed to fetch visitors")
