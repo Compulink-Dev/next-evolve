@@ -76,8 +76,8 @@ const menuItems = [
                 icon: <MdAnalytics />,
             },
             {
-                title: "Teams",
-                path: "/dashboard/teams",
+                title: "Visitors",
+                path: "/dashboard/visitors",
                 icon: <MdPeople />,
             },
         ],

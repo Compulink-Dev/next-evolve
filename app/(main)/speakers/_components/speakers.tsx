@@ -29,7 +29,6 @@ const getSpeakers = async () => {
 
 async function Speakers() {
     const { speakers } = await getSpeakers()
-    console.log(speakers._id);
     return (
         <>
 

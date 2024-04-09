@@ -33,3 +33,17 @@ export async function POST(req: NextRequest) {
 }
 
 
+export async function GET() {
+    await connectToDB()
+    const visitors = await Registration.find()
+    return NextResponse.json({ visitors })
+}
+
+export async function DELETE(req: NextRequest) {
+    const id = req.nextUrl.searchParams.get("id")
+    await connectToDB()
+    await Registration.findByIdAndDelete(id)
+    return NextResponse.json({ message: "Visitor Deleted" }, { status: 201 })
+}
+
+

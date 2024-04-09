@@ -37,8 +37,108 @@ function RegistryForm() {
   const [industry, setIndustry] = useState("");
   const [position, setPosition] = useState("");
   const [companySize, setCompanySize] = useState("");
+  const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
 
+  // Form validation logic
+  const validateForm = () => {
+    let valid = true;
+    const newErrors: { [key: string]: string } = {};
+
+
+    // Email validation
+    // if (firstName == "") {
+    //   newErrors.firstName = 'First name is required';
+    //   valid = false;
+    // } else {
+    //   newErrors.firstName = 'First name is invalid';
+    //   valid = false;
+    // }
+
+    // if (!lastName) {
+    //   newErrors.lastName = 'Last name is required';
+    //   valid = false;
+    // } else {
+    //   newErrors.lastName = 'Last name not proper';
+    //   valid = false;
+    // }
+
+    // if (!jobTitle) {
+    //   newErrors.jobTitle = 'Job title is required';
+    //   valid = false;
+    // } else {
+    //   newErrors.jobTitle = 'Job title is invalid';
+    //   valid = false;
+    // }
+
+    // if (!company) {
+    //   newErrors.company = 'Company name is required';
+    //   valid = false;
+    // } else {
+    //   newErrors.company = 'Company name is invalid';
+    //   valid = false;
+    // }
+
+    // if (!email) {
+    //   newErrors.email = 'Email is required';
+    //   valid = false;
+    // } else if (!/\S+@\S+\.\S+/.test(email)) {
+    //   newErrors.email = 'Email is invalid';
+    //   valid = false;
+    // }
+
+    // if (!phoneNumber) {
+    //   newErrors.phoneNumber = 'Phone number is required';
+    //   valid = false;
+    // } else {
+    //   newErrors.phoneNumber = 'Phone number is invalid';
+    //   valid = false;
+    // }
+
+    // if (!country) {
+    //   newErrors.country = 'Country name is required';
+    //   valid = false;
+    // } else {
+    //   newErrors.country = 'Country name is invalid';
+    //   valid = false;
+    // }
+
+
+    // if (!state) {
+    //   newErrors.state = 'State is required';
+    //   valid = false;
+    // } else {
+    //   newErrors.state = 'State is invalid';
+    //   valid = false;
+    // }
+
+    // if (!industry) {
+    //   newErrors.industry = 'Industry name is required';
+    //   valid = false;
+    // } else {
+    //   newErrors.industry = 'Industry name is invalid';
+    //   valid = false;
+    // }
+
+    // if (!position) {
+    //   newErrors.position = 'Department is required';
+    //   valid = false;
+    // } else {
+    //   newErrors.position = 'Department is invalid';
+    //   valid = false;
+    // }
+
+    // if (!companySize) {
+    //   newErrors.companySize = 'Company size name is required';
+    //   valid = false;
+    // } else {
+    //   newErrors.companySize = 'Company name is invalid';
+    //   valid = false;
+    // }
+
+    setErrors(newErrors);
+    return valid;
+  };
 
 
   const handleSubmit = async (e: any) => {
@@ -59,39 +159,48 @@ function RegistryForm() {
       // ) {
       //   toast.warn("Fill all the fields ");
       // }
-      const res = await fetch(`/api/registration `, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          firstName,
-          lastName,
-          jobTitle,
-          company,
-          phoneNumber,
-          country,
-          state,
-          email,
-          industry,
-          position,
-          companySize,
-        }),
-      });
-      if (res.ok) {
-        toast.success("Registration Successful");
-        setFirstName("")
-        setLastName("")
-        setJobTitle("")
-        setCompany("")
-        setPhoneNumber("")
-        setCountry("")
-        setState("")
-        setEmail("")
-        setIndustry("")
-        setPosition("")
-        setCompanySize("")
+
+
+      if (validateForm()) {
+        const res = await fetch(`/api/registration `, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            firstName,
+            lastName,
+            jobTitle,
+            company,
+            phoneNumber,
+            country,
+            state,
+            email,
+            industry,
+            position,
+            companySize,
+          }),
+        });
+
+        if (res.ok) {
+          toast.success("Registration Successful");
+          setFirstName("")
+          setLastName("")
+          setJobTitle("")
+          setCompany("")
+          setPhoneNumber("")
+          setCountry("")
+          setState("")
+          setEmail("")
+          setIndustry("")
+          setPosition("")
+          setCompanySize("")
+        }
+      } else {
+        toast.error('Form submission failed due to validation errors');
       }
+
+
     } catch (error) {
       toast.error("Unable to register");
     }
@@ -99,7 +208,7 @@ function RegistryForm() {
   return (
     <div className="border rounded flex flex-col md:flex-row  gap-8 m-8">
       <div className="flex items-center justify-center bg-white px-8 py-8 md:py-0">
-        <Image src={"/home/logo.png"} width={200} height={200} alt="logo" />
+        <Image src={"/home/logo.png"} priority width={200} height={200} alt="logo" />
       </div>
       <div className="p-8 text-white placeholder:text-white">
         <div className="">
@@ -116,6 +225,7 @@ function RegistryForm() {
                 placeholder="Enter first name"
                 className="text-black p-2 text-sm rounded-lg w-full"
               />
+              {errors.firstName && <span className="text-xs text-red-200">{errors.firstName}</span>}
             </div>
             <div className="grid gap-2">
               <label className="text-sm font-bold">Last Name</label>
@@ -126,6 +236,7 @@ function RegistryForm() {
                 name="surname"
                 className="text-black p-2 text-sm rounded-lg w-full"
               />
+              {errors.lastName && <span className="text-xs text-red-200">{errors.lastName}</span>}
             </div>
           </div>
           <div className="flex gap-6 w-full placeholder:text-white">
@@ -138,6 +249,7 @@ function RegistryForm() {
                 placeholder="Enter Job Title"
                 className="text-black p-2 text-sm rounded-lg w-full"
               />
+              {errors.jobTitle && <span className="text-xs text-red-200">{errors.jobTitle}</span>}
             </div>
             <div className="grid gap-2">
               <label className="text-sm font-bold">Company Name</label>
@@ -148,6 +260,7 @@ function RegistryForm() {
                 placeholder="Enter company name"
                 className="text-black p-2 text-sm rounded-lg w-full"
               />
+              {errors.company && <span className="text-xs text-red-200">{errors.company}</span>}
             </div>
           </div>
           <div className="flex gap-6 w-full placeholder:text-white">
@@ -160,6 +273,7 @@ function RegistryForm() {
                 placeholder="Enter your email"
                 className="text-black p-2 text-sm rounded-lg w-full"
               />
+              {errors.email && <span className="text-xs text-red-200">{errors.email}</span>}
             </div>
             <div className="grid gap-2">
               <label className="text-sm font-bold">Phone Number</label>
@@ -170,18 +284,12 @@ function RegistryForm() {
                 placeholder="Enter your phone number"
                 className="text-black p-2 text-sm rounded-lg w-full"
               />
+              {errors.phoneNumber && <span className="text-xs text-red-200">{errors.phoneNumber}</span>}
             </div>
           </div>
           <div className="flex gap-6 w-full placeholder:text-white">
             <div className="grid gap-2">
               <label className="text-sm font-bold">Country/Region</label>
-              {/* <input
-                value={country}
-                name="country"
-                onChange={(e) => setCountry(e.target.value)}
-                placeholder="Country/Region"
-                className="text-black p-2 text-sm rounded-lg w-full"
-              /> */}
               <select
                 //@ts-ignore
                 value={country}
@@ -198,6 +306,7 @@ function RegistryForm() {
                   ))
                 }
               </select>
+              {errors.country && <span className="text-xs text-red-200">{errors.country}</span>}
             </div>
             <div className="grid gap-2">
               <label className="text-sm font-bold">State/Province</label>
@@ -208,6 +317,7 @@ function RegistryForm() {
                 placeholder="State/Province"
                 className="text-black p-2 text-sm rounded-lg w-full"
               />
+              {errors.state && <span className="text-xs text-red-200">{errors.state}</span>}
             </div>
           </div>
           <div className="flex gap-6 w-full placeholder:text-white">
@@ -222,6 +332,7 @@ function RegistryForm() {
                 placeholder="Industry of your company"
                 className="text-black p-2 text-sm rounded-lg w-full"
               />
+              {errors.industry && <span className="text-xs text-red-200">{errors.industry}</span>}
             </div>
             <div className="grid gap-2">
               <label className="text-sm font-bold">Department</label>
@@ -232,17 +343,11 @@ function RegistryForm() {
                 placeholder="Department"
                 className="text-black p-2 text-sm rounded-lg w-full"
               />
+              {errors.position && <span className="text-xs text-red-200">{errors.position}</span>}
             </div>
           </div>
           <div className="grid gap-2">
             <label className="text-sm font-bold">Company Size</label>
-            {/* <input
-              value={companySize}
-              name="size"
-              onChange={(e) => setCompanySize(e.target.value)}
-              placeholder="Company Size"
-              className="text-black p-2 text-sm rounded-lg w-full"
-            /> */}
             <select
               value={companySize}
               onChange={((e) => {
@@ -256,6 +361,7 @@ function RegistryForm() {
               <option value={'Large Enterprise: 250-999 employees'}>Large Enterprise: 250-999 employees</option>
               <option value={'Enterprise: 1000+ employees'}>Enterprise: 1000+ employees</option>
             </select>
+            {errors.companySize && <span className="text-xs text-red-200">{errors.companySize}</span>}
           </div>
           <Button
             style={{ backgroundColor: Colors.primary }}
