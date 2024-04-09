@@ -30,7 +30,9 @@ interface CardProps {
 
 const getVisitors = async () => {
     try {
-        const res = await fetch(`https://next-evolve.vercel.app/api/registration/`)
+        const res = await fetch(`${process.env.API_ROUTE}/api/registration/`, {
+            cache: 'no-store'
+        })
 
         if (!res.ok) {
             throw new Error("Failed to fetch visitors")
