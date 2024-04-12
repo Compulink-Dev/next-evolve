@@ -3,8 +3,8 @@ import React from 'react'
 
 interface FormProps {
     title: string
-    figure: string
-    progress: string
+    figure: number
+    progress: number
     gender: string
     gender2: string
     average: string
@@ -19,7 +19,7 @@ function TotalForm({ title, figure, progress, gender, gender2, average }: FormPr
                     <p className="font-bold text-4xl">{figure}</p>
                 </div>
                 <div className="">
-                    <p className="">{progress}</p>
+                    <p className="">{`${progress}%`}</p>
                 </div>
             </div>
             <div className="flex items-center justify-between">

@@ -95,20 +95,20 @@ async function Dashboard() {
                     </div>
                     <div className="mt-4 flex gap-4">
                         <TotalForm
-                            title='string'
-                            figure='string'
-                            progress='string'
-                            gender='string'
-                            gender2='string'
-                            average='string'
+                            title='Total Sponsors'
+                            figure={12}
+                            progress={12}
+                            gender='12 Male'
+                            gender2='20 Fe,male'
+                            average='2% per month'
                         />
                         <TotalForm
-                            title='string'
-                            figure='string'
-                            progress='string'
-                            gender='string'
-                            gender2='string'
-                            average='string'
+                            title='Total Visitors'
+                            figure={number}
+                            progress={number}
+                            gender='12 Male'
+                            gender2='20 Fe,male'
+                            average='2% per month'
                         />
                     </div>
                     <div className="my-4">
