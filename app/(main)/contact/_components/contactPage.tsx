@@ -176,10 +176,10 @@ function ContactPage() {
                         </div>
 
                         <div className="w-full max-w-7xl container mx-auto py-4 px-12 border-b-2 border-blue-200">
-                            <h1 className="text-sm" style={{ color: Colors.text }}>info@compulink.co.zw</h1>
+                            <h1 className="text-sm" style={{ color: Colors.text }}>info@evolveictsummit.com</h1>
                         </div>
                         <div className="max-w-7xl container mx-auto py-4 px-12 border-b-2 border-blue-200">
-                            <h1 className="text-sm" style={{ color: Colors.text }}>www.compulink.co.zw</h1>
+                            <h1 className="text-sm" style={{ color: Colors.text }}>www.evolveictsummit.com</h1>
                         </div>
                         <div className=" max-w-7xl container mx-auto py-4 px-12">
                             <h1 className="text-sm font-bold text-blue-500">Office Address</h1>
