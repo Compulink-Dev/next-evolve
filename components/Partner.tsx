@@ -40,6 +40,13 @@ function Partners() {
           />
         </div>
 
+        <Image
+          src={'/econet.png'}
+          width={200}
+          height={200}
+          alt="econet"
+        />
+
         {/* <div className="container w-full  mx-auto max-w-5xl grid grid-cols-1 md:grid-cols-4 gap-8 mt-16">
                             {
                                 partners.map((partner) => (

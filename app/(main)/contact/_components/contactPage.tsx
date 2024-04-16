@@ -1,5 +1,6 @@
 'use client'
-import React from 'react'
+import React, { useRef } from 'react';
+import emailjs from '@emailjs/browser';
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -52,17 +53,28 @@ const formSchema = z.object({
 
 function ContactPage() {
 
+    const form: any = useRef();
 
-    const form = useForm<z.infer<typeof formSchema>>({
-        resolver: zodResolver(formSchema),
-        defaultValues: {
-            firstName: "",
-            lastName: "",
-            email: "",
-            textarea: ""
-        },
+    const sendEmail = (e: any) => {
+        e.preventDefault();
 
-    })
+        emailjs
+            .sendForm(`service_29qcsa4`, `template_15dj23x`, form.current, {
+                publicKey: `kdSrStM0SlEFOPM61`,
+            })
+            .then(
+                () => {
+                    console.log('SUCCESS!');
+                },
+                (error) => {
+                    console.log('FAILED...', error.text);
+                },
+            );
+        e.target.reset()
+    };
+
+
+
 
     // 2. Define a submit handler.
     async function onSubmit(data: z.infer<typeof formSchema>) {
@@ -103,73 +115,40 @@ function ContactPage() {
                         Please Send Us Your Enquiry
                     </h1>
 
-                    <div className="border border-blue-500 p-4 mt-8 rounded">
-                        <Form {...form}>
-                            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-                                <div className="flex gap-4 w-full">
-                                    <FormField
-                                        control={form.control}
-                                        name="firstName"
-                                        render={({ field }) => (
-                                            <FormItem>
-                                                <FormLabel>First Name</FormLabel>
-                                                <FormControl>
-                                                    <Input placeholder="Enter first name" {...field} />
-                                                </FormControl>
-                                                <FormMessage />
-                                            </FormItem>
-                                        )}
-                                    />
-                                    <FormField
-                                        control={form.control}
-                                        name="lastName"
-                                        render={({ field }) => (
-                                            <FormItem>
-                                                <FormLabel>Last Name</FormLabel>
-                                                <FormControl>
-                                                    <Input placeholder="Enter last name" {...field} />
-                                                </FormControl>
-                                                <FormMessage />
-                                            </FormItem>
-                                        )}
-                                    />
-                                </div>
-                                <FormField
-                                    control={form.control}
+                    <div className="border border-blue-500 p-4 mt-8 rounded w-full">
+                        <form ref={form} onSubmit={sendEmail} className='mt-8 mb-2 w-full'>
+                            <div className="mb-4 flex flex-col w-500">
+                                <label style={{ color: Colors.blue }} className='text-sm font-bold'>Name</label>
+                                <input
+                                    type="text"
+                                    name="name"
+                                    placeholder='Enter full name'
+                                    className="text-black border p-2 rounded outline-none"
+                                />
+                                <label style={{ color: Colors.blue }} className='text-sm font-bold mt-2'>Email</label>
+                                <input
+                                    type="email"
                                     name="email"
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel>Email</FormLabel>
-                                            <FormControl>
-                                                <Input placeholder="Enter email" {...field} />
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
+                                    placeholder='Enter email'
+                                    className="w-full text-black border p-2 rounded outline-none"
                                 />
-                                <FormField
-                                    control={form.control}
-                                    name="textarea"
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel>Message</FormLabel>
-                                            <FormControl>
-                                                <Textarea
-                                                    placeholder="Let us help you here"
-                                                    className="resize-none"
-                                                    {...field}
-                                                />
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
+                                <label style={{ color: Colors.blue }} className='text-sm font-bold mt-2'>Phone number</label>
+                                <input
+                                    type="text"
+                                    name="phoneNumber"
+                                    placeholder='Enter phone number'
+                                    className="text-black border p-2 rounded outline-none"
                                 />
-                                <Button
-                                    style={{ backgroundColor: Colors.blue }}
-                                    type="submit"
-                                    className='w-full'>Send Message</Button>
-                            </form>
-                        </Form>
+                                <label style={{ color: Colors.blue }} className='text-sm font-bold mt-2'>Message</label>
+                                <textarea
+                                    name="message"
+                                    placeholder='Enter message'
+                                    className="resize-none border rounded p-2 outline-none"
+                                    rows={5}
+                                />
+                                <input type="submit" value="Send" style={{ background: Colors.blue }} className=' w-full rounded mt-4 bg-sky-400 text-white px-4 py-2' />
+                            </div>
+                        </form>
                     </div>
                 </div>
 
