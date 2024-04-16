@@ -9,15 +9,15 @@ function Footer() {
   return (
     <footer
 
-      className="p-4 bg-white sm:p-6 bg-gradient-to-r from-blue-950 via-blue-400 to-blue-950 ">
+      className="p-4 bg-white sm:p-6 bg-gradient-to-r from-white via-blue-400 to-blue-950 ">
       <div className="mx-auto max-w-screen-xl">
         <div className="md:flex md:justify-between">
           <div className="mb-6 md:mb-0">
             <Link href="https://evolveictsummit.com" target="_blank" className="flex items-center">
               <Image src="/home/logo.png" className="mr-3 h-auto w-24" alt="Logo" width={200} height={200} />
               <span
-                style={{ color: Colors.white }}
-                className="self-center text-blue-700 text-2xl font-semibold whitespace-nowrap dark:text-white">Evolve Summit</span>
+                style={{ color: Colors.primary }}
+                className="self-center text-black text-2xl font-semibold">Evolve Summit</span>
             </Link>
           </div>
           <div className="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-3">
@@ -80,7 +80,7 @@ function Footer() {
           </Link>
         </div>
         <div className="sm:flex sm:items-center sm:justify-between">
-          <span className="text-sm text-white sm:text-center dark:text-gray-400">© 2024 <a href="https://flowbite.com" className="hover:underline">Evolve Summit</a>. All Rights Reserved.
+          <span className="text-sm text-blue-950 sm:text-center dark:text-gray-400">© 2024 <a href="https://flowbite.com" className="hover:underline">Evolve Summit</a>. All Rights Reserved.
           </span>
           <div
             style={{ color: Colors.white }}

@@ -7,7 +7,7 @@ import SponsorCard from '../../../components/SponsorCard'
 import SponsorBenefits from '../../../components/SponsorBenefits'
 import SponsorshipTerms from '../../../components/SponsorshipTerms'
 import { Colors } from '@/constant/colors'
-import { packages } from '@/constant/data'
+import { packages, speakers } from '@/constant/data'
 
 
 function Sponsor() {
@@ -34,11 +34,15 @@ function Sponsor() {
                                 color={data.color}
                             >
 
-                                <ol className='mt-4 text-sm' style={{}}>
-                                    <li className='' style={{ color: Colors.blue }}>
-                                        {data.benefit}
-                                    </li>
-                                </ol>
+                                <ul className='my-4 text-sm' style={{}}>
+                                    {
+                                        data.benefits.map((list: any) => (
+                                            <li key={list.id} className='' style={{ color: Colors.blue }}>
+                                                <span className="text-lg font-bold text-center"> &#8226;</span> {list.name}
+                                            </li>
+                                        ))
+                                    }
+                                </ul>
                             </SponsorCard>
                         ))
                     }

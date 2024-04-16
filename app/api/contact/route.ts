@@ -6,12 +6,16 @@ export async function POST(request: NextRequest) {
         const { firstName, lastName, email, message } = await request.json()
 
         const transporter = nodemailer.createTransport({
-            host: "sandbox.smtp.mailtrap.io",
-            port: 2525,
+            // host: "sandbox.smtp.mailtrap.io",
+            // port: 2525,
+            // secure: false,
+            host: "smtp-mail.outlook.com",
+            port: 587,
+            service: 'outlook',
             secure: false,
             auth: {
-                user: "54bc0ade7d783c",
-                pass: "b9531c2512272e"
+                user: "info@evolveictsummit.com",
+                pass: "@Evolve2024!"
             }
         });
 

@@ -57,32 +57,27 @@ function Pricing() {
             </div>
             <div
               style={{ color: Colors.white }}
-              className='text-sm text-purple-500 font-bold'>
-              Day
+              className='text-lg text-purple-500 font-bold'>
+              Delegates
             </div>
             <div
               style={{ color: Colors.white }}
-              className='my-2 text-sm text-purple-500 font-bold'>
-              Day with accommodation
+              className='my-2 text-lg text-purple-500 font-bold'>
+              Students
             </div>
           </div>
           <div className='flex justify-between col-span-4'>
             <div className=''>
-              <div className="">
-                <h1 className="font-bold text-lg md:text-2xl" style={{ color: Colors.white }}>Registration Fee</h1>
-                <h1
-                  style={{ color: Colors.white }}
-                  className="text-xs md:text-sm text-end text-gray-500">May 02, 2024</h1>
-              </div>
+
               <div className='mt-3 text-end'>
                 <p
                   style={{ color: Colors.white }}
-                  className='text-sm text-purple-500 font-bold'>TBA</p>
+                  className='text-sm text-purple-500 font-bold'></p>
               </div>
               <div className='mt-4 text-end'>
                 <p
                   style={{ color: Colors.white }}
-                  className='text-sm text-purple-500 font-bold'>TBA</p>
+                  className='text-sm text-purple-500 font-bold'></p>
               </div>
             </div>
             <div className=''>
@@ -90,17 +85,17 @@ function Pricing() {
                 <h1 className="font-bold text-lg md:text-2xl" style={{ color: Colors.bgColor }}>Registration Fee</h1>
                 <h1
                   style={{ color: Colors.white }}
-                  className="text-sm text-end text-gray-500">May 03, 2024</h1>
+                  className="text-sm text-end text-gray-500">2 day conference</h1>
               </div>
               <div className='mt-2 text-end'>
                 <p
                   style={{ color: Colors.white }}
-                  className='text-sm text-purple-500 font-bold'>TBA</p>
+                  className='text-lg text-purple-500 font-bold'>$400</p>
               </div>
               <div className='mt-4 text-end'>
                 <p
                   style={{ color: Colors.white }}
-                  className='text-sm text-purple-500 font-bold'>TBA</p>
+                  className='text-lg text-purple-500 font-bold'>$200</p>
               </div>
             </div>
           </div>

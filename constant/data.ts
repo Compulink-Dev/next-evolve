@@ -329,24 +329,24 @@ export const packages = [
         name: "Platinum",
         price: "25.000",
         benefits: [
-            "Co-Naming rights",
-            "Logo on all advertising",
+            { id: 1, name: "Co-Naming rights" },
+            { id: 2, name: "Logo on all advertising" },
 
-            "Logo on screen in the conference main auditorium and Break Away ",
+            { id: 3, name: "Logo on screen in the conference main auditorium and Break Away" },
 
-            "Crew Shirts Co-branded ",
+            { id: 4, name: "Crew Shirts Co-branded" },
 
-            "Logo on Conference packs ",
+            { id: 5, name: "Logo on Conference packs" },
 
-            "Banners inside and outside the venue",
+            { id: 6, name: "Banners inside and outside the venue" },
 
-            "5 Delegate tickets ",
+            { id: 7, name: "5 Delegate tickets " },
 
-            " 5 tickets to the speakers & sponsor networking event",
+            { id: 8, name: " 5 tickets to the speakers & sponsor networking event" },
 
-            "6 x 6 Exhibition Space at the Venue",
+            { id: 9, name: "6 x 6 Exhibition Space at the Venue" },
 
-            "Name mentions on all radio and online advertising "
+            { id: 10, name: "Name mentions on all radio and online advertising " }
         ],
         color: "#a020f0"
     },
@@ -355,18 +355,18 @@ export const packages = [
         name: "Gold",
         price: "10.000",
         benefits: [
-            "Logo on all advertising as gold sponsor",
-            "Logo on screen in the conference main auditorium",
+            { id: 1, name: "Logo on all advertising as gold sponsor" },
+            { id: 2, name: "Logo on screen in the conference main auditorium" },
 
-            "Banners inside and outside the venue",
+            { id: 3, name: "Banners inside and outside the venue" },
 
-            "3 Delegate tickets",
+            { id: 4, name: "3 Delegate tickets" },
 
-            "3 tickets to the speakers & sponsor networking event",
+            { id: 5, name: "3 tickets to the speakers & sponsor networking event" },
 
-            "3 x 3 m Exhibition Space at the Venue",
+            { id: 6, name: "3 x 3 m Exhibition Space at the Venue" },
 
-            "Logo on all online advertising "
+            { id: 7, name: "Logo on all online advertising " }
         ],
         color: "#ffff00"
     },
@@ -375,18 +375,18 @@ export const packages = [
         name: "Silver",
         price: "8.000",
         benefits: [
-            "Logo on all advertising as silver sponsor",
-            "Logo on screen in the conference main auditorium as silver sponsor",
+            { id: 1, name: "Logo on all advertising as silver sponsor" },
+            { id: 2, name: "Logo on screen in the conference main auditorium as silver sponsor" },
 
-            "Specific number of banners inside and outside the venue",
+            { id: 3, name: "Specific number of banners inside and outside the venue" },
 
-            "2 Delegate tickets",
+            { id: 4, name: "2 Delegate tickets" },
 
-            "2 tickets to the speakers & sponsor networking event",
+            { id: 5, name: "2 tickets to the speakers & sponsor networking event" },
 
-            "3 x 3 m Exhibition Space at the venue",
+            { id: 6, name: "3 x 3 m Exhibition Space at the venue" },
 
-            "Logo on all online advertising"
+            { id: 7, name: "Logo on all online advertising" }
         ],
         color: "#becbd6"
     },
@@ -395,11 +395,11 @@ export const packages = [
         name: "Bronze",
         price: "5.000",
         benefits: [
-            "Logo on screen in the conference main auditorium",
-            "Banners inside and outside the venue",
-            "2 Delegate tickets ",
-            "2 tickets to the speakers & sponsor networking event",
-            "Logo on all online advertising  as bronze sponsor"
+            { id: 1, name: "Logo on screen in the conference main auditorium" },
+            { id: 2, name: "Banners inside and outside the venue" },
+            { id: 3, name: "2 Delegate tickets " },
+            { id: 4, name: "2 tickets to the speakers & sponsor networking event" },
+            { id: 5, name: "Logo on all online advertising  as bronze sponsor" }
         ],
         color: "#ed7014"
     },
@@ -408,8 +408,8 @@ export const packages = [
         name: "Exhibition Partner",
         price: "2.000",
         benefits: [
-            "3 x 3 m Space for Exhibition ",
-            "Featured on Social Media advertising and Website",
+            { id: 1, name: "3 x 3 m Space for Exhibition " },
+            { id: 2, name: "Featured on Social Media advertising and Website" },
         ],
         color: "#00b4d8"
     },

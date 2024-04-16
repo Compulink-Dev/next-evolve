@@ -18,7 +18,7 @@ function SponsorCard({ name, price, children, color }: CardProps) {
                     style={{ backgroundColor: color }}
                     className={`h-28 bg-blue-600 w-16`}></div>
                 <div className='flex-1'>
-                    <div className='bg-slate-400 h-28 w-full p-4' style={{ color: Colors.white }}>
+                    <div className='bg-slate-200 text-blue-950 h-28 w-full p-4' style={{ color: Colors.primary }}>
                         <p className='font-bold capitalize'>{name}</p>
                         <p className=''>Main Event & Dinner</p>
                         <p className='font-bold'>{`$ ${price}`}</p>

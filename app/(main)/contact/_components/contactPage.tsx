@@ -18,6 +18,7 @@ import { Input } from "@/components/ui/input"
 import Image from 'next/image'
 import { Colors } from "@/constant/colors";
 import { Textarea } from '@/components/ui/textarea'
+import Link from 'next/link'
 
 
 type LoginProps = {
@@ -81,7 +82,13 @@ function ContactPage() {
             })
         })
 
+        firstName: ""
+        lastName: ""
+        email: ""
+        textarea: ""
+
         console.log(response)
+
     }
 
 
@@ -179,7 +186,13 @@ function ContactPage() {
                             <h1 className="text-sm" style={{ color: Colors.text }}>info@evolveictsummit.com</h1>
                         </div>
                         <div className="max-w-7xl container mx-auto py-4 px-12 border-b-2 border-blue-200">
-                            <h1 className="text-sm" style={{ color: Colors.text }}>www.evolveictsummit.com</h1>
+                            <h1 className="text-sm" style={{ color: Colors.text }}>
+                                <Link
+                                    target='_blank'
+                                    href={'https://www.evolveictsummit.com'}>
+                                    www.evolveictsummit.com
+                                </Link>
+                            </h1>
                         </div>
                         <div className=" max-w-7xl container mx-auto py-4 px-12">
                             <h1 className="text-sm font-bold text-blue-500">Office Address</h1>
