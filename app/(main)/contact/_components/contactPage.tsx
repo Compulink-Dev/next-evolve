@@ -153,9 +153,9 @@ function ContactPage() {
                 </div>
 
 
-                <div className="container w-full px-4 md:px-0 mx-auto max-w-7xl flex flex-col justify-center items-center">
+                <div className="container w-full px-4 md:px-0 mx-full flex flex-col justify-center items-center">
                     <div className="border border-blue-600 rounded-lg w-full">
-                        <div className="border-b border-blue-300  max-w-7xl container mx-auto text-center p-4">
+                        <div className="border-b border-blue-300  w-full container text-center p-4">
                             <h1 className="font-bold text-lg text-blue-500 ">
                                 Our Contact Details
                             </h1>

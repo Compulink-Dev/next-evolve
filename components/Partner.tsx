@@ -28,7 +28,7 @@ function Partners() {
         <Title name={'Event Partner'} color={Colors.primary} />
 
 
-        <div className="flex flex-col items-center justify-center my-20">
+        {/* <div className="flex flex-col items-center justify-center my-20">
           <p
             style={{ color: Colors.primary }}
             className="mb-4 text-lg text-purple-900">Partners are loading soon</p>
@@ -38,14 +38,18 @@ function Partners() {
             aria-label="Loading Spinner"
             data-testid="loader"
           />
-        </div>
+        </div> */}
 
-        <Image
-          src={'/econet.png'}
-          width={200}
-          height={200}
-          alt="econet"
-        />
+        <div className="my-20">
+          <div className="p-6 border rounded">
+            <Image
+              src={'/econet.png'}
+              width={200}
+              height={200}
+              alt="econet"
+            />
+          </div>
+        </div>
 
         {/* <div className="container w-full  mx-auto max-w-5xl grid grid-cols-1 md:grid-cols-4 gap-8 mt-16">
                             {
