@@ -50,7 +50,7 @@ function Partners() {
         </div> */}
 
         <div className="my-20 ">
-          <div className="p-6 border rounded grid grid-cols-4 gap-8 items-center justify-center">
+          <div className="flex flex-wrap p-6 border rounded md:grid md:grid-cols-4 gap-8 items-center justify-center">
             {images.map((image) => (
               <Image
                 key={image.image}
