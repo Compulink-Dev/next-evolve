@@ -53,6 +53,7 @@ function Partners() {
           <div className="p-6 border rounded grid grid-cols-4 gap-8 items-center justify-center">
             {images.map((image) => (
               <Image
+                key={image.image}
                 src={image.image}
                 width={200}
                 height={200}
