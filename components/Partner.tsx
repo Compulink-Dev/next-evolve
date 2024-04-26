@@ -12,7 +12,8 @@ const images = [
   { image: '/dfa.webp' },
   { image: '/tv.png' },
   { image: '/fm.png' },
-  { image: '/econet.png' }
+  { image: '/econet.png' },
+  { image: '/trading.png' }
 ]
 
 
