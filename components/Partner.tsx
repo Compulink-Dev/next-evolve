@@ -5,6 +5,15 @@ import mutual from '../public/home/old-mutual-logo.png'
 import PulseLoader from "react-spinners/PulseLoader";
 import Title from "./Title";
 import { Colors } from "@/constant/colors";
+import Carousel from "./Carousel";
+
+
+const images = [
+  { image: '/dfa.webp' },
+  { image: '/tv.png' },
+  { image: '/fm.png' },
+  { image: '/econet.png' }
+]
 
 
 
@@ -40,15 +49,19 @@ function Partners() {
           />
         </div> */}
 
-        <div className="my-20">
-          <div className="p-6 border rounded">
-            <Image
-              src={'/econet.png'}
-              width={200}
-              height={200}
-              alt="econet"
-            />
+        <div className="my-20 ">
+          <div className="p-6 border rounded grid grid-cols-4 gap-8 items-center justify-center">
+            {images.map((image) => (
+              <Image
+                src={image.image}
+                width={200}
+                height={200}
+                alt="econet"
+                className=""
+              />
+            ))}
           </div>
+
         </div>
 
         {/* <div className="container w-full  mx-auto max-w-5xl grid grid-cols-1 md:grid-cols-4 gap-8 mt-16">
