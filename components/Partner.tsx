@@ -13,7 +13,8 @@ const images = [
   { image: '/tv.png' },
   { image: '/fm.png' },
   { image: '/econet.png' },
-  { image: '/trading.png' }
+  { image: '/trading.png' },
+  { image: '/potraz.png' }
 ]
 
 
