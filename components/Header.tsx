@@ -203,8 +203,8 @@ function Header() {
             style={{ backgroundColor: Colors.blue }}
             className="bg-blue-950 hover:bg-blue-500"
           >
-            <Link href="/login" className="text-sm">
-              Login
+            <Link href="/checkout" className="text-sm">
+              Make payment
             </Link>
           </Button>
         </div>
