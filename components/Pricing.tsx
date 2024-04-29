@@ -130,7 +130,6 @@ function Pricing() {
       </div>
       <div className="w-full p-8 flex items-center justify-end">
         <Button
-          disabled
           style={{ color: Colors.white, backgroundColor: Colors.blue }}
           className="bg-blue-950 text-white "
         >
