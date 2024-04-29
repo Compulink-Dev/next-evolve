@@ -41,7 +41,7 @@ function Checkout() {
                 <p className="mb-4 text-lg text-white font-bold">Select your package and join the Evolve Summit</p>
                 {/* <SignOutButton /> */}
                 <div className="flex items-center justify-center gap-8">
-                    <a href='https://www.paynow.co.zw/Payment/Link/?q=c2VhcmNoPWRpZ2l0YWxwYXltZW50cyU0MGNvbXB1bGluay5jby56dyZhbW91bnQ9MjAwLjAwJnJlZmVyZW5jZT0mbD0x' target='_blank'>
+                    <a href='https://www.paynow.co.zw/Payment/Link/?q=c2VhcmNoPWRpZ2l0YWxwYXltZW50cyU0MGNvbXB1bGluay5jby56dyZhbW91bnQ9MjAwLjAwJnJlZmVyZW5jZT1TdHVkZW50MjAyNCZsPTE%3d' target='_blank'>
                         <PaymentCard title={'Students'} price={'$200'} />
                     </a>
                     <a href='https://www.paynow.co.zw/Payment/Link/?q=c2VhcmNoPWRpZ2l0YWxwYXltZW50cyU0MGNvbXB1bGluay5jby56dyZhbW91bnQ9NDAwLjAwJnJlZmVyZW5jZT1EZWxlZ2F0ZTIwMjQmbD0x' target='_blank'>
