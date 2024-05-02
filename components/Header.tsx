@@ -74,7 +74,7 @@ function Header() {
           <Link href={'/'}>
             <Image unoptimized src={'/home/logo.png'} alt='' width={100} height={100} className='w-20 h-8 ' />
           </Link>
-          <Timer />
+
           <div className="text-blue-950 text-sm text-end">
             <p className="font-bold text-xs md:text-sm">2 days conference</p>
             <p className="text-xs md:text-sm">Exhibition Dates: 02
