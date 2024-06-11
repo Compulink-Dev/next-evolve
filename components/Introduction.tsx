@@ -31,18 +31,18 @@ async function Introduction() {
       <Title color={Colors.blue} name={'INTRODUCTION'} />
       <div className="grid grid-col-1 md:grid-cols-3 gap-4">
         <div className="">
-          <h1 className="font-bold mb-2" style={{ color: Colors.text }}>{info.home.title}</h1>
+          <h1 className="font-bold mb-2" style={{ color: Colors.text }}>{info?.home.title}</h1>
           <h1 className="text-sm" style={{ color: Colors.text }}>
-            {info.home.description}
+            {info?.home.description}
           </h1>
           {/* <div className="h-24 w-1 bg-black"></div> */}
         </div>
 
         <div className="col-span-2">
           <div className="h-auto">
-            <h1 className="font-bold mb-2" style={{ color: Colors.text }}>{info2.home.title}</h1>
+            <h1 className="font-bold mb-2" style={{ color: Colors.text }}>{info2?.home.title}</h1>
             <h1 className="text-sm" style={{ color: Colors.text }}>
-              {info2.home.description}
+              {info2?.home.description}
             </h1>
           </div>
           {/* <div className="h-12 w-1 bg-black"></div> */}
