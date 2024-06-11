@@ -39,7 +39,7 @@ async function Details() {
           className="mb-4 w-full h-[200px] rounded"
         />
         <h1 className="text-sm" style={{ color: Colors.text }}>
-          {detail?.home.description}
+          {detail.home.description}
         </h1>
         <Link href={'/about'}
           style={{ color: Colors.primary }}
