@@ -32,7 +32,7 @@ function FirstTab() {
         </div>
         <EventSchedule text="Exhibition Stands – Time" />
         <div className="mt-4">
-          <Button>
+          <Button className="bg-blue-800 hover:bg-blue-600">
             Register
           </Button>
         </div>
