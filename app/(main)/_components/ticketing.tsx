@@ -47,8 +47,8 @@ function Ticketing() {
     const ticketPackages = {
         delegates: [
             { type: 'Before year end', price: '$150', perks: ['Regular Seating', 'VIP Access', 'Free Lunch'] },
-            { type: 'Before end of February', price: '$175', perks: ['Regular Seating', 'Priority Access'] },
-            { type: 'February - June', price: '$200', perks: ['Regular Seating'] },
+            { type: 'Before end of February', price: '$175', perks: ['Regular Seating', 'VIP Access', 'Free Lunch'] },
+            { type: 'February - June', price: '$200', perks: ['Regular Seating', 'VIP Access', 'Free Lunch'] },
         ],
         sponsors: [
             { type: 'Platinum Sponsorship', price: '$10k', perks: ['Exhibition Space', '5 VIP Tickets', 'Logo Placement'] },
