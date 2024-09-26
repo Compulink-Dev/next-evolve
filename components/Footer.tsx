@@ -9,7 +9,7 @@ function Footer() {
   return (
     <footer
 
-      className="p-4 bg-white sm:p-6 bg-gradient-to-r from-white via-blue-400 to-blue-950 ">
+      className="p-4 bg-white sm:p-6 bg-gradient-to-r from-purple-600 via-blue-400 to-blue-950 ">
       <div className="mx-auto max-w-screen-xl">
         <div className="md:flex md:justify-between">
           <div className="mb-6 md:mb-0">
@@ -80,7 +80,7 @@ function Footer() {
           </Link>
         </div>
         <div className="sm:flex sm:items-center sm:justify-between">
-          <span className="text-sm text-blue-950 sm:text-center dark:text-gray-400">© 2024 <a href="https://flowbite.com" className="hover:underline">Evolve Summit</a>. All Rights Reserved.
+          <span className="text-sm text-blue-950 sm:text-center dark:text-gray-400">© 2025 <a href="/" className="hover:underline">Evolve Summit</a>. All Rights Reserved.
           </span>
           <div
             style={{ color: Colors.white }}

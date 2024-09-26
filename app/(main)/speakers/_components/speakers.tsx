@@ -13,11 +13,9 @@ const getSpeakers = async () => {
         const res = await fetch(`${process.env.API_ROUTE}/api/speakers`, {
             cache: "no-store"
         })
-
         if (!res.ok) {
             throw new Error("Failed to fetch speakers")
         }
-
         return res.json()
     } catch (error) {
         console.log("Error loading speakers", error);

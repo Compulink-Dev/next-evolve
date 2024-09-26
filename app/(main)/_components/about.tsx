@@ -1,64 +1,64 @@
-import { Colors } from '@/constant/colors';
-import Link from 'next/link'
-import Title from "@/components/Title"
-import Subtitle from "@/components/subtitle"
-import { Button } from '@/components/ui/button';
+import Image from 'next/image'
+import React from 'react'
+import Title from './title'
+import Tile from '@/components/NewTitle'
+import { Button } from '@/components/ui/button'
+import { ArrowLeft, ArrowRight, Lightbulb } from 'lucide-react'
 
 
-const getDetailsById = async (id: any) => {
-    try {
-        const res = await fetch(`${process.env.API_ROUTE}/api/home/${id}`, {
-            cache: "no-store",
-        });
-
-        if (!res.ok) {
-            throw new Error("Failed to fetch information");
-        }
-
-
-        return res.json();
-    } catch (error) {
-        console.log(error);
-    }
-};
-
-
-
-const Event = () => {
+const EventCard = () => {
     return (
-        <div className="w-full md:w-[400px] h-[400px] border rounded text-center">
-            <div className="h-2/5 bg-purple-600 rounded-tl rounded-tr"></div>
-            <Subtitle color='text-purple-600' name='Artificial Intelligence' />
+        <div className="w-full hover:shadow-lg p-4 rounded-xl hover:p-8 hover:bg-purple-900 transition-all delay-75">
+            <div className="rounded-full bg-purple-700 text-white w-12 flex items-center justify-center h-12">
+                <Lightbulb />
+            </div>
+            <p className="mt-4 text-2xl font-bold text-slate-300">
+                Idea Sharing
+            </p>
+            <p className="my-6">
+                You will get opportunity to share different marketing ideas to every participant in the conference.
+                Read More
+            </p>
+            <Button
+                variant={'ghost'}
+                className="flex items-center gap-2">
+                <ArrowRight size={14} />
+                <p className="">Read More</p>
+            </Button>
         </div>
     )
 }
 
-async function About() {
-
-    const detail = await getDetailsById('65fd54cad25c638b64ddf4b5')
-
+function HomeAbout() {
     return (
-        <div
-            style={{ backgroundColor: Colors.bgColor }}
-        >
-            <div
-
-                className='m-8 '>
-                <div className="text-center pt-8">
-                    <Title
-                        color={Colors.primary} name={detail.home.title} />
-                    <p className="text-gray-500 mt-2 mx-8 text-sm">{detail.home.description}</p>
+        <div className='bg-blue-950 text-white p-8'>
+            <div className="grid grid-cols-1 md:grid-cols-6 gap-8">
+                <Image
+                    className='col-span-2 w-full h-full rounded'
+                    src={'/evolve.jpg'} alt='' width={100} height={100} />
+                <div className="col-span-4">
+                    <Title title="About Event" />
+                    <p className="my-8 flex flex-col text-slate-300 text-6xl font-bold">
+                        Explore Amazing
+                        <span className='text-slate-400'>Technical Ideas</span>
+                    </p>
+                    <p className="">Like previous year this year we are arranging world marketing summit 2024. Its the gathering of all the big and amazing marketing & branding minds from all over the world. Discussing the best tech niques for branding to deep dive into consumers mind. Will try to spread best knowledge about marketing.</p>
+                    <Button className='my-8 bg-blue-600 hover:bg-blue-500'>Explore Us</Button>
                 </div>
-                <div className="flex items-center justify-center">
-                    <Button
-                        style={{ backgroundColor: Colors.blue }}
-                        className='md:w-1/5 p-6 bg-purple-600 my-24'>
-                        <Link href={'/registry'}>Register your interest</Link>
-                    </Button>
+            </div>
+            <div className="">
+                <Tile
+                    title="Why You Should Join"
+                    subtitle="The Event ?"
+                />
+                <div className="grid grid-col md:grid-cols-3 gap-8 p-8">
+                    <EventCard />
+                    <EventCard />
+                    <EventCard />
                 </div>
             </div>
         </div>
     )
 }
 
-export default About
+export default HomeAbout

@@ -7,6 +7,8 @@ import Image from "next/image";
 import { Colors } from "@/constant/colors";
 import Link from "next/link";
 import { countries } from "@/constant/data";
+import { X } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 type LoginProps = {
   firstName: string;
@@ -38,6 +40,7 @@ function RegistryForm() {
   const [position, setPosition] = useState("");
   const [companySize, setCompanySize] = useState("");
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
+  const router = useRouter()
 
 
   // Form validation logic
@@ -47,13 +50,13 @@ function RegistryForm() {
 
 
     // Email validation
-    // if (firstName == "") {
-    //   newErrors.firstName = 'First name is required';
-    //   valid = false;
-    // } else {
-    //   newErrors.firstName = 'First name is invalid';
-    //   valid = false;
-    // }
+    if (firstName == "") {
+      newErrors.firstName = 'First name is required';
+      valid = false;
+    } else {
+      newErrors.firstName = 'First name is invalid';
+      valid = false;
+    }
 
     // if (!lastName) {
     //   newErrors.lastName = 'Last name is required';
@@ -193,7 +196,13 @@ function RegistryForm() {
       <div className="flex items-center justify-center bg-white px-8 py-8 md:py-0">
         <Image src={"/home/logo.png"} priority width={200} height={200} alt="logo" />
       </div>
-      <div className="p-8 text-white placeholder:text-white">
+      <div className="relative p-8 text-white placeholder:text-white">
+        <Button
+          onClick={() => router.back()}
+          variant={'ghost'}
+          className="absolute top-0 right-0 m-4">
+          <X />
+        </Button>
         <div className="">
           <p className="my-8 font-bold text-2xl">Create Account</p>
         </div>

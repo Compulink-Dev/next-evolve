@@ -5,7 +5,7 @@ function Evolve() {
   return (
     <div
       style={{ backgroundColor: Colors.primary }}
-      className="bg-purple-600  text-white">
+      className="bg-purple-600  text-white mt-4">
       <div className="container mx-auto max-w-7xl py-8 px-4">
         <h1 className="font-bold text-2xl md:text-4xl">Why Evolve I.C.T Summit?</h1>
         <h1 className="mt-4 text-sm">

@@ -21,8 +21,8 @@ function NavBar() {
                     <Image unoptimized alt="" src="/logo.png" width={100} height={100} />
                 </Link>
                 <div className="text-white text-sm text-end">
-                    <p className="font-bold">Core Agenda & Exhibition: 01 May 2024</p>
-                    <p className="">Exhibition Opening Dates: 01 - 02 May 2024</p>
+                    <p className="font-bold">Core Agenda & Exhibition: TBA</p>
+                    <p className="">Exhibition Opening Dates: TBA</p>
                     <p className="">Rainbow Tower, Harare</p>
                 </div>
             </div>

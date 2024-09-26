@@ -12,7 +12,7 @@ function About() {
     return (
         <div className=''>
             <Layout>
-                <Information />
+                {/* <Information /> */}
                 <Evolve />
                 <Mission />
                 <Venue />
