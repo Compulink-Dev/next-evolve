@@ -24,7 +24,7 @@ const TicketCard = ({ type, price, perks }: { type: string, price: string, perks
                 </div>
                 <div className="text-5xl font-bold my-6">
                     <p className="">{price}
-                        <span className="pl-2 text-sm">/month</span>
+                        {/* <span className="pl-2 text-sm">/event</span> */}
                     </p>
                 </div>
                 <p className="">For one Person Ticket</p>
@@ -46,21 +46,23 @@ function Ticketing() {
     // Different packages for different tabs
     const ticketPackages = {
         delegates: [
-            { type: 'Platinum Pass', price: '$66', perks: ['Regular Seating', 'VIP Access', 'Free Lunch'] },
-            { type: 'Gold Pass', price: '$50', perks: ['Regular Seating', 'Priority Access'] },
-            { type: 'Silver Pass', price: '$30', perks: ['Regular Seating'] },
+            { type: 'Before year end', price: '$150', perks: ['Regular Seating', 'VIP Access', 'Free Lunch'] },
+            { type: 'Before end of February', price: '$175', perks: ['Regular Seating', 'Priority Access'] },
+            { type: 'February - June', price: '$200', perks: ['Regular Seating'] },
         ],
         sponsors: [
-            { type: 'Diamond Sponsorship', price: '$200', perks: ['Exhibition Space', '5 VIP Tickets', 'Logo Placement'] },
-            { type: 'Gold Sponsorship', price: '$150', perks: ['Exhibition Space', '3 VIP Tickets'] },
+            { type: 'Platinum Sponsorship', price: '$10k', perks: ['Exhibition Space', '5 VIP Tickets', 'Logo Placement'] },
+            { type: 'Gold Sponsorship', price: '$8k', perks: ['Exhibition Space', '3 VIP Tickets'] },
+            { type: 'Silver Sponsorship', price: '$5k', perks: ['Exhibition Space', '5 VIP Tickets', 'Logo Placement'] },
+            { type: 'Bronze Sponsorship', price: '$2.5k', perks: ['Exhibition Space', '3 VIP Tickets'] },
         ],
         exhibitors: [
-            { type: 'Exhibitor Booth', price: '$100', perks: ['10x10 Booth', '2 Exhibitor Passes'] },
-            { type: 'Exhibitor Plus', price: '$150', perks: ['10x10 Booth', '4 Exhibitor Passes', 'Marketing Materials'] },
+            { type: 'Exhibitor Booth', price: '$1k', perks: ['3 x 3 Booth', '5 Exhibitor Passes'] },
+            // { type: 'Exhibitor Plus', price: '$150', perks: ['10x10 Booth', '4 Exhibitor Passes', 'Marketing Materials'] },
         ],
         students: [
-            { type: 'Student Pass', price: '$15', perks: ['General Admission', 'Access to all sessions'] },
-            { type: 'Early Bird Student', price: '$10', perks: ['General Admission', 'Access to all sessions'] },
+            { type: 'Student Pass', price: '$35', perks: ['General Admission', 'Access to all sessions'] },
+            { type: 'Early Bird Student', price: '$20', perks: ['General Admission', 'Access to all sessions'] },
         ],
     };
 
@@ -72,7 +74,7 @@ function Ticketing() {
                     <p className="text-4xl tracking-widest font-bold">Event Pass & Tickets</p>
                 </div>
                 <div className="">
-                    <p className="">Like previous year, this year we are arranging world marketing summit 2024. It’s the gathering of all the big and amazing marketing & branding minds from all over the world.</p>
+                    <p className="">Like previous summit, we are arranging world Evolve summit 2025. It’s the gathering of all the big and amazing I.C.T & branding minds from all over the world.</p>
                 </div>
             </div>
 
