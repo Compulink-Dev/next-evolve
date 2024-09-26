@@ -7,6 +7,7 @@ import Ticketing from './_components/ticketing';
 import GeneralPartners from '@/components/general-partners';
 import Countdown from './_components/countdown';
 import Title from './_components/title';
+import Partnership from '@/components/partnership';
 
 function HomePage() {
   const eventDate = new Date('2025-06-05T00:00:00');
@@ -29,6 +30,7 @@ function HomePage() {
       <HomeSpeakers />
       <Ticketing />
       <GeneralPartners />
+      <Partnership />
     </Layout>
   );
 }

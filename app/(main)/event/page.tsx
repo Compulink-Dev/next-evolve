@@ -1,13 +1,20 @@
 import Layout from '@/components/Layout'
 import React from 'react'
-import Event from "@/components/Events"
+import Partnership from '@/components/partnership'
+import EventShow from './_components/Events'
 
 function Events() {
     return (
         <Layout>
-            <div className="">
-                <Event />
+            <div className="bg-purple-950">
+                <EventShow />
+                <div className="">
+                    <Partnership />
+                </div>
             </div>
+            {/* <div className="">
+                <Event />
+            </div> */}
         </Layout>
     )
 }

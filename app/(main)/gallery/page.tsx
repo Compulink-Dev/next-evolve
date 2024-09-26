@@ -6,7 +6,7 @@ import VideoTab from './_components/VideoTab'
 function Gallery() {
     return (
         <Layout>
-            <div className='p-8'>
+            <div className='p-8 bg-purple-950 text-slate-400'>
                 <div className="">
                     <VideoTab />
                 </div>

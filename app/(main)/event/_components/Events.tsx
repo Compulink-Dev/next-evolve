@@ -2,7 +2,7 @@
 import { Button } from '@/components/ui/button'
 import { Building, Calendar, Loader2 } from 'lucide-react'
 import React, { useState, useEffect } from 'react'
-import EventMenu from './event-menu'
+import EventMenu from '../../_components/event-menu';
 
 // Define the shape of an event
 interface Event {
@@ -16,7 +16,7 @@ interface Event {
     };
 }
 
-function HomeEvent() {
+function EventShow() {
     // State to hold the list of events and a loading state
     const [loading, setLoading] = useState(true);
     const [events, setEvents] = useState<Event[]>([]); // Explicitly define the type
@@ -104,4 +104,4 @@ function HomeEvent() {
     )
 }
 
-export default HomeEvent;
+export default EventShow;

@@ -43,7 +43,7 @@ function HomeAbout() {
                         Explore Amazing
                         <span className='text-slate-400'>Technical Ideas</span>
                     </p>
-                    <p className="">Like previous year this year we are arranging world marketing summit 2024. Its the gathering of all the big and amazing marketing & branding minds from all over the world. Discussing the best tech niques for branding to deep dive into consumers mind. Will try to spread best knowledge about marketing.</p>
+                    <p className="">Like previous year, we are arranging world evolve summit 2025. Its the gathering of all the big and amazing I.C.T & branding minds from all over the world. Discussing the best techniques for branding to deep dive into consumers mind. Will try to spread best knowledge about I.C.T</p>
                     <Button className='my-8 bg-blue-600 hover:bg-blue-500'>Explore Us</Button>
                 </div>
             </div>

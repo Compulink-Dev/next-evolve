@@ -7,19 +7,28 @@ import Partners from "@/components/Partner"
 import Pricing from "@/components/Pricing"
 import Subscribe from "@/components/Subscribe"
 import Venue from "@/components/Venue"
+import AboutInfo from "./_components/about-info"
+import Values from "./_components/values"
+import GeneralPartners from "@/components/general-partners"
+import Ticketing from "../_components/ticketing"
+import Partnership from "@/components/partnership"
 
 function About() {
     return (
         <div className=''>
             <Layout>
                 {/* <Information /> */}
-                <Evolve />
-                <Mission />
+                <AboutInfo />
+                <Values />
+                {/* <Evolve />
+                <Mission /> */}
                 <Venue />
-                <Objectives />
-                {/* <Pricing /> */}
                 <Subscribe />
-                <Partners />
+                <Objectives />
+                <Ticketing />
+                {/* <Pricing /> */}
+                <GeneralPartners />
+                <Partnership />
             </Layout>
         </div>
     )

@@ -52,8 +52,8 @@ function Ticketing() {
         ],
         sponsors: [
             { type: 'Platinum Sponsorship', price: '$10k', perks: ['Exhibition Space', '5 VIP Tickets', 'Logo Placement'] },
-            { type: 'Gold Sponsorship', price: '$8k', perks: ['Exhibition Space', '3 VIP Tickets'] },
-            { type: 'Silver Sponsorship', price: '$5k', perks: ['Exhibition Space', '5 VIP Tickets', 'Logo Placement'] },
+            { type: 'Gold Sponsorship', price: '$8k', perks: ['Exhibition Space', '5 VIP Tickets', 'Logo Placement'] },
+            { type: 'Silver Sponsorship', price: '$5k', perks: ['Exhibition Space', '3 VIP Tickets'] },
             { type: 'Bronze Sponsorship', price: '$2.5k', perks: ['Exhibition Space', '3 VIP Tickets'] },
         ],
         exhibitors: [
