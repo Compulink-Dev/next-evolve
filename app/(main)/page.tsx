@@ -1,51 +1,27 @@
-import Details from '@/components/Details'
-import Introduction from '@/components/Introduction'
-import Layout from '@/components/Layout'
-import React from 'react'
-import Schedule from '@/components/Schedule'
-import About from './_components/about'
-import Partners from '@/components/Partner'
-import Speakers from './speakers/_components/speakers'
-import HomeAbout from './_components/about'
-import Title from './_components/title'
-import Countdown from './_components/countdown'
-import { Dot } from 'lucide-react'
-import HomeEvent from './_components/event'
-import HomeSpeakers from './_components/home-speakers'
-import Ticketing from './_components/ticketing'
-import GeneralPartners from '@/components/general-partners'
-
+import React from 'react';
+import Layout from '@/components/Layout';
+import HomeAbout from './_components/about';
+import HomeEvent from './_components/event';
+import HomeSpeakers from './_components/home-speakers';
+import Ticketing from './_components/ticketing';
+import GeneralPartners from '@/components/general-partners';
+import Countdown from './_components/countdown';
+import Title from './_components/title';
 
 function HomePage() {
+  const eventDate = new Date('2025-06-05T00:00:00');
+
   return (
     <Layout>
       <div className="p-8 bg-purple-950">
-        <div className="text-white flex items-center justify-between">
-          <div className="">
+        <div className="text-white flex flex-col md:flex-row gap-8 items-center justify-between">
+          <div>
             <Title title={'Countdown'} />
             <p className="text-3xl font-bold">
               Countdown Until the Event. Register Now
             </p>
           </div>
-          <div className="flex items-center">
-            <Countdown value={"735"} type={"Days"} />
-            <div className="flex flex-col">
-              <Dot size={40} />
-              <Dot size={40} />
-            </div>
-            <Countdown value={"13"} type={"Hours"} />
-            <div className="flex flex-col">
-              <Dot size={40} />
-              <Dot size={40} />
-            </div>
-            <Countdown value={"03"} type={"Minutes"} />
-            <div className="flex flex-col">
-              <Dot size={40} />
-              <Dot size={40} />
-            </div>
-            <Countdown value={"45"} type={"Seconds"} />
-
-          </div>
+          <Countdown targetDate={eventDate} />
         </div>
       </div>
       <HomeAbout />
@@ -53,14 +29,8 @@ function HomePage() {
       <HomeSpeakers />
       <Ticketing />
       <GeneralPartners />
-      {/* <Introduction />
-      <Details />
-      <Speakers />
-      <Schedule />
-      <About />
-      <Partners /> */}
     </Layout>
-  )
+  );
 }
 
-export default HomePage
+export default HomePage;

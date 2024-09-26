@@ -17,7 +17,7 @@ function About() {
                 <Mission />
                 <Venue />
                 <Objectives />
-                <Pricing />
+                {/* <Pricing /> */}
                 <Subscribe />
                 <Partners />
             </Layout>

@@ -8,7 +8,7 @@ import { ArrowLeft, ArrowRight, Lightbulb } from 'lucide-react'
 
 const EventCard = () => {
     return (
-        <div className="w-full hover:shadow-lg p-4 rounded-xl hover:p-8 hover:bg-purple-900 transition-all delay-75">
+        <div className="w-full hover:shadow-lg p-4 rounded-xl hover:p-8 hover:bg-purple-900 transition-[padding, background-color, box-shadow] duration-500 ease-in-out">
             <div className="rounded-full bg-purple-700 text-white w-12 flex items-center justify-center h-12">
                 <Lightbulb />
             </div>
@@ -26,8 +26,9 @@ const EventCard = () => {
                 <p className="">Read More</p>
             </Button>
         </div>
-    )
-}
+    );
+};
+
 
 function HomeAbout() {
     return (
