@@ -27,7 +27,7 @@ const TicketCard = ({ type, price, perks }: { type: string, price: string, perks
                         {/* <span className="pl-2 text-sm">/event</span> */}
                     </p>
                 </div>
-                <p className="">For one Person Ticket</p>
+                <p className="">For the event</p>
                 <div className="mt-20 space-y-8">
                     {perks.map((perk, index) => (
                         <Badge key={index} title={perk} />
@@ -57,8 +57,8 @@ function Ticketing() {
             { type: 'Bronze Sponsorship', price: '$2.5k', perks: ['Exhibition Space', '3 VIP Tickets'] },
         ],
         exhibitors: [
-            { type: 'Exhibitor Booth', price: '$1k', perks: ['3 x 3 Booth', '5 Exhibitor Passes'] },
-            // { type: 'Exhibitor Plus', price: '$150', perks: ['10x10 Booth', '4 Exhibitor Passes', 'Marketing Materials'] },
+            { type: 'Exhibitor Booth', price: '$1k', perks: ['Partnership', '10 Exhibitor Passes'] },
+            { type: 'Innovators Hub', price: '$200', perks: ['3 x 3 Booth', '5 Exhibitor Passes', 'Marketing Materials'] },
         ],
         students: [
             { type: 'Student Pass', price: '$35', perks: ['General Admission', 'Access to all sessions'] },
