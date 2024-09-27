@@ -10,9 +10,9 @@ async function DashboardLayout
     ({ children }: { children: React.ReactNode }) {
     const session = await getServerSession(options)
 
-    if (!session) {
-        redirect('/api/auth/signin?callbackUrl=/dashboard')
-    }
+    // if (!session) {
+    //     redirect('/api/auth/signin?callbackUrl=/dashboard')
+    // }
 
     return (
         <div>

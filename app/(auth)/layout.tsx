@@ -11,7 +11,7 @@ export default function RootLayout({
 }) {
     return (
 
-        <div className="flex items-center justify-center h-full w-full bg-gradient-to-tr from-blue-300 via-blue-900 to-blue-950">
+        <div className="flex items-center justify-center h-full w-full bg-gradient-to-tr from-purple-300 via-purple-900 to-purple-950">
 
             {children}
 

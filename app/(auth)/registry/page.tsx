@@ -1,10 +1,10 @@
-import RegistryForm from '@/components/Registry'
 import React from 'react'
+import RegisterForm from './_components/RegisterForm'
 
 function Registry() {
     return (
-        <div>
-            <RegistryForm />
+        <div className='h-full pb-8'>
+            <RegisterForm />
         </div>
     )
 }
