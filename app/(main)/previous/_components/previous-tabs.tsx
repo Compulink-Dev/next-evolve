@@ -13,7 +13,7 @@ function PreviousTabs({ selection, onSelect }: { selection: string, onSelect: (s
 
     return (
         <div className='flex gap-4'>
-            <div className="space-y-8">
+            <div className="gap-4 md:space-y-8  flex-wrap flex flex-row md:flex-col items-center">
                 <div
                     onClick={() => onSelect('speakers')}
                     className={tabClasses('speakers')}>

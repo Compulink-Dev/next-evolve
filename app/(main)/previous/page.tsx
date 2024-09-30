@@ -31,7 +31,7 @@ function Previous() {
                     title="Evolve Summit 2024"
                 />
             </div>
-            <div className='p-8 flex gap-4 bg-purple-950 text-slate-400'>
+            <div className='p-8 flex flex-col md:flex-row gap-4 bg-purple-950 text-slate-400'>
                 <PreviousTabs selection={selection} onSelect={setSelection} />
                 <div className="flex-1">
                     {renderContent()}

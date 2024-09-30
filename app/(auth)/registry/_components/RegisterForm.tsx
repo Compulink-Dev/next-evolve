@@ -84,37 +84,37 @@ function RegisterForm() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                         <Label>First Name</Label>
-                        <Input {...register('firstName')} placeholder="Enter your first name" />
+                        <Input {...register('firstName')} placeholder="Enter your first name" className="bg-transparent placeholder:text-slate-400" />
                         {errors.firstName && <span className="text-red-600 text-xs">{errors.firstName.message}</span>}
                     </div>
 
                     <div>
                         <Label>Last Name</Label>
-                        <Input {...register('lastName')} placeholder="Enter your last name" />
+                        <Input {...register('lastName')} placeholder="Enter your last name" className="bg-transparent placeholder:text-slate-400" />
                         {errors.lastName && <span className="text-red-600 text-xs">{errors.lastName.message}</span>}
                     </div>
 
                     <div>
                         <Label>Job Title</Label>
-                        <Input {...register('jobTitle')} placeholder="Enter your job title" />
+                        <Input {...register('jobTitle')} placeholder="Enter your job title" className="bg-transparent placeholder:text-slate-400" />
                         {errors.jobTitle && <span className="text-red-600 text-xs">{errors.jobTitle.message}</span>}
                     </div>
 
                     <div>
                         <Label>Company</Label>
-                        <Input {...register('company')} placeholder="Enter your company name" />
+                        <Input {...register('company')} placeholder="Enter your company name" className="bg-transparent placeholder:text-slate-400" />
                         {errors.company && <span className="text-red-600 text-xs">{errors.company.message}</span>}
                     </div>
 
                     <div>
                         <Label>Email</Label>
-                        <Input {...register('email')} placeholder="Enter your email address" />
+                        <Input {...register('email')} placeholder="Enter your email address" className="bg-transparent placeholder:text-slate-400" />
                         {errors.email && <span className="text-red-600">{errors.email.message}</span>}
                     </div>
 
                     <div>
                         <Label>Phone Number</Label>
-                        <Input {...register('phoneNumber')} placeholder="Enter your phone number" />
+                        <Input {...register('phoneNumber')} placeholder="Enter your phone number" className="bg-transparent placeholder:text-slate-400" />
                         {errors.phoneNumber && <span className="text-red-600">{errors.phoneNumber.message}</span>}
                     </div>
 
@@ -132,13 +132,13 @@ function RegisterForm() {
 
                     <div>
                         <Label>State/Province</Label>
-                        <Input {...register('state')} placeholder="Enter your state or province" />
+                        <Input {...register('state')} placeholder="Enter your state or province" className="bg-transparent placeholder:text-slate-400" />
                         {errors.state && <span className="text-red-600 text-xs">{errors.state.message}</span>}
                     </div>
 
                     <div>
                         <Label>Industry</Label>
-                        <Input {...register('industry')} placeholder="Enter your industry" />
+                        <Input {...register('industry')} placeholder="Enter your industry" className="bg-transparent placeholder:text-slate-400" />
                         {errors.industry && <span className="text-red-600 text-xs">{errors.industry.message}</span>}
                     </div>
 

@@ -1,19 +1,20 @@
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button";
 import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogHeader,
-    DialogTitle,
-    DialogTrigger,
-} from "@/components/ui/dialog"
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import Image from "next/image";
-
 
 const Speak = ({ imageUrl, name, desc, pos }: any) => {
     return (
-        <div
-            className="mx-8 flex justify-between mb-8">
+        <div className="mx-8 flex justify-between mb-8">
             <div className="border border-white w-full h-full rounded text-white flex flex-col justify-between">
                 <div className="flex items-center justify-center p-4">
                     <Image
@@ -21,7 +22,7 @@ const Speak = ({ imageUrl, name, desc, pos }: any) => {
                         alt={name}
                         width={180}
                         height={180}
-                        className='rounded-full p-4 bg-white'
+                        className="rounded-full p-4 bg-white"
                     />
                 </div>
                 <hr />
@@ -32,25 +33,22 @@ const Speak = ({ imageUrl, name, desc, pos }: any) => {
                 </div>
             </div>
         </div>
-    )
-}
+    );
+};
 
 export async function SpeakerDialog({ id, name, pos, desc, imageUrl, bio }: any) {
-
-
     return (
-        <Dialog >
-            <DialogTrigger asChild>
-                {/* <Button variant="outline">View Profile</Button> */}
+        <AlertDialog>
+            <AlertDialogTrigger asChild>
                 <Speak
                     name={name}
                     pos={pos}
                     desc={desc}
                     imageUrl={imageUrl}
                 />
-            </DialogTrigger>
-            <DialogContent className="sm:max-w-[700px]">
-                <DialogHeader>
+            </AlertDialogTrigger>
+            <AlertDialogContent className="sm:max-w-[700px]">
+                <AlertDialogHeader>
                     <div className="flex gap-4 items-center">
                         <div className="flex items-center justify-center p-4">
                             <Image
@@ -58,27 +56,28 @@ export async function SpeakerDialog({ id, name, pos, desc, imageUrl, bio }: any)
                                 alt={name}
                                 width={240}
                                 height={240}
-                                className='rounded-full p-4 bg-white'
+                                className="rounded-full p-4 bg-white"
                             />
                         </div>
                         <div className="">
-                            <DialogTitle>{name}</DialogTitle>
+                            <AlertDialogTitle>{name}</AlertDialogTitle>
                             <div className="my-2">
-                                <DialogDescription>
+                                <AlertDialogDescription>
                                     {desc}
-                                </DialogDescription>
+                                </AlertDialogDescription>
                             </div>
                             <div className="text-xs">
                                 {pos}
                             </div>
                         </div>
                     </div>
-                </DialogHeader>
+                </AlertDialogHeader>
                 <div className="bg-blue-500 rounded p-2 text-sm text-white">{bio}</div>
-                {/* <DialogFooter>
-                    <Button type="submit">Save changes</Button>
-                </DialogFooter> */}
-            </DialogContent>
-        </Dialog>
-    )
+                <AlertDialogFooter>
+                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                    <AlertDialogAction>Proceed</AlertDialogAction>
+                </AlertDialogFooter>
+            </AlertDialogContent>
+        </AlertDialog>
+    );
 }
