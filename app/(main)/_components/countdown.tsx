@@ -50,7 +50,7 @@ const Countdown: React.FC<CountdownProps> = ({ targetDate }) => {
     }, [targetDate]);
 
     return (
-        <div className="flex items-center space-x-2">
+        <div className="flex flex-col md:flex-row items-center space-x-2">
             <div className="bg-blue-900 animate-pulse delay-1000 h-32 w-32 flex flex-col items-center justify-center  rounded-tr-[50px] rounded-bl-[50px]">
                 <span className="text-3xl font-bold">{timeLeft.days}</span>
                 <span>Days</span>

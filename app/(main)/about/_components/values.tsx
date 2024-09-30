@@ -32,7 +32,7 @@ function Values() {
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 {values.map((value, index) => (
-                    <div key={index} className={`flex cursor-pointer hover:animate-bounce w-full items-start gap-6 ${value.color} p-4 rounded-lg shadow-lg`}>
+                    <div key={index} className={`flex flex-col md:flex-row cursor-pointer hover:animate-bounce w-full items-start gap-6 ${value.color} p-4 rounded-lg shadow-lg`}>
                         <div className={`p-8 flex items-center justify-center ${value.color} border rounded-md`}>
                             <p className="text-lg font-bold text-white">{value.vision}</p>
                         </div>

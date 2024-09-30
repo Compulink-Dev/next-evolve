@@ -56,10 +56,10 @@ function HomeEvent() {
     return (
         <div className="w-full">
             <div className="bg-purple-950">
-                <div className='p-8 grid grid-cols-1 md:grid-cols-5'>
-                    <div className="text-white col-span-4 w-[550px]">
+                <div className='p-8 grid grid-cols-1 md:grid-cols-5 gap-4'>
+                    <div className="text-white col-span-4 w-full md:w-[550px]">
                         <p className="text-2xl font-bold">EVENT VENUE</p>
-                        <p className="text-5xl font-bold text-slate-300">Get the best experience in the world of I.C.T</p>
+                        <p className="text-2xl md:text-5xl font-bold text-slate-300">Get the best experience in the world of I.C.T</p>
                         <p className="mt-6">Like previous year, we are arranging world evolve summit 2025. Its the gathering of all the big.</p>
                     </div>
                     <div className="space-y-8">
