@@ -6,9 +6,9 @@ import ContactDetails from './_components/contact-page'
 
 function Contact() {
     return (
-        <Layout>
+        <div>
             <ContactDetails />
-        </Layout>
+        </div>
     )
 }
 

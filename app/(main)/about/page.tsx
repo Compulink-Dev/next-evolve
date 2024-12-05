@@ -16,7 +16,7 @@ import Partnership from "@/components/partnership"
 function About() {
     return (
         <div className=''>
-            <Layout>
+            <div>
                 {/* <Information /> */}
                 <AboutInfo />
                 <Values />
@@ -29,7 +29,7 @@ function About() {
                 {/* <Pricing /> */}
                 <GeneralPartners />
                 <Partnership />
-            </Layout>
+            </div>
         </div>
     )
 }

@@ -5,7 +5,7 @@ import EventShow from './_components/Events'
 
 function Events() {
     return (
-        <Layout>
+        <div>
             <div className="bg-purple-950">
                 <EventShow />
                 <div className="">
@@ -15,7 +15,7 @@ function Events() {
             {/* <div className="">
                 <Event />
             </div> */}
-        </Layout>
+        </div>
     )
 }
 

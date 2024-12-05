@@ -13,7 +13,7 @@ function HomePage() {
   const eventDate = new Date('2025-06-03T00:00:00');
 
   return (
-    <Layout>
+    <div className="">
       <div className="p-8 bg-purple-950">
         <div className="text-white flex flex-col md:flex-row gap-8 items-center justify-between">
           <div>
@@ -31,7 +31,7 @@ function HomePage() {
       <Ticketing />
       <GeneralPartners />
       <Partnership />
-    </Layout>
+    </div>
   );
 }
 

@@ -69,7 +69,7 @@ function EventShow() {
                             </div>
                             <div className="">
                                 <p className="font-bold">Date</p>
-                                <p className="text-xs">5 - 6 June 2025</p>
+                                <p className="text-xs">3 - 4 June 2025</p>
                             </div>
                         </div>
                         <div className="flex items-center gap-4 p-4 bg-blue-200 rounded-md">

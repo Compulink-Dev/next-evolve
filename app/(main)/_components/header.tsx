@@ -27,6 +27,9 @@ function Header() {
                         href={'/gallery'} >Gallery</Link>
                     <Link
                         className='hover:text-purple-500'
+                        href={'/blogs'} >Blogs</Link>
+                    <Link
+                        className='hover:text-purple-500'
                         href={'/contact'} >Contact us</Link>
                     <Link
                         className='hover:text-purple-500'
