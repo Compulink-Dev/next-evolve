@@ -10,7 +10,7 @@ import Title from './_components/title';
 import Partnership from '@/components/partnership';
 
 function HomePage() {
-  const eventDate = new Date('2025-06-05T00:00:00');
+  const eventDate = new Date('2025-03-05T00:00:00');
 
   return (
     <Layout>
