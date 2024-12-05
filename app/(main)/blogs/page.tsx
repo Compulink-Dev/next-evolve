@@ -24,7 +24,7 @@ export default function BlogPage() {
                 {posts.map((post) => (
                     <article key={post.id} className="border p-4 rounded-lg shadow hover:shadow-md">
                         <h2 className="text-2xl font-semibold mb-2">
-                            <Link href={`/blog/${post.slug}`}>{post.title}</Link>
+                            <Link href={`/blogs/${post.slug}`}>{post.title}</Link>
                         </h2>
                         <p className="text-sm text-gray-500">{new Date(post.date).toLocaleDateString()}</p>
                         <p className="mt-3 text-gray-700">{post.excerpt}</p>
