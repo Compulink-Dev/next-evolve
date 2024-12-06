@@ -56,6 +56,11 @@ const menuItems = [
                 icon: <MdEventNote />,
             },
             {
+                title: "Blogs",
+                path: "/dashboard/blogs",
+                icon: <MdEventNote />,
+            },
+            {
                 title: "Contact",
                 path: "/dashboard/contact",
                 icon: <MdOutlineContactPage />,

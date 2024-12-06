@@ -65,7 +65,7 @@ async function Dashboard() {
         <div className='mt-4'>
             <div className="">
                 {
-                    visitors.map((data: any, index: any) => {
+                    visitors?.map((data: any, index: any) => {
                         number = index
                         return (
                             <div key={index} className="hidden">{index}

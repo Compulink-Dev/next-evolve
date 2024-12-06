@@ -3,16 +3,17 @@ import { withAuth, NextRequestWithAuth } from "next-auth/middleware"
 import { NextResponse } from "next/server"
 
 export default withAuth(
-    // `withAuth` augments your `Request` with the user's token.
     function middleware(request: NextRequestWithAuth) {
+        if (process.env.NODE_ENV === "development") {
+            console.log("Token in middleware:", request.nextauth?.token);
+        }
+        return NextResponse.next();
     },
     {
         callbacks: {
-            authorized: ({ token }) => !!token
+            authorized: ({ token }) => !!token, // Authorize if the token exists
         },
     }
-)
+);
 
-// Applies next-auth only to matching routes - can be regex
-// Ref: https://nextjs.org/docs/app/building-your-application/routing/middleware#matcher
-export const config = { matcher: ["/payment"] }
+export const config = { matcher: ["/dashboard"] };
