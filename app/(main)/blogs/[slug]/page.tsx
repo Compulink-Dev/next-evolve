@@ -1,4 +1,7 @@
+import Image from "next/image";
 import { notFound } from "next/navigation";
+import Title from "../../_components/title";
+import { Clock } from "lucide-react";
 
 const posts = [
     {
@@ -27,11 +30,19 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
 
     return (
         <main className="container mx-auto p-6">
-            <h1 className="text-4xl font-bold mb-4">{post.title}</h1>
-            <p className="text-sm text-gray-500 mb-6">{new Date(post.date).toLocaleDateString()}</p>
-            <article className="prose">
-                <div dangerouslySetInnerHTML={{ __html: post.content }} />
-            </article>
+            <div className="flex gap-4">
+                <Image width={100} height={100} src={'/bg2.jpg'} alt="logo" className="w-1/2 rounded" />
+                <div className="">
+                    <Title title={post.title} />
+                    <div className="flex gap-2 items-center mb-6 text-gray-500">
+                        <Clock size={14} />
+                        <p className="text-sm  ">{new Date(post.date).toLocaleDateString()}</p>
+                    </div>
+                    <article className="prose">
+                        <div dangerouslySetInnerHTML={{ __html: post.content }} />
+                    </article>
+                </div>
+            </div>
         </main>
     );
 }

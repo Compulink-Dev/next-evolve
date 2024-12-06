@@ -1,4 +1,6 @@
 import Link from "next/link";
+import Title from "../_components/title";
+import Image from "next/image";
 
 // Mock data or fetch from an API
 const posts = [
@@ -18,16 +20,19 @@ export default function BlogPage() {
 
 
     return (
-        <main className="container mx-auto p-6">
-            <h1 className="text-4xl font-bold mb-6">Blog</h1>
+        <main className="container mx-auto p-6 bg-purple-950 text-white">
+            <Title title='Blog' />
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {posts.map((post) => (
                     <article key={post.id} className="border p-4 rounded-lg shadow hover:shadow-md">
-                        <h2 className="text-2xl font-semibold mb-2">
-                            <Link href={`/blogs/${post.slug}`}>{post.title}</Link>
-                        </h2>
-                        <p className="text-sm text-gray-500">{new Date(post.date).toLocaleDateString()}</p>
-                        <p className="mt-3 text-gray-700">{post.excerpt}</p>
+                        <Image width={100} height={100} src={'/bg2.jpg'} alt="logo" className="w-full rounded" />
+                        <div className="p-4 ">
+                            <h2 className="text-2xl font-semibold mb-2">
+                                <Link href={`/blogs/${post.slug}`}>{post.title}</Link>
+                            </h2>
+                            <p className="text-sm text-gray-300">{new Date(post.date).toLocaleDateString()}</p>
+                            <p className="mt-3 text-gray-500">{post.excerpt}</p>
+                        </div>
                     </article>
                 ))}
             </div>
