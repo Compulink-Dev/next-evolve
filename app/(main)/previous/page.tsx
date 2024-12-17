@@ -25,7 +25,7 @@ function Previous() {
     }
 
     return (
-        <Layout>
+        <div className="">
             <div className="p-8 bg-purple-950 text-slate-400">
                 <Title
                     title="Evolve Summit 2024"
@@ -37,7 +37,8 @@ function Previous() {
                     {renderContent()}
                 </div>
             </div>
-        </Layout>
+        </div>
+
     )
 }
 
