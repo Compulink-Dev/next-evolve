@@ -1,26 +1,19 @@
-// app/previous/page.tsx
 'use client'
-import Layout from '@/components/Layout'
 import React, { useState } from 'react'
 import PreviousTabs from './_components/previous-tabs'
-import PreviousSpeakers from './_components/speakers'
 import PreviousEvents from './_components/events'
-import PreviousGallery from './_components/gallery'
 import Title from '../_components/title'
 
-function Previous() {
-    const [selection, setSelection] = useState('')
+function Summit() {
+    const [selection, setSelection] = useState('event') // Default to 'event' tab
 
     const renderContent = () => {
         switch (selection) {
-            case 'speakers':
-                return <PreviousSpeakers />
+
             case 'event':
                 return <PreviousEvents />
-            case 'gallery':
-                return <PreviousGallery />
-            default:
-                return <div>Select an option to view content</div>
+            default:    
+                return <PreviousEvents/>
         }
     }
 
@@ -28,7 +21,7 @@ function Previous() {
         <div className="">
             <div className="p-8 bg-purple-950 text-slate-400">
                 <Title
-                    title="Evolve Summit 2024"
+                    title="Evolve Summit"
                 />
             </div>
             <div className='p-8 flex flex-col md:flex-row gap-4 bg-purple-950 text-slate-400'>
@@ -38,8 +31,7 @@ function Previous() {
                 </div>
             </div>
         </div>
-
     )
 }
 
-export default Previous
+export default Summit

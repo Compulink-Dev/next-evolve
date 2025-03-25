@@ -44,8 +44,8 @@ function Header() {
           >
             Register
           </Link>
-          <Link className="hover:text-purple-500" href={"/previous"}>
-            2024
+          <Link className="hover:text-purple-500" href={"/summit"}>
+            Summit
           </Link>
         </div>
         <div className="px-4">

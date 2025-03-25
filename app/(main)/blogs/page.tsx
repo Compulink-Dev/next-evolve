@@ -52,7 +52,8 @@ export default function BlogPage() {
     if (error) return <p>{error}</p>;
 
     return (
-        <main className="container mx-auto p-6 bg-purple-950 text-white">
+   <div className="bg-purple-950">
+         <main className="container mx-auto p-6 bg-purple-950 text-white">
             <Title title="Blog" />
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {posts.map((post) => (
@@ -69,5 +70,6 @@ export default function BlogPage() {
                 ))}
             </div>
         </main>
+   </div>
     );
 }

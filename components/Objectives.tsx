@@ -46,7 +46,8 @@ const ObjectiveSection = ({
 
 function Objectives() {
   return (
-    <div className="container mx-auto flex flex-col gap-8 p-8" style={{ color: Colors.text, background: Colors.primary }}>
+ <div className="" style={{ color: Colors.text, background: Colors.primary }}>
+     <div className="container mx-auto flex flex-col gap-8 p-8" style={{ color: Colors.text, background: Colors.primary }}>
       <Title title="OBJECTIVES WE WANT TO ACHIEVE THROUGH EVOLVE ICT SUMMIT" color="text-white" />
       <Tabs defaultValue="collaboration" className="w-full">
         <TabsList className="grid grid-cols-1 md:grid-cols-5 gap-2 bg-blue-950 text-white">
@@ -135,6 +136,7 @@ function Objectives() {
         </TabsContent>
       </Tabs>
     </div>
+ </div>
   );
 }
 

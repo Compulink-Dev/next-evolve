@@ -14,20 +14,11 @@ function PreviousTabs({ selection, onSelect }: { selection: string, onSelect: (s
     return (
         <div className='flex gap-4'>
             <div className="gap-4 md:space-y-8  flex-wrap flex flex-row md:flex-col items-center">
-                <div
-                    onClick={() => onSelect('speakers')}
-                    className={tabClasses('speakers')}>
-                    Speakers
-                </div>
+        
                 <div
                     onClick={() => onSelect('event')}
                     className={tabClasses('event')}>
                     Event
-                </div>
-                <div
-                    onClick={() => onSelect('gallery')}
-                    className={tabClasses('gallery')}>
-                    Gallery
                 </div>
             </div>
         </div>

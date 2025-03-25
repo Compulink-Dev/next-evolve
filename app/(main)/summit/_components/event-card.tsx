@@ -31,7 +31,9 @@ const EventCard: FC<EventCardProps> = ({ title, description, date, imageUrl, onL
             </CardContent>
 
             <CardFooter className="p-4 flex justify-end">
+                <div className="">
                 <Button className="bg-blue-600 hover:bg-blue-400" variant="default" onClick={onLearnMore}>Learn More</Button>
+                </div>
             </CardFooter>
         </Card>
     );
