@@ -56,7 +56,7 @@ const EventCard = ({ event }: any) => {
 function HomeAbout() {
     return (
         <div className='bg-blue-950 text-white p-8'>
-            <div className="grid grid-cols-1 md:grid-cols-6 gap-8">
+            <div className="grid grid-cols-1 lg:grid-cols-6 gap-8">
                 <Image
                     className='col-span-2 w-full h-full rounded'
                     src={'/evolve.jpg'} alt='' width={100} height={100} />
@@ -75,7 +75,7 @@ function HomeAbout() {
                     title="Why You Should Join"
                     subtitle="The Event ?"
                 />
-                <div className="grid grid-col md:grid-cols-3 gap-8 p-8">
+                <div className="grid grid-col-1 lg:grid-cols-3 gap-8 p-8">
                     {events.map((event) => (
                         <EventCard key={event.id} event={event} />
                     ))}

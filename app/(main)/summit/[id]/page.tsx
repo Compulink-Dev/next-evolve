@@ -10,7 +10,7 @@ const eventData = {
     "2024": {
         title: "Evolve Summit 2024",
         description: "The premier tech conference of the year featuring industry leaders and innovative workshops. Over 500 attendees participated in this groundbreaking event.",
-        date: "April 20, 2024",
+        date: "May 02, 2024",
         imageUrl: "/evolve.png",
         location: "H.I.C.C,  Harare Zimbabwe",
         highlights: [

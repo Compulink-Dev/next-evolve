@@ -65,72 +65,67 @@ function Ticketing() {
   const ticketPackages = {
     delegates: [
       {
-        type: "Before year end",
+        type: "Early Bird: before 30th of April",
         price: "$150",
-        perks: ["Regular Seating", "VIP Access", "Free Lunch"],
+        perks: ["Regular Seating", "Lunch provided"],
       },
       {
-        type: "Before end of February",
+        type: "Early Bird: before 30th of May",
         price: "$175",
-        perks: ["Regular Seating", "VIP Access", "Free Lunch"],
+        perks: ["Regular Seating", "Lunch provided"],
       },
       {
-        type: "February - June",
+        type: "1st of June onwards",
         price: "$200",
-        perks: ["Regular Seating", "VIP Access", "Free Lunch"],
+        perks: ["Regular Seating", "Lunch provided"],
       },
     ],
     sponsors: [
       {
         type: "Platinum Sponsorship",
-        price: "$10k",
-        perks: ["Exhibition Space", "5 VIP Tickets", "Logo Placement"],
+        price: "$15k",
+        perks: ["15 Delegates", "Logo Placement"],
       },
       {
         type: "Gold Sponsorship",
-        price: "$8k",
-        perks: ["Exhibition Space", "5 VIP Tickets", "Logo Placement"],
+        price: "$10k",
+        perks: ["7 Delegates", "Logo Placement"],
       },
       {
         type: "Silver Sponsorship",
         price: "$5k",
-        perks: ["Exhibition Space", "3 VIP Tickets"],
+        perks: ["5 Delegates", "Logo Placement"],
       },
       {
         type: "Bronze Sponsorship",
-        price: "$2.5k",
-        perks: ["Exhibition Space", "3 VIP Tickets"],
-      },
-    ],
-    exhibitors: [
-      {
-        type: "Exhibitor Booth",
         price: "$1k",
-        perks: ["Partnership", "10 Exhibitor Passes"],
-      },
-      {
-        type: "Innovators Hub",
-        price: "$200",
-        perks: ["3 x 3 Booth", "5 Exhibitor Passes", "Marketing Materials"],
+        perks: ["1 Delegates", "Logo Placement"],
       },
     ],
+    // exhibitors: [
+    //   {
+    //     type: "Exhibitor Booth",
+    //     price: "$1k",
+    //     perks: ["Partnership", "10 Exhibitor Passes"],
+    //   },
+    //   {
+    //     type: "Innovators Hub",
+    //     price: "$200",
+    //     perks: ["3 x 3 Booth", "5 Exhibitor Passes", "Marketing Materials"],
+    //   },
+    // ],
     students: [
       {
         type: "Student Pass",
-        price: "$35",
-        perks: ["General Admission", "Access to all sessions"],
-      },
-      {
-        type: "Early Bird Student",
-        price: "$20",
-        perks: ["General Admission", "Access to all sessions"],
+        price: "$30",
+        perks: ["Including Lunch", "Half day session access on Friday the 4th"],
       },
     ],
   };
 
   return (
     <div className="bg-blue-950 p-8">
-      <div className="text-slate-400 grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+      <div className="text-slate-400 grid grid-cols-1 lg:grid-cols-2 gap-6 items-center">
         <div className="">
           <Title title="TICKET PRICING" />
           <p className="text-4xl tracking-widest font-bold">
@@ -157,7 +152,7 @@ function Ticketing() {
             }`}
             onClick={() => setActiveTab("delegates")}
           >
-            Delegates
+            Tickets
           </button>
           <button
             className={`px-4 py-2 rounded ${
@@ -169,7 +164,7 @@ function Ticketing() {
           >
             Sponsors
           </button>
-          <button
+          {/* <button
             className={`px-4 py-2 rounded ${
               activeTab === "exhibitors"
                 ? "bg-purple-800 text-black"
@@ -178,7 +173,7 @@ function Ticketing() {
             onClick={() => setActiveTab("exhibitors")}
           >
             Exhibitors
-          </button>
+          </button> */}
           <button
             className={`px-4 py-2 rounded ${
               activeTab === "students"
@@ -205,6 +200,7 @@ function Ticketing() {
             ))
           }
         </div>
+        <p className="my-8 text-white text-2xl text-center animate-pulse">The 30th of June 2025 is the cut off date for registration and payment.</p>
       </div>
     </div>
   );

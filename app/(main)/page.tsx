@@ -15,7 +15,7 @@ function HomePage() {
   return (
     <div className="">
       <div className="p-8 bg-purple-950">
-        <div className="text-white flex flex-col md:flex-row gap-8 items-center justify-between">
+        <div className="text-white flex flex-col lg:flex-row gap-8 items-center justify-between">
           <div>
             <Title title={'Countdown'} />
             <p className="text-3xl font-bold">
