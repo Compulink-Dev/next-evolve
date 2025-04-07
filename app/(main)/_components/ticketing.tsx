@@ -83,37 +83,37 @@ function Ticketing() {
     sponsors: [
       {
         type: "Platinum Sponsorship",
-        price: "$15k",
-        perks: ["15 Delegates", "Logo Placement"],
+        price: "$15 000",
+        perks: ["15 Delegates", "Logo Placement","Co-Naming rights","Logo on all advertising","Logo on screen in the conference main auditorium and Break Away","Crew Shirts Co-branded","Logo on Conference packs.","Banners inside and outside the venue.","15 Delegate tickets.","6 x 6 Exhibition Space at the Venue","Name mentions on all radio and online advertising."],
       },
       {
         type: "Gold Sponsorship",
-        price: "$10k",
-        perks: ["7 Delegates", "Logo Placement"],
+        price: "$10 00",
+        perks: ["Logo on all advertising as gold sponsor.", "Logo on screen in the conference main auditorium","Banners inside and outside the venue.","10 Delegate tickets.","3 x 3 m Exhibition Space at the Venue.","Logo on all online advertising"],
       },
       {
         type: "Silver Sponsorship",
-        price: "$5k",
-        perks: ["5 Delegates", "Logo Placement"],
+        price: "$7 500",
+        perks: ["Logo on all advertising as silver sponsor.", "Logo on screen in the conference main auditorium as silver sponsor.","Speciﬁc number of banners inside and outside the venue.","7 Delegate tickets.","3 x 3 m Exhibition Space at the venue","Logo on all online advertising."],
       },
       {
         type: "Bronze Sponsorship",
-        price: "$1k",
-        perks: ["1 Delegates", "Logo Placement"],
+        price: "$5 00",
+        perks: ["Logo on screen in the conference main auditorium.", "Banners inside and outside the venue","5 Delegate tickets.","Logo on all online advertising as bronze sponsor"],
       },
     ],
-    // exhibitors: [
-    //   {
-    //     type: "Exhibitor Booth",
-    //     price: "$1k",
-    //     perks: ["Partnership", "10 Exhibitor Passes"],
-    //   },
-    //   {
-    //     type: "Innovators Hub",
-    //     price: "$200",
-    //     perks: ["3 x 3 Booth", "5 Exhibitor Passes", "Marketing Materials"],
-    //   },
-    // ],
+    exhibitors: [
+      {
+        type: "Exhibitor Booth",
+        price: "$1000",
+        perks: ["Partnership", "10 Exhibitor Passes"],
+      },
+      {
+        type: "Innovators Hub",
+        price: "$200",
+        perks: ["3 x 3 Booth", "5 Exhibitor Passes", "Marketing Materials"],
+      },
+    ],
     students: [
       {
         type: "Student Pass",
