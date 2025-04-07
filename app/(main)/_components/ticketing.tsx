@@ -164,7 +164,7 @@ function Ticketing() {
           >
             Sponsors
           </button>
-          {/* <button
+          <button
             className={`px-4 py-2 rounded ${
               activeTab === "exhibitors"
                 ? "bg-purple-800 text-black"
@@ -173,7 +173,7 @@ function Ticketing() {
             onClick={() => setActiveTab("exhibitors")}
           >
             Exhibitors
-          </button> */}
+          </button>
           <button
             className={`px-4 py-2 rounded ${
               activeTab === "students"
