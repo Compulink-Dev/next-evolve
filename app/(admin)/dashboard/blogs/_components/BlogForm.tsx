@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -13,25 +15,36 @@ import {
     FormControl,
     FormMessage,
 } from '../../../../../components/ui/form';
+import { useState } from 'react';
+import { UploadButton } from '@/lib/uploadthing';
+
 
 // Zod schema
 const formSchema = z.object({
     title: z.string().min(2, { message: 'Enter a valid title' }).max(100),
-    imageUrl: z.string().url({ message: 'Enter a valid image URL' }),
+    imageUrl: z.string().url({ message: 'Image is required' }),
     description: z.string().min(10, { message: 'Description must be at least 10 characters' }),
     date: z.string({ required_error: 'Date is required' }),
 });
 
 export default function BlogForm({ onSubmit, defaultValues, loading }: any) {
+    const [uploadedImageUrl, setUploadedImageUrl] = useState<string>(defaultValues?.imageUrl || '');
+
     const form = useForm({
         resolver: zodResolver(formSchema),
         defaultValues: defaultValues || {
             title: '',
             imageUrl: '',
             description: '',
-            date: new Date(),
+            date: new Date().toISOString().split('T')[0],
         },
     });
+
+    // Update form field when image is uploaded
+    const handleImageUpload = (url: string) => {
+        setUploadedImageUrl(url);
+        form.setValue('imageUrl', url);
+    };
 
     return (
         <Form {...form}>
@@ -54,15 +67,34 @@ export default function BlogForm({ onSubmit, defaultValues, loading }: any) {
                     )}
                 />
 
-                {/* Image URL Field */}
+                {/* Image Upload using UploadThing */}
                 <FormField
                     control={form.control}
                     name="imageUrl"
-                    render={({ field }) => (
+                    render={() => (
                         <FormItem>
-                            <FormLabel>Image URL</FormLabel>
+                            <FormLabel>Image</FormLabel>
                             <FormControl>
-                                <Input {...field} placeholder="Enter image URL" />
+                                <>
+                                    <UploadButton
+                                        endpoint="imageUploader"
+                                        onClientUploadComplete={(res) => {
+                                            if (res && res[0]?.url) {
+                                                handleImageUpload(res[0].url);
+                                            }
+                                        }}
+                                        onUploadError={(error: Error) => {
+                                            console.error('Upload failed', error);
+                                        }}
+                                    />
+                                    {uploadedImageUrl && (
+                                        <img
+                                            src={uploadedImageUrl}
+                                            alt="Uploaded"
+                                            className="mt-2 rounded border h-32 object-cover"
+                                        />
+                                    )}
+                                </>
                             </FormControl>
                             <FormMessage />
                         </FormItem>
@@ -100,7 +132,7 @@ export default function BlogForm({ onSubmit, defaultValues, loading }: any) {
                 />
 
                 {/* Submit Button */}
-                <Button type="submit" disabled={loading} className='w-full'>
+                <Button type="submit" disabled={loading} className="w-full">
                     {loading ? 'Loading...' : 'Submit'}
                 </Button>
             </form>

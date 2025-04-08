@@ -32,17 +32,17 @@ const Navbar = () => {
                     <Link href="/about" className='hover:text-purple-500'>
                         About
                     </Link>
-                    <Link href="/about" className='hover:text-purple-500'>
+                    <Link href="/event" className='hover:text-purple-500'>
                         Event
                     </Link>
-                    <Link href="/about" className='hover:text-purple-500'>
+                    <Link href="/gallery" className='hover:text-purple-500'>
                         Gallery
                     </Link>
                     <Link href="/contact" className='hover:text-purple-500'>
                         Contact
                     </Link>
-                    <Link href="/about" className='hover:text-purple-500'>
-                        2024
+                    <Link href="/summit" className='hover:text-purple-500'>
+                        Summit
                     </Link>
                 </div>
             </div>
@@ -51,3 +51,4 @@ const Navbar = () => {
 };
 
 export default Navbar;
+ 
