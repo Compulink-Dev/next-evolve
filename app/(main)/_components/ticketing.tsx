@@ -20,10 +20,12 @@ const TicketCard = ({
   type,
   price,
   perks,
+  isSponsor = false,
 }: {
   type: string;
   price: string;
   perks: string[];
+  isSponsor?: boolean;
 }) => {
   return (
     <div className="bg-[#191970] hover:animate-pulse delay-200 hover:bg-purple-800 p-8 rounded-2xl text-slate-400">
@@ -48,8 +50,8 @@ const TicketCard = ({
             "https://compulink.odoo.com/event/evolve-ict-summit-2025-1/register"
           }
         >
-          <Button className="bg-blue-600 hover:bg-blue-400 mt-8 w-full">
-            Buy a Ticket
+         <Button className="bg-blue-600 hover:bg-blue-400 mt-8 w-full">
+            {isSponsor ? "Partner with us" : "Buy a Ticket"}
           </Button>
         </Link>
       </div>
@@ -187,7 +189,7 @@ function Ticketing() {
         </div>
 
         {/* Displaying the relevant ticket packages based on activeTab */}
-        <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {
             //@ts-ignore
             ticketPackages[activeTab].map((ticket, index) => (
@@ -196,6 +198,7 @@ function Ticketing() {
                 type={ticket.type}
                 price={ticket.price}
                 perks={ticket.perks}
+                isSponsor={activeTab === "sponsors"}
               />
             ))
           }

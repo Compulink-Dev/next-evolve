@@ -18,6 +18,7 @@ import {
 import { FaUsers } from "react-icons/fa";
 import MenuLink from './Menulink'
 import { Colors } from '@/constant/colors';
+import { Repeat2 } from 'lucide-react';
 
 
 
@@ -54,6 +55,11 @@ const menuItems = [
                 title: "Events",
                 path: "/dashboard/event",
                 icon: <MdEventNote />,
+            },
+            {
+                title: "Summit",
+                path: "/dashboard/summit",
+                icon: <Repeat2 size={15}/>,
             },
             {
                 title: "Blogs",
@@ -115,7 +121,7 @@ function Sidebar() {
                 menuItems.map((cat) => (
                     <ul
                         key={cat.title}
-                        className="flex items-center  px-4 pt-2 text-blue-950 w-full">
+                        className="flex items-center  px-4 pt-2 text-purple-950 w-full">
                         <li className="font-bold text-lg">{cat.title}
                             <span className="font-normal text-sm w-full">
                                 {
