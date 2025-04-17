@@ -82,7 +82,7 @@ function Header() {
         </div>
       </div>
       <div className="absolute bottom-32 md:w-[550px] left-8 md:left-16 text-white">
-        <p className="text-2xl md:text-4xl font-extrabold">
+        <p className="text-sm lg:text-2xl md:text-4xl font-extrabold">
           SUSTAINABLE ICT SOLUTIONS FOR THE FUTURE
         </p>
         <p className="mt-8  md:text-2xl">3-4 JULY 2025</p>
