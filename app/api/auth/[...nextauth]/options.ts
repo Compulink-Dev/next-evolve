@@ -12,32 +12,44 @@ export const authOptions: NextAuthOptions = {
         password: { label: "Password", type: "password" }
       },
       async authorize(credentials) {
-        // Add your actual user validation logic here
-        // This should query your database or user service
-        
-        // Example hardcoded user (remove in production)
-        const users = [
-          {
-            id: "1",
-            email: "admin@example.com",
-            password: "evolve2024", // In production, compare hashed passwords
-            name: "Admin User",
-            role: "admin"
+        try {
+          // Add proper error if credentials missing
+          if (!credentials?.email || !credentials?.password) {
+            throw new Error('Email and password are required')
           }
-        ]
 
-        const user = users.find(u => u.email === credentials?.email)
-        
-        if (user && user.password === credentials?.password) {
+          // Example user - replace with your actual user lookup
+          const users = [
+            {
+              id: "1",
+              email: "admin@example.com",
+              password: "evolve2024", // In production, use hashed passwords!
+              name: "Admin User",
+              role: "admin"
+            }
+          ]
+
+          const user = users.find(u => u.email === credentials.email)
+          
+          if (!user) {
+            throw new Error('User not found')
+          }
+
+          // In production, use password hashing like bcrypt.compare()
+          if (user.password !== credentials.password) {
+            throw new Error('Invalid password')
+          }
+
           return {
             id: user.id,
             name: user.name,
             email: user.email,
             role: user.role
           }
+        } catch (error) {
+          console.error('Authorization error:', error)
+          return null
         }
-        
-        return null
       }
     })
   ],
