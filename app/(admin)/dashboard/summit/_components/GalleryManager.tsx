@@ -58,7 +58,7 @@ export default function GalleryManager({
             onChange={(e) => setNewImage(e.target.value)}
             placeholder="Image URL"
           />
-          <Button onClick={handleAdd}>Add URL</Button>
+          <Button className="button" onClick={handleAdd}>Add URL</Button>
         </div>
         <div className="flex items-center gap-2">
           <Label htmlFor="file-upload" className="cursor-pointer">

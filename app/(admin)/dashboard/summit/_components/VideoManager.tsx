@@ -77,7 +77,7 @@ export default function VideoManager({
             onChange={(e) => setNewVideo({...newVideo, url: e.target.value})}
           />
         </div>
-        <Button onClick={handleAdd} disabled={isLoading}>
+        <Button className="button" onClick={handleAdd} disabled={isLoading}>
           {isLoading ? 'Adding...' : 'Add Video'}
         </Button>
       </div>

@@ -272,6 +272,8 @@ export default function AdminEventsPage() {
                   </h2>
                   <div className="space-x-2">
                     <Button 
+                    variant="outline"
+                    className='border'
                       size="sm" 
                       onClick={() => setSelectedEvent(event)}
                       disabled={isLoading.submit}

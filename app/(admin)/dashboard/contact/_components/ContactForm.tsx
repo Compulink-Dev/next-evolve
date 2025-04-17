@@ -114,9 +114,8 @@ function ContactForm() {
                         )}
                     />
                     <Button
-                        style={{ backgroundColor: Colors.blue }}
                         type="submit"
-                        className='w-auto'>Submit</Button>
+                        className='w-auto button'>Submit</Button>
                 </form>
             </Form>
         </div>
