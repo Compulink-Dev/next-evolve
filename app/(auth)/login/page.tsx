@@ -51,7 +51,6 @@ export default function Login() {
         email: data.email,
         password: data.password,
         redirect: false,
-        callbackUrl: "/dashboard", // Add this
       });
 
       console.log("SignIn result:", result); // Add this for debugging
@@ -62,8 +61,16 @@ export default function Login() {
             ? "Invalid email or password"
             : result.error
         );
-      } else if (result?.url) {
-        router.push(result.url); // Use the callback URL
+      } else {
+        // Fetch the user's role from the session
+        const response = await fetch("/api/auth/session");
+        const session = await response.json();
+
+        // Determine redirect URL based on role
+        const redirectUrl =
+          session.user?.role === "admin" ? "/dashboard" : "/summit/2024"; // Change this to your user dashboard route
+
+        router.push(redirectUrl);
       }
     } catch (error) {
       console.error("Login error:", error); // Add this

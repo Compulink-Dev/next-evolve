@@ -2,6 +2,9 @@
 import NextAuth from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
 import { NextAuthOptions } from 'next-auth'
+import { connectDB } from '@/lib/connectToDB'
+import registration from '@/models/registration'
+import bcrypt from 'bcryptjs' // Make sure to import bcrypt
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -18,33 +21,31 @@ export const authOptions: NextAuthOptions = {
             throw new Error('Email and password are required')
           }
 
-          // Example user - replace with your actual user lookup
-          const users = [
-            {
-              id: "1",
-              email: "admin@example.com",
-              password: "evolve2024", // In production, use hashed passwords!
-              name: "Admin User",
-              role: "admin"
-            }
-          ]
+          await connectDB() // Connect to MongoDB
 
-          const user = users.find(u => u.email === credentials.email)
+          // Example user - replace with your actual user lookup
+          const user = await registration.findOne({ email: credentials.email })
           
           if (!user) {
             throw new Error('User not found')
           }
 
-          // In production, use password hashing like bcrypt.compare()
-          if (user.password !== credentials.password) {
+           // Use bcrypt.compare() to check the password
+           const passwordMatch = await bcrypt.compare(
+            credentials.password, 
+            user.password
+          )
+
+          if (!passwordMatch) {
             throw new Error('Invalid password')
           }
 
+          // Return user object in the format NextAuth expects
           return {
-            id: user.id,
-            name: user.name,
+            id: user._id.toString(),
+            name: `${user.firstName} ${user.lastName}`,
             email: user.email,
-            role: user.role
+            role: user.role || 'user' // Default to 'user' if role not specified
           }
         } catch (error) {
           console.error('Authorization error:', error)
@@ -68,6 +69,13 @@ export const authOptions: NextAuthOptions = {
       }
       return session
     },
+    async redirect({ url, baseUrl }) {
+      // Allows relative callback URLs
+      if (url.startsWith("/")) return `${baseUrl}${url}`
+      // Allows callback URLs on the same origin
+      else if (new URL(url).origin === baseUrl) return url
+      return baseUrl
+    }
     
   },
   pages: {
