@@ -4,6 +4,7 @@ import Link from "next/link";
 import React from "react";
 import { NavMenu } from "./navMenu";
 import Navbar from "./responsive-nav";
+import { Button } from "@/components/ui/button";
 
 function Header() {
   return (
@@ -35,18 +36,20 @@ function Header() {
           <Link className="hover:text-purple-500" href={"/contact"}>
             Contact us
           </Link>
-          <Link
-            className="hover:text-purple-500"
-            href={
-              "https://compulink.odoo.com/event/evolve-ict-summit-2025-1/register"
-            }
-            target="_blank"
-          >
-            Register
-          </Link>
           <Link className="hover:text-purple-500" href={"/summit"}>
             Summit
           </Link>
+          <Button className="button">
+            <Link
+              className="hover:text-purple-500"
+              href={
+                "https://compulink.odoo.com/event/evolve-ict-summit-2025-1/register"
+              }
+              target="_blank"
+            >
+              Register
+            </Link>
+          </Button>
         </div>
         <div className="px-4">
           <Image
@@ -57,7 +60,7 @@ function Header() {
             alt=""
           />
         </div>
-        <div className="hidden md:flex absolute right-36 top-10 w-[350px] border-[8px] border-white h-[400px] bg-black rounded-3xl">
+        <div className="hidden md:flex absolute right-36 top-14 w-[350px] border-[8px] border-white h-[400px] bg-black rounded-3xl">
           <Image
             src={"/evolve.jpg"}
             alt=""
@@ -81,8 +84,8 @@ function Header() {
           </div>
         </div>
       </div>
-      <div className="absolute bottom-32 md:w-[550px] left-8 md:left-16 text-white">
-        <p className="text-sm lg:text-2xl md:text-4xl font-extrabold">
+      <div className="absolute bottom-32 md:w-[400px] lg:w-[550px] left-4 md:left-16 text-white">
+        <p className="text-sm md:text-2xl lg:text-4xl font-extrabold">
           SUSTAINABLE ICT SOLUTIONS FOR THE FUTURE
         </p>
         <p className="mt-8  md:text-2xl">3-4 JULY 2025</p>

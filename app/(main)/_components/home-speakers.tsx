@@ -1,5 +1,4 @@
 import Title from "@/components/NewTitle";
-import SignOutButton from "@/components/SignOut";
 import { Facebook, Linkedin, Twitter } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -79,7 +78,7 @@ function HomeSpeakers() {
 
   return (
     <div className="bg-purple-950">
-      <SignOutButton />
+      {/* <SignOutButton /> */}
       <div>
         <Title title="Our Amazing & Learned" subtitle="Event Speakers" />
         {speakers.length > 0 ? (
