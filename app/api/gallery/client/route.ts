@@ -3,6 +3,8 @@ import { NextResponse } from 'next/server';
 import { connectDB } from '@/lib/connectToDB';
 import Gallery from '@/models/gallery';
 
+export const dynamic = 'force-dynamic'; // Add this line
+
 export async function GET() {
   try {
     await connectDB();
