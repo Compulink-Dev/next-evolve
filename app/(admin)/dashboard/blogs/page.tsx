@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic"; // 👈 Force server-side rendering
+
 import React from "react";
 import Link from "next/link";
 import { connectDB } from "../../../../lib/connectToDB";
