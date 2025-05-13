@@ -33,7 +33,7 @@ export function SignUpForm() {
       });
 
       // Store additional info in MongoDB
-      const response = await fetch("/api/registration", {
+      const response = await fetch("/api/users", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
