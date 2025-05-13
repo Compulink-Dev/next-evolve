@@ -1,87 +1,50 @@
 // app/api/registration/route.ts
-import { connectDB } from "@/lib/connectToDB"
-import Registration from "@/models/registration"
-import { NextRequest, NextResponse } from "next/server"
-import bcrypt from 'bcryptjs'
+import { auth } from '@clerk/nextjs/server';
+import { NextResponse } from 'next/server';
+import { connectDB } from '@/lib/connectToDB';
+import Registration from '@/models/registration';
 
-export async function POST(req: NextRequest) {
+export async function POST(req: Request) {
   try {
-    const { 
-      firstName,
-      lastName,
-      jobTitle,
-      company,
-      phoneNumber,
-      country,
-      state,
-      email,
-      password,
-      confirmPassword, // Extract but don't use
-      industry,
-      position,
-      companySize 
-    } = await req.json()
-
-    await connectDB()
-
-    // Check if user already exists
-    const existingUser = await Registration.findOne({ email })
-    if (existingUser) {
+    const { userId } = await auth();
+    
+    if (!userId) {
       return NextResponse.json(
-        { message: "User already exists" },
-        { status: 400 }
-      )
+        { error: 'Unauthorized - No Clerk user ID' }, 
+        { status: 401 }
+      );
     }
 
-    // Hash password
-    const hashedPassword = await bcrypt.hash(password, 10)
+    await connectDB();
+    const body = await req.json();
+    
+    // Check if user already exists
+    const existingUser = await Registration.findOne({ 
+      $or: [
+        { email: body.email },
+        { clerkUserId: userId }
+      ]
+    });
 
-    // Create new user
-    await Registration.create({
-      firstName,
-      lastName,
-      jobTitle,
-      company,
-      phoneNumber,
-      country,
-      state,
-      email,
-      password: hashedPassword,
-      industry,
-      position,
-      companySize
-    })
+    if (existingUser) {
+      return NextResponse.json(
+        { error: 'User already exists' },
+        { status: 409 }
+      );
+    }
 
-    return NextResponse.json(
-      { message: "User registered successfully" }, 
-      { status: 201 }
-    )
+    // Create new registration
+    const registration = await Registration.create({
+      ...body,
+      clerkUserId: userId
+    });
+
+    return NextResponse.json(registration, { status: 201 });
   } catch (error) {
-    console.error("Registration error:", error)
+    console.error('Registration error:', error);
     return NextResponse.json(
-      { message: "An error occurred during registration" },
+      { error: 'Registration failed' },
       { status: 500 }
-    )
+    );
   }
 }
-export async function PUT(req: NextRequest) {
-    const { id, status } = await req.json()
-    await connectDB()
-    const visitor = await Registration.findByIdAndUpdate(id, { status }, { new: true })
-    return NextResponse.json({ visitor })
-}
-
-export async function GET() {
-    await connectDB()
-    const visitors = await Registration.find()
-    return NextResponse.json({ visitors })
-}
-
-export async function DELETE(req: NextRequest) {
-    const id = req.nextUrl.searchParams.get("id")
-    await connectDB()
-    await Registration.findByIdAndDelete(id)
-    return NextResponse.json({ message: "Visitor Deleted" }, { status: 201 })
-}
-
-

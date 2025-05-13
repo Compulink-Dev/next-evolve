@@ -1,12 +1,14 @@
 // app/api/auth/[...nextauth]/route.ts
-import NextAuth from 'next-auth'
-import CredentialsProvider from 'next-auth/providers/credentials'
-import { NextAuthOptions } from 'next-auth'
-import { connectDB } from '@/lib/connectToDB'
-import registration from '@/models/registration'
-import bcrypt from 'bcryptjs' // Make sure to import bcrypt
+import NextAuth from 'next-auth';
+import CredentialsProvider from 'next-auth/providers/credentials';
+import { NextAuthOptions } from 'next-auth';
+import { connectDB } from '@/lib/connectToDB';
+import Registration from '@/models/registration';
+import bcrypt from 'bcryptjs';
 
 export const authOptions: NextAuthOptions = {
+
+  debug: process.env.NODE_ENV === 'development', // Add this line
   providers: [
     CredentialsProvider({
       name: "Credentials",
@@ -16,40 +18,53 @@ export const authOptions: NextAuthOptions = {
       },
       async authorize(credentials) {
         try {
-          // Add proper error if credentials missing
           if (!credentials?.email || !credentials?.password) {
-            throw new Error('Email and password are required')
+            console.log('Missing credentials');
+            throw new Error('Email and password are required');
           }
+          await connectDB();
 
-          await connectDB() // Connect to MongoDB
+ const user = await Registration.findOne({ 
+      email: credentials.email.toLowerCase() // Case insensitive search
+    });   
+    if (!user) {
+      console.log('No user found for email:', credentials.email);
+      throw new Error('User not found');
+    }
 
-          // Example user - replace with your actual user lookup
-          const user = await registration.findOne({ email: credentials.email })
-          
-          if (!user) {
-            throw new Error('User not found')
-          }
+    console.log('Found user:', {
+      email: user.email,
+      mode: user.mode,
+      hasPassword: !!user.password
+    });
 
-           // Use bcrypt.compare() to check the password
-           const passwordMatch = await bcrypt.compare(
-            credentials.password, 
-            user.password
-          )
 
-          if (!passwordMatch) {
-            throw new Error('Invalid password')
-          }
+              // Only compare passwords for online registrations
+              if (user.mode === 'online') {
+                const passwordMatch = await bcrypt.compare(
+                  credentials.password, 
+                  user.password
+                );
 
-          // Return user object in the format NextAuth expects
+                console.log('Password match result:', passwordMatch);
+    
+                if (!passwordMatch) {
+                  throw new Error('Invalid password');
+                }
+              } else {
+                // For offline registrations, you might want to implement a different auth method
+                throw new Error('Please contact support for offline registration access');
+              }
+
           return {
             id: user._id.toString(),
             name: `${user.firstName} ${user.lastName}`,
             email: user.email,
-            role: user.role || 'user' // Default to 'user' if role not specified
-          }
+            role: user.role || 'user'
+          };
         } catch (error) {
-          console.error('Authorization error:', error)
-          return null
+          console.error('Authorization error:', error);
+          return null;
         }
       }
     })
@@ -57,26 +72,21 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        token.role = user.role
-        token.id = user.id
+        //@ts-expect-error
+        token.role = user.role;
+        token.id = user.id;
+        token.email = user.email; // Make sure email is included
       }
-      return token
+      return token;
     },
     async session({ session, token }) {
       if (session.user) {
-        session.user.role = token.role
-        session.user.id = token.id as string
+        session.user.role = token.role;
+        session.user.id = token.id as string;
+        session.user.email = token.email as string; // Make sure email is included
       }
-      return session
+      return session;
     },
-    async redirect({ url, baseUrl }) {
-      // Allows relative callback URLs
-      if (url.startsWith("/")) return `${baseUrl}${url}`
-      // Allows callback URLs on the same origin
-      else if (new URL(url).origin === baseUrl) return url
-      return baseUrl
-    }
-    
   },
   pages: {
     signIn: '/login',
@@ -86,7 +96,18 @@ export const authOptions: NextAuthOptions = {
     strategy: "jwt",
   },
   secret: process.env.NEXTAUTH_SECRET,
-}
+  cookies: {
+    sessionToken: {
+      name: `__Secure-next-auth.session-token`,
+      options: {
+        httpOnly: true,
+        sameSite: "lax",
+        path: "/",
+        secure: process.env.NODE_ENV === "production",
+      },
+    },
+  }
+};
 
-const handler = NextAuth(authOptions)
-export { handler as GET, handler as POST }
+const handler = NextAuth(authOptions);
+export { handler as GET, handler as POST };
