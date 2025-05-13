@@ -43,6 +43,7 @@ export async function POST(req: NextRequest) {
       }
       
       // Write the file
+      //@ts-ignore
       fs.writeFileSync(publicPath, buffer);
       
       // Set the URL that will be stored in the database
