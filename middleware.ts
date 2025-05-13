@@ -1,26 +1,19 @@
-import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server'
+// Ref: https://next-auth.js.org/configuration/nextjs#advanced-usage
+import { withAuth, NextRequestWithAuth } from "next-auth/middleware"
+import { NextResponse } from "next/server"
 
-const isPublicRoute = createRouteMatcher([
-    '/',
-    '/registration',
-    '/login',
-    '/sign-up',
-    '/sign-in',
-    '/api/registration',
-    '/api/clerk-webhook'
-])
+export default withAuth(
+    function middleware(request: NextRequestWithAuth) {
+        if (process.env.NODE_ENV === "development") {
+            console.log("Token in middleware:", request.nextauth?.token);
+        }
+        return NextResponse.next();
+    },
+    {
+        callbacks: {
+            authorized: ({ token }) => !!token, // Authorize if the token exists
+        },
+    }
+);
 
-export default clerkMiddleware(async (auth, req) => {
-  if (!isPublicRoute(req)) {
-    await auth.protect()
-  }
-})
-
-export const config = {
-  matcher: [
-    // Skip Next.js internals and all static files, unless found in search params
-    '/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)',
-    // Always run for API routes
-    '/(api|trpc)(.*)',
-  ],
-}
+export const config = { matcher: ["/payment","/purchase"] };
