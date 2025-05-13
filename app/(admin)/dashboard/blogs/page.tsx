@@ -9,7 +9,7 @@ export const metadata = { title: "Blogs Dashboard" };
 
 export default async function BlogsPage() {
   await connectDB();
-  const blogs = await Blog.find().lean(); // Fetch all blogs
+  const blogs = await Blog.find(); // Fetch all blogs
 
   console.log("Blogs : ", blogs);
 

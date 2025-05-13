@@ -14,10 +14,10 @@ import {
   CardFooter,
 } from "@/components/ui/card";
 import { CheckCircle2, Loader2 } from "lucide-react";
-import { useSession } from "next-auth/react";
+// import { useSession } from "next-auth/react";
 
 export default function PurchasePage() {
-  const { data: session, status } = useSession();
+  // const { data: session, status } = useSession();
   const searchParams = useSearchParams();
   const eventId = searchParams.get("eventId");
   const [isProcessing, setIsProcessing] = useState(false);
@@ -32,25 +32,25 @@ export default function PurchasePage() {
   });
 
   // Update form data when session is loaded
-  React.useEffect(() => {
-    if (session?.user) {
-      setFormData((prev) => ({
-        ...prev,
-        //@ts-ignore
-        name: session.user?.name || "",
-        //@ts-ignore
-        email: session.user?.email || "",
-      }));
-    }
-  }, [session]);
+  // React.useEffect(() => {
+  //   if (session?.user) {
+  //     setFormData((prev) => ({
+  //       ...prev,
+  //       //@ts-ignore
+  //       name: session.user?.name || "",
+  //       //@ts-ignore
+  //       email: session.user?.email || "",
+  //     }));
+  //   }
+  // }, [session]);
 
   if (status === "loading") {
     return <div>Loading...</div>;
   }
 
-  if (!session?.user) {
-    return <div>Please log in to complete your purchase</div>;
-  }
+  // if (!session?.user) {
+  //   return <div>Please log in to complete your purchase</div>;
+  // }
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
