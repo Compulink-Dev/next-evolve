@@ -100,7 +100,9 @@ export default function PurchasePage() {
             <CheckCircle2 className="w-16 h-16 text-green-500 mx-auto mb-4" />
             <p className="text-lg">Thank you for your purchase!</p>
             <p>An invoice has been generated and sent to your email.</p>
-            <p>Your activation details will be processed shortly.</p>
+            <p>
+              Your activation details will be processed shortly. Please wait....
+            </p>
           </CardContent>
           <CardFooter className="flex justify-center">
             <Button onClick={() => (window.location.href = "/")}>
