@@ -60,7 +60,8 @@ export const authOptions: NextAuthOptions = {
             id: user._id.toString(),
             name: `${user.firstName} ${user.lastName}`,
             email: user.email,
-            role: user.role || 'user'
+            role: user.type || 'attendee', // Use 'type' field from registration
+            type: user.type // Add type to user object
           };
         } catch (error) {
           console.error('Authorization error:', error);
@@ -71,26 +72,37 @@ export const authOptions: NextAuthOptions = {
   ],
   callbacks: {
     async jwt({ token, user }) {
+      console.log('JWT callback - token:', token);
+      console.log('JWT callback - user:', user);
       if (user) {
         //@ts-expect-error
         token.role = user.role;
         token.id = user.id;
+        token.type = user.type; // Add type to token
         token.email = user.email; // Make sure email is included
       }
       return token;
     },
     async session({ session, token }) {
+      console.log('Session callback - session:', session);
+      console.log('Session callback - token:', token);
       if (session.user) {
         session.user.role = token.role;
+        session.user.type = token.type; // Add type to session 
         session.user.id = token.id as string;
-        session.user.email = token.email as string; // Make sure email is included
+        session.user.email = token.email as string;
+        // @ts-ignore
+        session.user.type = token.type; // Add user type to session
       }
       return session;
     },
+    async redirect({ url, baseUrl }) {
+      return url.startsWith(baseUrl) ? url : baseUrl;
+    }
   },
   pages: {
-    signIn: '/login',
-    error: '/login',
+    signIn: '/sign-in',
+    error: '/sign-in', // Error code passed in query string as ?error=
   },
   session: {
     strategy: "jwt",
@@ -98,12 +110,13 @@ export const authOptions: NextAuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
   cookies: {
     sessionToken: {
-      name: `__Secure-next-auth.session-token`,
+      name: `next-auth.session-token`, // Remove __Secure- prefix for testing
       options: {
         httpOnly: true,
         sameSite: "lax",
         path: "/",
         secure: process.env.NODE_ENV === "production",
+        maxAge: 30 * 24 * 60 * 60, // 30 days
       },
     },
   }

@@ -18,7 +18,6 @@ export enum ContractStatus {
 }
 
 export interface IRegistration extends Document {
-  clerkUserId: string; // Add this field
   type: RegistrationType;
   mode: RegistrationMode;
   firstName: string;
@@ -46,7 +45,6 @@ export interface IRegistration extends Document {
 
 const RegistrationSchema: Schema = new Schema(
   {
-    clerkUserId: { type: String, required: true, unique: true }, // Add this
     type: { type: String, enum: Object.values(RegistrationType), required: true },
     mode: { type: String, enum: Object.values(RegistrationMode), required: true },
     firstName: { type: String, required: true },

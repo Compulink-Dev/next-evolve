@@ -1,13 +1,11 @@
-// components/LoginForm.tsx
 "use client";
-import { useSignIn } from "@clerk/nextjs";
+import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
 export function LoginForm() {
-  const { isLoaded, signIn, setActive } = useSignIn();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -17,20 +15,23 @@ export function LoginForm() {
     e.preventDefault();
     setError("");
 
-    if (!isLoaded) return;
-
     try {
-      const result = await signIn.create({
-        identifier: email,
+      const result = await signIn("credentials", {
+        redirect: false,
+        email,
         password,
       });
 
-      if (result.status === "complete") {
-        await setActive({ session: result.createdSessionId });
-        router.push("/selection");
+      if (result?.error) {
+        setError(result.error);
+        return;
       }
+
+      // Get the user's role from the session (handled in the auth callback)
+      // The redirect will be handled by the middleware
+      router.push("/"); // This will be intercepted by middleware
     } catch (err: any) {
-      setError(err.errors?.[0]?.message || "Sign in failed");
+      setError("Sign in failed");
       console.error(err);
     }
   };

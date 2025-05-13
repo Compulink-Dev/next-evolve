@@ -4,7 +4,7 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '../auth/[...nextauth]/options';
 import { connectDB } from '@/lib/connectToDB';
 import bcrypt from 'bcryptjs';
-import { onlineRegistrationSchema } from '@/lib/validators';
+import { offlineRegistrationSchema, onlineRegistrationSchema } from '@/lib/validators';
 
 
 // GET all registrations (admin only)
@@ -39,8 +39,11 @@ export async function POST(request: Request) {
     const body = await request.json();
     console.log('Raw request body:', body);
 
+    // Determine which schema to use based on mode
+    const schema = body.mode === 'online' ? onlineRegistrationSchema : offlineRegistrationSchema;
+    
     // Validate the data
-    const validatedData = onlineRegistrationSchema.parse(body);
+    const validatedData = schema.parse(body);
     console.log('Validated data:', JSON.stringify(validatedData, null, 2));
 
     // Check for existing user
@@ -53,25 +56,36 @@ export async function POST(request: Request) {
       );
     }
 
-    // Create new user
-    console.log('Attempting to create user...');
-    const registration = await Registration.create(validatedData);
-    console.log('Successfully created user:', registration.email);
-
-    return NextResponse.json(registration, { status: 201 });
+    // Hash password if in online mode
+    if (validatedData.mode === 'online') {
+      const { password, ...rest } = validatedData;
+      const hashedPassword = await bcrypt.hash(password, 10);
+      const registration = await Registration.create({
+        ...rest,
+        password: hashedPassword,
+        type: rest.type // Ensure type is included
+      });
+      console.log('Successfully created online user:', registration.email);
+      return NextResponse.json(registration, { status: 201 });
+    } else {
+      // For offline registration
+      const registration = await Registration.create(validatedData);
+      console.log('Successfully created offline user:', registration.email);
+      return NextResponse.json(registration, { status: 201 });
+    }
   } catch (error: any) {
     console.error('Full error:', error);
     if (error.name === 'ZodError') {
       console.error('Validation errors:', error.errors);
-    }
-    if (error.name === 'MongoServerError') {
-      console.error('MongoDB error:', error.message);
+      return NextResponse.json(
+        { error: 'Validation failed', details: error.errors },
+        { status: 400 }
+      );
     }
     return NextResponse.json(
       { 
         error: 'Registration failed',
         details: error.message,
-        stack: process.env.NODE_ENV === 'development' ? error.stack : undefined
       },
       { status: 500 }
     );

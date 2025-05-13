@@ -1,80 +1,64 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useSearchParams, useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { countries } from "@/constant/data";
-import { useSignUp } from "@clerk/nextjs";
-import { useRouter } from "next/navigation";
 import Title from "@/app/(main)/_components/title";
 import { X } from "lucide-react";
 import {
   onlineRegistrationSchema,
-  OnlineRegistrationFormData,
+  offlineRegistrationSchema,
+  type OnlineRegistrationFormData,
+  type OfflineRegistrationFormData,
+  UserRole,
 } from "@/lib/validators";
-import bcrypt from "bcryptjs";
+import { signIn } from "next-auth/react";
 
-export default function SponsorRegistration() {
-  const { isLoaded, signUp } = useSignUp();
+export default function Registration() {
+  const searchParams = useSearchParams();
+  const role = searchParams.get("role") || "attendee";
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const parsedRole = UserRole.safeParse(role);
   const [mode, setMode] = useState<"online" | "offline">("online");
+  const defaultRole = parsedRole.success ? parsedRole.data : "attendee";
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<OnlineRegistrationFormData>({
-    resolver: zodResolver(onlineRegistrationSchema),
+    setValue,
+    watch,
+  } = useForm<OnlineRegistrationFormData | OfflineRegistrationFormData>({
+    resolver: zodResolver(
+      mode === "online" ? onlineRegistrationSchema : offlineRegistrationSchema
+    ),
     defaultValues: {
-      type: "sponsor",
+      type: defaultRole,
       mode: "online",
-      sponsorshipLevel: "",
     },
   });
 
-  const onSubmit: SubmitHandler<OnlineRegistrationFormData> = async (data) => {
+  useEffect(() => {
+    if (role) {
+      setValue("type", defaultRole);
+    }
+  }, [role, setValue]);
+
+  const onSubmit: SubmitHandler<
+    OnlineRegistrationFormData | OfflineRegistrationFormData
+  > = async (data) => {
     setLoading(true);
     try {
       const payload = { ...data };
-
-      if (mode === "online") {
-        // Create a new object without confirmPassword
-        const { confirmPassword, ...rest } = payload;
-        const finalPayload = rest;
-
-        // Create user in Clerk
-        //@ts-expect-error
-        const result = await signUp.create({
-          emailAddress: payload.email,
-          password: payload.password,
-          firstName: payload.firstName,
-          lastName: payload.lastName,
-        });
-
-        console.log("Sending payload:", JSON.stringify(finalPayload, null, 2));
-
-        const res = await fetch(`/api/registration`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(finalPayload),
-        });
-        // ... rest of your code
-      } else {
-        // Handle offline mode
-        const res = await fetch(`/api/registration`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload),
-        });
-      }
-
-      console.log("Sending payload:", JSON.stringify(payload, null, 2));
+      console.log("Payload:", JSON.stringify(payload, null, 2));
 
       const res = await fetch(`/api/registration`, {
         method: "POST",
@@ -82,12 +66,24 @@ export default function SponsorRegistration() {
         body: JSON.stringify(payload),
       });
 
-      const responseData = await res.json();
-      console.log("API response:", responseData);
-
       if (res.ok) {
         toast.success("Registration Successful");
-        router.push("/selection");
+
+        if (mode === "online") {
+          const result = await signIn("credentials", {
+            email: data.email,
+            password: (data as OnlineRegistrationFormData).password,
+            redirect: false,
+          });
+
+          if (result?.error) {
+            toast.error("Registration successful but login failed");
+          } else {
+            router.push(`/${data.type}`);
+          }
+        } else {
+          router.push(`/${data.type}`);
+        }
       } else {
         const errorData = await res.json();
         toast.error(errorData.error || "Registration failed");
@@ -99,26 +95,28 @@ export default function SponsorRegistration() {
     }
   };
 
+  const currentMode = watch("mode");
+
   return (
-    <div className="bg-purple-900 h-screen">
-      <div className="max-w-4xl mx-auto p-8 text-slate-400 ">
+    <div className="bg-purple-900 md:h-screen">
+      <div className="max-w-4xl mx-auto p-8 text-slate-400">
         <div className="flex items-center justify-between">
-          <Title title="Sponsor Registration" />
-          <Button onClick={() => router.back()} variant={"ghost"}>
+          <Title
+            title={`${role.charAt(0).toUpperCase() + role.slice(1)} Registration`}
+          />
+          <Button onClick={() => router.back()} variant="ghost">
             <X />
           </Button>
         </div>
 
-        <div className="flex gap-4 mb-6">
+        <div className="flex flex-col md:flex-row mt-4 gap-4 mb-6">
           <Button
-            className="button"
             variant={mode === "online" ? "default" : "outline"}
             onClick={() => setMode("online")}
           >
             Online Registration
           </Button>
           <Button
-            className="button"
             variant={mode === "offline" ? "default" : "outline"}
             onClick={() => setMode("offline")}
           >
@@ -127,8 +125,8 @@ export default function SponsorRegistration() {
         </div>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-          <input type="hidden" {...register("type")} value="sponsor" />
-          <input type="hidden" {...register("mode")} value={mode} />
+          <input type="hidden" {...register("type")} />
+          <input type="hidden" {...register("mode")} />
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
@@ -199,7 +197,7 @@ export default function SponsorRegistration() {
               )}
             </div>
 
-            {mode === "online" && (
+            {currentMode === "online" && (
               <>
                 <div>
                   <Label>Password</Label>
@@ -209,9 +207,9 @@ export default function SponsorRegistration() {
                     type="password"
                     className="bg-transparent placeholder:text-slate-400"
                   />
-                  {errors.password && (
+                  {(errors as any).password && (
                     <span className="text-red-600 text-xs">
-                      {errors.password.message}
+                      {(errors as any).password.message}
                     </span>
                   )}
                 </div>
@@ -224,9 +222,9 @@ export default function SponsorRegistration() {
                     type="password"
                     className="bg-transparent placeholder:text-slate-400"
                   />
-                  {errors.confirmPassword && (
+                  {(errors as any).confirmPassword && (
                     <span className="text-red-600 text-xs">
-                      {errors.confirmPassword.message}
+                      {(errors as any).confirmPassword.message}
                     </span>
                   )}
                 </div>
@@ -324,24 +322,26 @@ export default function SponsorRegistration() {
               )}
             </div>
 
-            <div>
-              <Label>Sponsorship Level</Label>
-              <select
-                {...register("sponsorshipLevel")}
-                className="w-full bg-transparent border p-2 rounded-lg"
-              >
-                <option value=""></option>
-                <option value="Platinum">Platinum</option>
-                <option value="Gold">Gold</option>
-                <option value="Silver">Silver</option>
-                <option value="Bronze">Bronze</option>
-              </select>
-              {errors.sponsorshipLevel && (
-                <span className="text-red-600 text-xs">
-                  {errors.sponsorshipLevel.message}
-                </span>
-              )}
-            </div>
+            {role === "sponsor" && (
+              <div>
+                <Label>Sponsorship Level</Label>
+                <select
+                  {...register("sponsorshipLevel")}
+                  className="w-full bg-transparent border p-2 rounded-lg"
+                >
+                  <option value=""></option>
+                  <option value="Platinum">Platinum</option>
+                  <option value="Gold">Gold</option>
+                  <option value="Silver">Silver</option>
+                  <option value="Bronze">Bronze</option>
+                </select>
+                {(errors as any).sponsorshipLevel && (
+                  <span className="text-red-600 text-xs">
+                    {(errors as any).sponsorshipLevel.message}
+                  </span>
+                )}
+              </div>
+            )}
           </div>
 
           <Button

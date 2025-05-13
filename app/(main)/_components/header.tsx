@@ -42,9 +42,7 @@ function Header() {
           <Button className="button">
             <Link
               className="hover:text-purple-500"
-              href={
-                "https://compulink.odoo.com/event/evolve-ict-summit-2025-1/register"
-              }
+              href={"/selection"}
               target="_blank"
             >
               Register

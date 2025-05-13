@@ -1,5 +1,10 @@
 import { z } from 'zod';
 
+
+
+export const UserRole = z.enum(["sponsor", "attendee", "exhibitor", "attachee"]);
+export type UserRole = z.infer<typeof UserRole>;
+
 export const baseRegistrationSchema = z.object({
   firstName: z.string().min(2, "First name is required").max(50),
   lastName: z.string().min(2, "Last name is required").max(50),
@@ -12,10 +17,12 @@ export const baseRegistrationSchema = z.object({
   industry: z.string().min(2, "Industry is required").max(100),
   companySize: z.string().min(2, "Company size is required"),
   position: z.string().optional(),
+  type: UserRole,
+  mode: z.enum(["online", "offline"]),
 });
 
 export const sponsorRegistrationSchema = baseRegistrationSchema.extend({
-  type: z.literal('sponsor'),
+  type: z.enum(["sponsor", "attendee", "exhibitor", "attachee"]),
   sponsorshipLevel: z.string().min(2, "Sponsorship level is required"),
   additionalInfo: z.record(z.any()).optional(),
 });
@@ -27,24 +34,13 @@ export const exhibitorRegistrationSchema = baseRegistrationSchema.extend({
 });
 
 export const onlineRegistrationSchema = baseRegistrationSchema.extend({
-    type: z.literal("sponsor"),
-    mode: z.literal("online").or(z.literal("offline")),
-    sponsorshipLevel: z
-      .string()
-      .min(1, "Sponsorship level is required"),
-  
-    password: z
-      .string()
-      .min(6, "Password must be at least 6 characters")
-      .max(100)
-      .optional()
-      .or(z.literal("")),
-  
-      confirmPassword: z.string().optional(),
-    }).refine((data) => data.password === data.confirmPassword, {
-      message: "Passwords do not match",
-      path: ["confirmPassword"],
-    });
+  password: z.string().min(6, "Password must be at least 6 characters").max(100),
+  confirmPassword: z.string(),
+}).refine(data => data.password === data.confirmPassword, {
+  message: "Passwords don't match",
+  path: ["confirmPassword"],
+});
+
 
 export const offlineRegistrationSchema = z.union([
   sponsorRegistrationSchema.extend({
