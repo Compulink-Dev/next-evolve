@@ -26,9 +26,7 @@ interface CardProps {
 
 const getVisitors = async () => {
   try {
-    const res = await fetch(`${process.env.API_ROUTE}/api/registration/`, {
-      cache: "no-store",
-    });
+    const res = await fetch(`${process.env.API_ROUTE}/api/registration/`, {});
 
     if (!res.ok) {
       throw new Error("Failed to fetch visitors");
