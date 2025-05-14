@@ -1,3 +1,6 @@
+// At the top of the file
+export const dynamic = "force-dynamic";
+
 import React from "react";
 import DashboardCard from "./_components/DashboardCard";
 import TotalForm from "./_components/TotalForm";
@@ -51,7 +54,16 @@ const VisitorCard = ({ title, figure, subtitle }: CardProps) => {
 };
 
 async function Dashboard() {
-  const { visitors } = await getVisitors();
+  let visitors = [];
+  try {
+    const res = await getVisitors();
+    if (res) {
+      visitors = res.visitors || [];
+    }
+  } catch (error) {
+    console.error("Error fetching visitors:", error);
+  }
+
   let number = 0;
 
   return (

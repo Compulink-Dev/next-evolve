@@ -1,3 +1,6 @@
+// At the top of the file
+export const dynamic = "force-dynamic";
+
 import React from "react";
 import {
   MdDelete,
@@ -111,7 +114,16 @@ const VisitorCard = ({
 };
 
 async function Visitors() {
-  const { visitors } = await getVisitors();
+  let visitors = [];
+  try {
+    const res = await getVisitors();
+    if (res) {
+      visitors = res.visitors || [];
+    }
+  } catch (error) {
+    console.error("Error fetching visitors:", error);
+  }
+
   let number = 0;
   return (
     <div className="">
