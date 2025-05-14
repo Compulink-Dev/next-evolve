@@ -78,6 +78,7 @@ export const authOptions: NextAuthOptions = {
         //@ts-expect-error
         token.role = user.role;
         token.id = user.id;
+        //@ts-ignore
         token.type = user.type; // Add type to token
         token.email = user.email; // Make sure email is included
       }
@@ -88,6 +89,7 @@ export const authOptions: NextAuthOptions = {
       console.log('Session callback - token:', token);
       if (session.user) {
         session.user.role = token.role;
+        //@ts-ignore
         session.user.type = token.type; // Add type to session 
         session.user.id = token.id as string;
         session.user.email = token.email as string;
