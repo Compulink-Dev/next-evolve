@@ -20,18 +20,18 @@ export default withAuth(
     }
 
     // Protect role-specific routes
-    // if (pathname.startsWith("/sponsor") && token?.type !== "sponsor") {
-    //   return NextResponse.redirect(new URL("/sign-in", req.url));
-    // }
-    // if (pathname.startsWith("/exhibitor") && token?.type !== "exhibitor") {
-    //   return NextResponse.redirect(new URL("/sign-in", req.url));
-    // }
-    // if (pathname.startsWith("/attendee") && token?.type !== "attendee") {
-    //   return NextResponse.redirect(new URL("/sign-in", req.url));
-    // }
-    // if (pathname.startsWith("/attachee") && token?.type !== "attachee") {
-    //   return NextResponse.redirect(new URL("/sign-in", req.url));
-    // }
+    if (pathname.startsWith("/sponsor") && token?.type !== "sponsor") {
+      return NextResponse.redirect(new URL("/sign-in", req.url));
+    }
+    if (pathname.startsWith("/exhibitor") && token?.type !== "exhibitor") {
+      return NextResponse.redirect(new URL("/sign-in", req.url));
+    }
+    if (pathname.startsWith("/attendee") && token?.type !== "attendee") {
+      return NextResponse.redirect(new URL("/sign-in", req.url));
+    }
+    if (pathname.startsWith("/attachee") && token?.type !== "attachee") {
+      return NextResponse.redirect(new URL("/sign-in", req.url));
+    }
 
     return NextResponse.next();
   },

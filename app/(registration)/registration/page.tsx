@@ -112,13 +112,19 @@ export default function Registration() {
         <div className="flex flex-col md:flex-row mt-4 gap-4 mb-6">
           <Button
             variant={mode === "online" ? "default" : "outline"}
-            onClick={() => setMode("online")}
+            onClick={() => {
+              setMode("online");
+              setValue("mode", "online");
+            }}
           >
             Online Registration
           </Button>
           <Button
             variant={mode === "offline" ? "default" : "outline"}
-            onClick={() => setMode("offline")}
+            onClick={() => {
+              setMode("offline");
+              setValue("mode", "offline");
+            }}
           >
             Offline Registration
           </Button>
