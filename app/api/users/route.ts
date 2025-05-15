@@ -1,28 +1,29 @@
 // app/api/registration/route.ts
-import { auth } from '@clerk/nextjs/server';
 import { NextResponse } from 'next/server';
 import { connectDB } from '@/lib/connectToDB';
 import Registration from '@/models/registration';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '../auth/[...nextauth]/options';
 
 export async function POST(req: Request) {
   try {
-    const { userId } = await auth();
-    
-    if (!userId) {
+    const session = await getServerSession(authOptions);
+
+    if (!session || !session.user?.email) {
       return NextResponse.json(
-        { error: 'Unauthorized - No Clerk user ID' }, 
+        { error: 'Unauthorized - No active session' },
         { status: 401 }
       );
     }
 
     await connectDB();
     const body = await req.json();
-    
+
     // Check if user already exists
-    const existingUser = await Registration.findOne({ 
+    const existingUser = await Registration.findOne({
       $or: [
         { email: body.email },
-        { clerkUserId: userId }
+        { email: session.user.email } // check against session email too
       ]
     });
 
@@ -36,14 +37,14 @@ export async function POST(req: Request) {
     // Create new registration
     const registration = await Registration.create({
       ...body,
-      clerkUserId: userId
+      email: session.user.email // force registration to associate with session email
     });
 
     return NextResponse.json(registration, { status: 201 });
-  } catch (error) {
+  } catch (error: any) {
     console.error('Registration error:', error);
     return NextResponse.json(
-      { error: 'Registration failed' },
+      { error: 'Registration failed', details: error.message },
       { status: 500 }
     );
   }

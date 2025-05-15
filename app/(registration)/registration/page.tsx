@@ -47,10 +47,10 @@ export default function Registration() {
   });
 
   useEffect(() => {
-    if (role) {
+    if (defaultRole) {
       setValue("type", defaultRole);
     }
-  }, [role, setValue]);
+  }, [defaultRole, setValue]);
 
   const onSubmit: SubmitHandler<
     OnlineRegistrationFormData | OfflineRegistrationFormData

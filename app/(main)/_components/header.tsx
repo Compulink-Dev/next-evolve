@@ -1,12 +1,30 @@
-import { Menu } from "lucide-react";
+"use client";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
-import { NavMenu } from "./navMenu";
+import React, { useEffect } from "react";
 import Navbar from "./responsive-nav";
 import { Button } from "@/components/ui/button";
+import { useSession } from "next-auth/react";
+import { signOut } from "next-auth/react";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 function Header() {
+  const { data: session, status } = useSession();
+
+  useEffect(() => {
+    if (session) {
+      console.log("✅ Session:", session);
+    } else {
+      console.log("🚫 No session found.");
+    }
+  }, [session]);
+
   return (
     <div className="relative overflow-hidden z-20 bg-purple-950">
       <Image
@@ -40,14 +58,37 @@ function Header() {
             Summit
           </Link>
           <Button className="button">
-            <Link
-              className="hover:text-purple-500"
-              href={"/selection"}
-              target="_blank"
-            >
-              Register
+            <Link className="hover:text-purple-500" href={"/selection"}>
+              {session ? <p>Go to Dashboard</p> : <p>Register</p>}
             </Link>
           </Button>
+
+          {/* {session && (
+            <div className="absolute top-4 right-4">
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Avatar className="cursor-pointer">
+                    <AvatarImage
+                      src={session.user?.image || ""}
+                      alt="User Avatar"
+                    />
+                    <AvatarFallback>
+                      {session.user?.name
+                        ?.split(" ")
+                        .map((n) => n[0])
+                        .join("")
+                        .toUpperCase() || "US"}
+                    </AvatarFallback>
+                  </Avatar>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="mt-2 w-40">
+                  <DropdownMenuItem onClick={() => signOut()}>
+                    Logout
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
+          )} */}
         </div>
         <div className="px-4">
           <Image

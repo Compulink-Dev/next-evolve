@@ -42,7 +42,6 @@ export function SignUpForm() {
           email,
           firstName,
           lastName,
-          clerkUserId: result.createdUserId,
           type: "sponsor",
           mode: "online",
           jobTitle: "",

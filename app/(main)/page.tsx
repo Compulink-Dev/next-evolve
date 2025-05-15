@@ -2,7 +2,6 @@
 
 import React, { useEffect } from "react";
 import { useSession } from "next-auth/react";
-import Layout from "@/components/Layout";
 import HomeAbout from "./_components/about";
 import HomeEvent from "./_components/event";
 import HomeSpeakers from "./_components/home-speakers";
@@ -38,13 +37,6 @@ function HomePage() {
           <Countdown targetDate={eventDate} />
         </div>
       </div>
-      {/* Optional display on UI */}
-      {status === "authenticated" && (
-        <div className="p-4 text-green-700">
-          Logged in as <strong>{session.user?.name}</strong> (
-          {session.user?.email})
-        </div>
-      )}
       <HomeAbout />
       <HomeEvent />
       <HomeSpeakers />

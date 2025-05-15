@@ -2,7 +2,8 @@ import mongoose, { Schema, Document } from 'mongoose';
 
 export enum RegistrationType {
   SPONSOR = 'sponsor',
-  EXHIBITOR = 'exhibitor'
+  EXHIBITOR = 'exhibitor',
+  ATTENDEE = 'attendee'
 }
 
 export enum RegistrationMode {

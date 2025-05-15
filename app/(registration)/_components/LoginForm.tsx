@@ -20,6 +20,7 @@ export function LoginForm() {
         redirect: false,
         email,
         password,
+        callbackUrl: "/", // This will be overridden if we get a user type
       });
 
       if (result?.error) {
@@ -27,9 +28,24 @@ export function LoginForm() {
         return;
       }
 
-      // Get the user's role from the session (handled in the auth callback)
-      // The redirect will be handled by the middleware
-      router.push("/"); // This will be intercepted by middleware
+      // Get the user's role/type from the session
+      const session = await fetch("/api/auth/session");
+      const sessionData = await session.json();
+
+      if (!sessionData?.user) {
+        setError("User not found");
+        return;
+      }
+
+      console.log("User session type:", sessionData?.user.type);
+
+      // Redirect based on user type
+      if (sessionData?.user?.type) {
+        router.push(`/${sessionData.user.type}`);
+      } else {
+        // Fallback to home if type isn't available
+        router.push("/");
+      }
     } catch (err: any) {
       setError("Sign in failed");
       console.error(err);
@@ -53,13 +69,13 @@ export function LoginForm() {
         placeholder="Password"
         required
       />
-      <Button type="submit" className="w-full">
+      <Button type="submit" className="w-full button">
         Sign In
       </Button>
       <div className="mt-4">
         <p className="text-sm text-gray-500">
-          {`Don't have an account?`}{" "}
-          <a href="/sign-up" className="text-blue-500 hover:underline">
+          {`Don't have an account ? `}{" "}
+          <a href="/selection" className="text-purple-500 hover:underline">
             Sign Up
           </a>
         </p>

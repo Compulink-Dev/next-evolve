@@ -15,10 +15,7 @@ export async function POST(req: Request) {
     await connectDB();
     const body = await req.json();
     
-    const registration = await Registration.create({
-      ...body,
-      clerkUserId: userId
-    });
+    const registration = await Registration.create();
 
     return NextResponse.json(registration);
   } catch (error) {

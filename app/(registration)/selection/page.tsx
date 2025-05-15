@@ -1,8 +1,9 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
 
 const Card = ({ title, description, onClick }: any) => (
   <div
@@ -20,11 +21,38 @@ const Card = ({ title, description, onClick }: any) => (
 
 function Selection() {
   const router = useRouter();
+  const { data: session, status } = useSession();
+
+  useEffect(() => {
+    if (status === "authenticated" && session?.user?.role) {
+      // Redirect based on user role
+      switch (session.user.role.toLowerCase()) {
+        case "sponsor":
+          router.push("/sponsor/dashboard");
+          break;
+        case "attendee":
+          router.push("/attendee/dashboard");
+          break;
+        case "exhibitor":
+          router.push("/exhibitor/dashboard");
+          break;
+        default:
+          router.push("/");
+      }
+    }
+  }, [status, session, router]);
 
   const handleRoleSelect = (role: string) => {
-    // Redirect to registration page with the selected role as a query parameter
     router.push(`/registration?role=${role.toLowerCase()}`);
   };
+
+  if (status === "loading") {
+    return (
+      <div className="flex items-center justify-center min-h-screen w-full bg-gradient-to-br from-purple-900 via-indigo-900 to-gray-900">
+        <div className="text-white">Loading...</div>
+      </div>
+    );
+  }
 
   return (
     <div className="relative flex items-center justify-center min-h-screen w-full overflow-hidden bg-gradient-to-br from-purple-900 via-indigo-900 to-gray-900">
@@ -69,7 +97,7 @@ function Selection() {
         </div>
 
         {/* Add a link for users who already have an account */}
-        {/* <div className="mt-8 text-white">
+        <div className="mt-8 text-white">
           <span className="mr-2">Already have an account?</span>
           <Link href="/login">
             <Button
@@ -79,7 +107,7 @@ function Selection() {
               Sign in here
             </Button>
           </Link>
-        </div> */}
+        </div>
       </div>
 
       <style jsx global>{`

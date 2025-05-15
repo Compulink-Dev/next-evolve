@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useRef, useState } from "react";
 import {
   Card,
   CardHeader,
@@ -11,6 +11,16 @@ import {
 import { Button } from "@/components/ui/button";
 import { CheckIcon, X } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 const sponsorshipTiers = [
   {
@@ -78,6 +88,78 @@ const sponsorshipTiers = [
 
 function Sponsors() {
   const router = useRouter();
+  const { data: session } = useSession();
+  const [selectedTier, setSelectedTier] = useState<string | null>(null);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [additionalInfo, setAdditionalInfo] = useState("");
+  const [paymentProof, setPaymentProof] = useState<File | null>(null);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState("");
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleBecomeSponsor = (tierName: string) => {
+    if (!session) {
+      router.push("/sign-in");
+      return;
+    }
+    setSelectedTier(tierName);
+    setIsDialogOpen(true);
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      const file = e.target.files[0];
+      setPaymentProof(file);
+
+      // Create preview URL
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPreviewUrl(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleSubmit = async () => {
+    if (!selectedTier || !session?.user?.id) return;
+
+    setIsSubmitting(true);
+    setError("");
+
+    try {
+      const amount =
+        sponsorshipTiers
+          .find((t) => t.name === selectedTier)
+          ?.price.replace(/\D/g, "") || "0";
+
+      // Create FormData to handle file upload
+      const formData = new FormData();
+      formData.append("tier", selectedTier);
+      formData.append("amount", amount);
+      formData.append("additionalInfo", additionalInfo);
+      if (paymentProof) {
+        formData.append("paymentProof", paymentProof);
+      }
+      formData.append("userId", session.user.id);
+
+      const response = await fetch("/api/sponsorships", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to submit sponsorship");
+      }
+
+      setIsDialogOpen(false);
+      router.push("/sponsor/success"); // Or wherever you want to redirect after submission
+    } catch (err: any) {
+      setError(err.message || "Failed to submit sponsorship");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <div className="relative min-h-screen py-12 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-purple-900 via-indigo-900 to-gray-900">
@@ -93,10 +175,17 @@ function Sponsors() {
       </div>
       <div className="max-w-7xl mx-auto">
         <h1 className="text-4xl font-bold text-center text-white mb-12">
-          Sponsorship Opportunities
+          <p className=""> Sponsorship Opportunities</p>
         </h1>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="">
+          {session?.user && (
+            <div className="mb-2 text-white">
+              <p className="font-medium">Applying as: {session.user.name}</p>
+              <p className="text-sm">{session.user.email}</p>
+            </div>
+          )}
+        </div>
+        <div className="grid grid-cols-1 mt-8 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {sponsorshipTiers.map((tier) => (
             <Card
               key={tier.name}
@@ -124,6 +213,7 @@ function Sponsors() {
 
               <CardFooter className="p-6">
                 <Button
+                  onClick={() => handleBecomeSponsor(tier.name)}
                   className={`w-full ${tier.featured ? "bg-white text-purple-900 hover:bg-gray-100" : "bg-purple-700 hover:bg-purple-600"}`}
                   size="lg"
                 >
@@ -151,6 +241,74 @@ function Sponsors() {
           </Button>
         </div>
       </div>
+
+      {/* Sponsorship Application Dialog */}
+      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+        <DialogContent className="sm:max-w-[600px]">
+          <DialogHeader>
+            <DialogTitle>Apply for {selectedTier} Sponsorship</DialogTitle>
+            <DialogDescription>
+              {session?.user && (
+                <div className="mb-2">
+                  <p className="font-medium">
+                    Applying as: {session.user.name}
+                  </p>
+                  <p className="text-sm">{session.user.email}</p>
+                </div>
+              )}
+              Please provide additional information and proof of payment.
+            </DialogDescription>
+          </DialogHeader>
+
+          <div className="grid gap-4 py-4">
+            <div className="grid gap-2">
+              <Label htmlFor="additionalInfo">Additional Information</Label>
+              <Input
+                id="additionalInfo"
+                value={additionalInfo}
+                onChange={(e) => setAdditionalInfo(e.target.value)}
+                placeholder="Any special requests or information"
+              />
+            </div>
+
+            <div className="grid gap-2">
+              <Label>Payment Proof</Label>
+              <Input
+                type="file"
+                ref={fileInputRef}
+                onChange={handleFileChange}
+                accept="image/*,.pdf"
+                className="cursor-pointer"
+              />
+              {previewUrl && (
+                <div className="mt-2">
+                  {paymentProof?.type.startsWith("image/") ? (
+                    <img
+                      src={previewUrl}
+                      alt="Payment proof preview"
+                      className="max-w-full h-40 object-contain border rounded"
+                    />
+                  ) : (
+                    <div className="p-4 border rounded bg-gray-100">
+                      PDF file selected: {paymentProof?.name}
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+
+            {error && <div className="text-red-500 text-sm">{error}</div>}
+
+            <Button
+              onClick={handleSubmit}
+              disabled={isSubmitting || !paymentProof}
+              className="mt-4"
+            >
+              {isSubmitting ? "Submitting..." : "Submit Application"}
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
