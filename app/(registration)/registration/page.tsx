@@ -72,16 +72,10 @@ export default function Registration() {
         toast.success("Registration Successful");
 
         if (mode === "online") {
-          // Attempt automatic login using window.location to ensure cookies are set
-          const params = new URLSearchParams({
-            email: data.email,
-            password: (data as OnlineRegistrationFormData).password,
-            callbackUrl: `/${data.type}/dashboard`,
-          });
-
+          const onlineData = data as OnlineRegistrationFormData;
           await signIn("credentials", {
             email: data.email,
-            password: (data as OnlineRegistrationFormData).password,
+            password: onlineData.password,
             callbackUrl: `/${data.type}/dashboard`,
           });
         } else {
@@ -124,10 +118,7 @@ export default function Registration() {
           </Button>
           <Button
             variant={mode === "offline" ? "default" : "outline"}
-            onClick={() => {
-              setMode("offline");
-              setValue("mode", "offline");
-            }}
+            onClick={() => setValue("mode", "online")}
           >
             Offline Registration
           </Button>
