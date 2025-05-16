@@ -47,7 +47,9 @@ export async function POST(request: Request) {
     console.log('Validated data:', JSON.stringify(validatedData, null, 2));
 
     // Check for existing user
-    const existingUser = await Registration.findOne({ email: validatedData.email });
+    const existingUser = await Registration.findOne({ email: validatedData.email.toLowerCase() });
+    
+    
     if (existingUser) {
       console.log('User already exists:', existingUser.email);
       return NextResponse.json(
@@ -62,16 +64,28 @@ export async function POST(request: Request) {
       const hashedPassword = await bcrypt.hash(password, 10);
       const registration = await Registration.create({
         ...rest,
+        email: rest.email.toLowerCase(), // Ensure email is lowercase
         password: hashedPassword,
         type: rest.type // Ensure type is included
       });
       console.log('Successfully created online user:', registration.email);
-      return NextResponse.json(registration, { status: 201 });
+      return NextResponse.json({
+        success: true,
+        registration,
+        redirectUrl: `/${rest.type}/dashboard`
+      }, { status: 201 });
     } else {
       // For offline registration
-      const registration = await Registration.create(validatedData);
+      const registration = await Registration.create({
+        ...validatedData,
+        email: validatedData.email.toLowerCase()
+      });
       console.log('Successfully created offline user:', registration.email);
-      return NextResponse.json(registration, { status: 201 });
+      return NextResponse.json({
+        success: true,
+        registration,
+        redirectUrl: '/sign-in?registered=true'
+      }, { status: 201 });
     }
   } catch (error: any) {
     console.error('Full error:', error);

@@ -57,7 +57,7 @@ export default function Registration() {
   > = async (data) => {
     setLoading(true);
     try {
-      const payload = { ...data };
+      const payload = { ...data, email: data.email.toLowerCase() };
       console.log("Payload:", JSON.stringify(payload, null, 2));
 
       const res = await fetch(`/api/registration`, {
@@ -65,6 +65,8 @@ export default function Registration() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
+
+      const responseData = await res.json();
 
       if (res.ok) {
         toast.success("Registration Successful");
@@ -78,15 +80,17 @@ export default function Registration() {
 
           if (result?.error) {
             toast.error("Registration successful but login failed");
-          } else {
-            router.push(`/${data.type}`);
+            router.push(
+              `/sign-in?registered=true&email=${encodeURIComponent(data.email)}`
+            );
+          } else if (responseData.redirectUrl) {
+            window.location.href = responseData.redirectUrl;
           }
-        } else {
-          router.push(`/${data.type}`);
+        } else if (responseData.redirectUrl) {
+          window.location.href = responseData.redirectUrl;
         }
       } else {
-        const errorData = await res.json();
-        toast.error(errorData.error || "Registration failed");
+        toast.error(responseData.error || "Registration failed");
       }
     } catch (error) {
       toast.error("An error occurred");

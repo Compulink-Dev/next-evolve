@@ -63,7 +63,7 @@ function Header() {
             </Link>
           </Button>
 
-          {/* {session && (
+          {session && (
             <div className="absolute top-4 right-4">
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
@@ -88,7 +88,7 @@ function Header() {
                 </DropdownMenuContent>
               </DropdownMenu>
             </div>
-          )} */}
+          )}
         </div>
         <div className="px-4">
           <Image
