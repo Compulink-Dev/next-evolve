@@ -1,72 +1,80 @@
-import { connectDB } from '@/lib/connectToDB';
-import { getServerSession } from 'next-auth';
-import { NextResponse } from 'next/server';
-import path from 'path';
-import { authOptions } from '../auth/[...nextauth]/options';
-import Sponsorship from '@/models/sponsorship';
-import { promises as fs } from 'fs'; // Use promises API
+import { connectDB } from "@/lib/connectToDB";
+import Sponsorship from "@/models/sponsorship";
+import { getServerSession } from "next-auth";
+import { authOptions } from "../auth/[...nextauth]/options";
+import { NextRequest, NextResponse } from "next/server";
+import path from "path";
+import { promises as fs } from "fs";
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   await connectDB();
-  
+
   try {
     const session = await getServerSession(authOptions);
     if (!session) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    // Ensure Content-Type is multipart/form-data
+    const contentType = req.headers.get("content-type") || "";
+    if (!contentType.includes("multipart/form-data")) {
+      return NextResponse.json(
+        { error: "Expected multipart/form-data" },
+        { status: 400 }
+      );
     }
 
     const formData = await req.formData();
-    const tier = formData.get('tier') as string;
-    const amount = formData.get('amount') as string;
-    const additionalInfo = formData.get('additionalInfo') as string;
-    const paymentProofFile = formData.get('paymentProof') as File | null;
-    const userId = formData.get('userId') as string;
+    const tier = formData.get("tier") as string;
+    const amount = formData.get("amount") as string;
+    const additionalInfo = formData.get("additionalInfo") as string;
+    const paymentProofFile = formData.get("paymentProof") as File | null;
+    const userId = formData.get("userId") as string;
 
-    // Handle file upload
-    let paymentProofPath = '';
-    if (paymentProofFile) {
-      // Create uploads directory if it doesn't exist
-      const uploadsDir = path.join(process.cwd(), 'public', 'uploads');
+    if (!tier || !amount || !userId) {
+      return NextResponse.json(
+        { error: "Missing required fields" },
+        { status: 400 }
+      );
+    }
+
+    let paymentProofUrl = "";
+
+    if (paymentProofFile && paymentProofFile.name) {
+      const uploadsDir = path.join(process.cwd(), "public", "uploads");
+
       try {
         await fs.access(uploadsDir);
       } catch {
         await fs.mkdir(uploadsDir, { recursive: true });
       }
 
-      // Generate unique filename
       const timestamp = Date.now();
-      const ext = paymentProofFile.name.split('.').pop();
+      const ext = paymentProofFile.name.split(".").pop();
       const filename = `payment-proof-${userId}-${timestamp}.${ext}`;
-      paymentProofPath = path.join('uploads', filename);
+      const filePath = path.join("uploads", filename);
+      paymentProofUrl = `/${filePath}`;
 
-      // Write file to public/uploads
-      const fileBuffer = await paymentProofFile.arrayBuffer();
-      await fs.writeFile(
-        path.join(process.cwd(), 'public', paymentProofPath),
-        //@ts-ignore
-        Buffer.from(fileBuffer)
-      );
+  
     }
 
-    const sponsorship = new Sponsorship({
-      userId,
+    await Sponsorship.create({
       tier,
       amount: parseInt(amount),
       additionalInfo,
-      paymentProof: paymentProofPath || undefined, // Set to undefined if empty
-      status: 'pending',
+      user: userId,
+      paymentProofUrl: paymentProofUrl || undefined,
+      status: "pending",
     });
 
-    await sponsorship.save();
-
-    return NextResponse.json({ 
-      message: 'Sponsorship application submitted successfully',
-      paymentProofUrl: paymentProofPath ? `/uploads/${paymentProofPath}` : null
-    });
-  } catch (error: any) {
-    console.error(error);
     return NextResponse.json(
-      { error: error.message || 'Failed to submit sponsorship application' },
+      { message: "Sponsorship submitted", paymentProofUrl },
+      { status: 201 }
+    );
+  } catch (error: any) {
+    console.error("Sponsorship submission error:", error);
+    return NextResponse.json(
+      { error: error.message || "Something went wrong" },
       { status: 500 }
     );
   }

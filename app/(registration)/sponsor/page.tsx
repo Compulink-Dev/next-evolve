@@ -138,14 +138,42 @@ function Sponsors() {
       formData.append("tier", selectedTier);
       formData.append("amount", amount);
       formData.append("additionalInfo", additionalInfo);
+
+      let blobUrl = "";
+
       if (paymentProof) {
-        formData.append("paymentProof", paymentProof);
+        const fileData = new FormData();
+        fileData.append("file", paymentProof);
+
+        const blobRes = await fetch("/api/upload-blob", {
+          method: "POST",
+          body: fileData,
+        });
+
+        if (!blobRes.ok) {
+          throw new Error("Failed to upload file");
+        }
+
+        const blobJson = await blobRes.json();
+        blobUrl = blobJson.url;
       }
+
       formData.append("userId", session.user.id);
+
+      const payload = {
+        tier: selectedTier,
+        amount,
+        additionalInfo,
+        userId: session.user.id,
+        paymentProofUrl: blobUrl, // <== pass the Blob URL
+      };
 
       const response = await fetch("/api/sponsorships", {
         method: "POST",
-        body: formData,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
       });
 
       if (!response.ok) {
