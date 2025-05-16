@@ -99,8 +99,23 @@ export const authOptions: NextAuthOptions = {
       return session;
     },
     async redirect({ url, baseUrl }) {
-      return url.startsWith(baseUrl) ? url : baseUrl;
+      // If callbackUrl is relative (e.g. "/exhibitor/dashboard"), prefix it
+      if (url.startsWith("/")) {
+        return `${baseUrl}${url}`;
+      }
+      // If callbackUrl is an absolute URL on the same origin, allow it
+      try {
+        const dest = new URL(url);
+        if (dest.origin === baseUrl) {
+          return url;
+        }
+      } catch {
+        /* not a valid absolute URL */
+      }
+      // Fallback to home
+      return baseUrl;
     }
+    
   },
   pages: {
     signIn: '/sign-in',
@@ -120,7 +135,7 @@ export const authOptions: NextAuthOptions = {
         sameSite: "lax",
         path: "/",
         secure: process.env.NODE_ENV === "production",
-        domain: process.env.NODE_ENV === 'production' ? 'https://www.evolveictsummit.com' : undefined, // 
+        domain: process.env.NODE_ENV === 'production' ? 'www.evolveictsummit.com' : undefined, // 
       },
     },
   },
