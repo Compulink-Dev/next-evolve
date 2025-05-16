@@ -76,7 +76,7 @@ export default function Registration() {
           await signIn("credentials", {
             email: data.email,
             password: onlineData.password,
-            callbackUrl: `/${data.type}/dashboard`,
+            callbackUrl: `/${data.type}`,
           });
         } else {
           window.location.href =
