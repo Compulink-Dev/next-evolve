@@ -72,22 +72,17 @@ export default function Registration() {
         toast.success("Registration Successful");
 
         if (mode === "online") {
-          const result = await signIn("credentials", {
+          // Attempt automatic login using window.location to ensure cookies are set
+          const params = new URLSearchParams({
             email: data.email,
             password: (data as OnlineRegistrationFormData).password,
-            redirect: false,
+            callbackUrl: `/${data.type}/dashboard`,
           });
 
-          if (result?.error) {
-            toast.error("Registration successful but login failed");
-            router.push(
-              `/sign-in?registered=true&email=${encodeURIComponent(data.email)}`
-            );
-          } else if (responseData.redirectUrl) {
-            window.location.href = responseData.redirectUrl;
-          }
-        } else if (responseData.redirectUrl) {
-          window.location.href = responseData.redirectUrl;
+          window.location.href = `/api/auth/callback/credentials?${params.toString()}`;
+        } else {
+          window.location.href =
+            responseData.redirectUrl || "/sign-in?registered=true";
         }
       } else {
         toast.error(responseData.error || "Registration failed");

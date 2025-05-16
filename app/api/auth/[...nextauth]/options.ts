@@ -91,7 +91,7 @@ export const authOptions: NextAuthOptions = {
         session.user.role = token.role;
         //@ts-ignore
         session.user.type = token.type; // Add type to session 
-        session.user.id = token.id as string;
+        session.user.id = token.sub as any;
         session.user.email = token.email as string;
         // @ts-ignore
         session.user.type = token.type; // Add user type to session
@@ -108,6 +108,8 @@ export const authOptions: NextAuthOptions = {
   },
   session: {
     strategy: "jwt",
+    maxAge: 30 * 24 * 60 * 60, // 30 days
+    updateAge: 24 * 60 * 60, // 24 hours
   },
   secret: process.env.NEXTAUTH_SECRET,
   cookies: {
@@ -119,10 +121,21 @@ export const authOptions: NextAuthOptions = {
         path: "/",
         secure: process.env.NODE_ENV === "production",
         domain: process.env.NODE_ENV === 'production' ? 'https://www.evolveictsummit.com' : undefined, // 
-        maxAge: 30 * 24 * 60 * 60, // 30 days
       },
     },
-  }
+  },
+  logger: {
+    error(code, metadata) {
+      console.error('Auth error:', code, metadata);
+    },
+    warn(code) {
+      console.warn('Auth warning:', code);
+    },
+    debug(code, metadata) {
+      console.log('Auth debug:', code, metadata);
+    }
+  },
+  useSecureCookies: process.env.NODE_ENV === 'production',
 };
 
 const handler = NextAuth(authOptions);

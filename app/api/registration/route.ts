@@ -69,11 +69,18 @@ export async function POST(request: Request) {
         type: rest.type // Ensure type is included
       });
       console.log('Successfully created online user:', registration.email);
-      return NextResponse.json({
-        success: true,
-        registration,
-        redirectUrl: `/${rest.type}/dashboard`
-      }, { status: 201 });
+      return NextResponse.json(
+        { 
+          success: true,
+          registration,
+          redirectUrl: `/${rest.type}/dashboard`,
+          session: {
+            email: rest.email,
+            password: password // Only for immediate sign-in
+          }
+        }, 
+        { status: 201 }
+      );
     } else {
       // For offline registration
       const registration = await Registration.create({
@@ -81,11 +88,15 @@ export async function POST(request: Request) {
         email: validatedData.email.toLowerCase()
       });
       console.log('Successfully created offline user:', registration.email);
-      return NextResponse.json({
-        success: true,
-        registration,
-        redirectUrl: '/sign-in?registered=true'
-      }, { status: 201 });
+      return NextResponse.json(
+        {
+          success: true,
+          registration,
+          redirectUrl: '/sign-in?registered=true'
+        },
+        { status: 201 }
+      );
+    
     }
   } catch (error: any) {
     console.error('Full error:', error);
