@@ -119,7 +119,7 @@ export const authOptions: NextAuthOptions = {
   },
   pages: {
     signIn: '/sign-in',
-    error: '/sign-in', // Error code passed in query string as ?error=
+    error: '/', // Error code passed in query string as ?error=
   },
   session: {
     strategy: "jwt",

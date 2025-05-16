@@ -3,8 +3,7 @@ import Sponsorship from "@/models/sponsorship";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../auth/[...nextauth]/options";
 import { NextRequest, NextResponse } from "next/server";
-import path from "path";
-import { promises as fs } from "fs";
+import cloudinary from '@/lib/cloudinary';
 
 export async function POST(req: NextRequest) {
   await connectDB();
@@ -15,21 +14,15 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    // Ensure Content-Type is multipart/form-data
-    const contentType = req.headers.get("content-type") || "";
-    if (!contentType.includes("multipart/form-data")) {
-      return NextResponse.json(
-        { error: "Expected multipart/form-data" },
-        { status: 400 }
-      );
+    const body = await req.json();
+
+    const { tier, amount, additionalInfo, paymentProof, userId } = body;
+
+    if (!tier || !amount || !userId) {
+      return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
     }
 
-    const formData = await req.formData();
-    const tier = formData.get("tier") as string;
-    const amount = formData.get("amount") as string;
-    const additionalInfo = formData.get("additionalInfo") as string;
-    const paymentProofFile = formData.get("paymentProof") as File | null;
-    const userId = formData.get("userId") as string;
+
 
     if (!tier || !amount || !userId) {
       return NextResponse.json(
@@ -38,34 +31,27 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    let paymentProofUrl = "";
-
-    if (paymentProofFile && paymentProofFile.name) {
-      const uploadsDir = path.join(process.cwd(), "public", "uploads");
-
-      try {
-        await fs.access(uploadsDir);
-      } catch {
-        await fs.mkdir(uploadsDir, { recursive: true });
-      }
-
-      const timestamp = Date.now();
-      const ext = paymentProofFile.name.split(".").pop();
-      const filename = `payment-proof-${userId}-${timestamp}.${ext}`;
-      const filePath = path.join("uploads", filename);
-      paymentProofUrl = `/${filePath}`;
-
-  
+    const parsedAmount = parseInt(amount);
+    if (isNaN(parsedAmount)) {
+      return NextResponse.json(
+        { error: "Invalid amount" },
+        { status: 400 }
+      );
     }
 
-    await Sponsorship.create({
+    let paymentProofUrl: string | undefined;
+
+
+    const newSponsorship = new Sponsorship({
       tier,
-      amount: parseInt(amount),
+      amount: parsedAmount,
       additionalInfo,
-      user: userId,
-      paymentProofUrl: paymentProofUrl || undefined,
-      status: "pending",
+      paymentProofUrl,
+      userId,
+      createdAt: new Date(),
     });
+
+    await newSponsorship.save();
 
     return NextResponse.json(
       { message: "Sponsorship submitted", paymentProofUrl },

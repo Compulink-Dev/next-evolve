@@ -94,7 +94,9 @@ function SponsorSuccess() {
                 <div>
                   <p className="text-sm text-gray-500">Amount</p>
                   <p className="font-medium">
-                    ${sponsorship.amount.toLocaleString()}
+                    {sponsorship?.amount !== undefined
+                      ? `$${Number(sponsorship.amount).toLocaleString()}`
+                      : "Loading..."}
                   </p>
                 </div>
                 <div>

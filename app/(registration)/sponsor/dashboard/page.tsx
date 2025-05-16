@@ -215,10 +215,11 @@ function SponsorDashboard() {
   }
 
   const tier = sponsorshipTiers.find((t: Tier) => t.name === sponsorship.tier);
-  const maxDelegates =
+  const maxDelegates = parseInt(
     tier?.features
-      .find((f: string) => f.includes("Delegate tickets"))
-      ?.match(/\d+/)?.[0] || "0";
+      .find((f) => f.includes("Delegate tickets"))
+      ?.match(/\d+/)?.[0] || "0"
+  );
 
   return (
     <SessionLayout>
@@ -236,7 +237,9 @@ function SponsorDashboard() {
                     sponsorship.status === "approved" ? "default" : "outline"
                   }
                 >
-                  {sponsorship.status.toUpperCase()}
+                  {sponsorship.status
+                    ? sponsorship.status.toUpperCase()
+                    : "Pending"}
                 </Badge>
               </CardTitle>
             </CardHeader>
@@ -247,7 +250,10 @@ function SponsorDashboard() {
                     {sponsorship.tier} Sponsorship
                   </h3>
                   <p className="text-2xl font-bold">
-                    ${sponsorship.amount.toLocaleString()}
+                    $
+                    {typeof sponsorship.amount === "number"
+                      ? sponsorship.amount.toLocaleString()
+                      : "0"}
                   </p>
                 </div>
 
@@ -281,7 +287,7 @@ function SponsorDashboard() {
             <CardFooter>
               <Button
                 onClick={() => setIsDialogOpen(true)}
-                disabled={delegates.length >= parseInt(maxDelegates)}
+                disabled={delegates.length >= maxDelegates}
               >
                 Manage Delegates ({delegates.length}/{maxDelegates})
               </Button>
@@ -369,7 +375,7 @@ function SponsorDashboard() {
                 disabled={
                   !newDelegate.name ||
                   !newDelegate.email ||
-                  delegates.length >= parseInt(maxDelegates)
+                  delegates.length >= maxDelegates
                 }
               >
                 Add Delegate

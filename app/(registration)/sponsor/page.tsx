@@ -22,10 +22,19 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
-const sponsorshipTiers = [
+interface Tier {
+  name: string;
+  price: number;
+  features: string[];
+  featured: boolean;
+  color: string;
+  textColor: string;
+}
+
+const sponsorshipTiers: Tier[] = [
   {
     name: "PLATINUM",
-    price: "$15,000",
+    price: 15000,
     features: [
       "Co-Naming rights",
       "Logo on all advertising",
@@ -43,7 +52,7 @@ const sponsorshipTiers = [
   },
   {
     name: "GOLD",
-    price: "$10,000",
+    price: 10000,
     features: [
       "Logo on all advertising as gold sponsor",
       "Logo on screen in main auditorium",
@@ -58,7 +67,7 @@ const sponsorshipTiers = [
   },
   {
     name: "SILVER",
-    price: "$7,500",
+    price: 7500,
     features: [
       "Logo on all advertising as silver sponsor",
       "Logo on screen as silver sponsor",
@@ -73,7 +82,7 @@ const sponsorshipTiers = [
   },
   {
     name: "BRONZE",
-    price: "$5,000",
+    price: 5000,
     features: [
       "Logo on screen in main auditorium",
       "Banners inside and outside venue",
@@ -89,7 +98,7 @@ const sponsorshipTiers = [
 function Sponsors() {
   const router = useRouter();
   const { data: session } = useSession();
-  const [selectedTier, setSelectedTier] = useState<string | null>(null);
+  const [selectedTier, setSelectedTier] = useState<Tier | null>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [additionalInfo, setAdditionalInfo] = useState("");
   const [paymentProof, setPaymentProof] = useState<File | null>(null);
@@ -98,12 +107,12 @@ function Sponsors() {
   const [error, setError] = useState("");
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const handleBecomeSponsor = (tierName: string) => {
+  const handleBecomeSponsor = (tier: Tier) => {
     if (!session) {
       router.push("/sign-in");
       return;
     }
-    setSelectedTier(tierName);
+    setSelectedTier(tier);
     setIsDialogOpen(true);
   };
 
@@ -112,12 +121,15 @@ function Sponsors() {
       const file = e.target.files[0];
       setPaymentProof(file);
 
-      // Create preview URL
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setPreviewUrl(reader.result as string);
-      };
-      reader.readAsDataURL(file);
+      if (file.type === "application/pdf") {
+        setPreviewUrl("PDF uploaded: " + file.name);
+      } else {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          setPreviewUrl(reader.result as string);
+        };
+        reader.readAsDataURL(file);
+      }
     }
   };
 
@@ -128,52 +140,43 @@ function Sponsors() {
     setError("");
 
     try {
-      const amount =
-        sponsorshipTiers
-          .find((t) => t.name === selectedTier)
-          ?.price.replace(/\D/g, "") || "0";
-
-      // Create FormData to handle file upload
       const formData = new FormData();
-      formData.append("tier", selectedTier);
-      formData.append("amount", amount);
-      formData.append("additionalInfo", additionalInfo);
+      formData.append("tier", selectedTier.name);
+      formData.append("amount", selectedTier.price.toString());
+      formData.append("userId", session.user.id);
+      formData.append("additionalInfo", additionalInfo || "");
 
-      let blobUrl = "";
+      let paymentProofUrl = "";
 
       if (paymentProof) {
         const fileData = new FormData();
         fileData.append("file", paymentProof);
 
-        const blobRes = await fetch("/api/upload-blob", {
+        const uploadRes = await fetch("/api/upload-cloudinary", {
           method: "POST",
           body: fileData,
         });
 
-        if (!blobRes.ok) {
-          throw new Error("Failed to upload file");
+        if (!uploadRes.ok) {
+          throw new Error("Failed to upload payment proof");
         }
 
-        const blobJson = await blobRes.json();
-        blobUrl = blobJson.url;
+        const uploadJson = await uploadRes.json();
+        paymentProofUrl = uploadJson.secure_url;
       }
-
-      formData.append("userId", session.user.id);
-
-      const payload = {
-        tier: selectedTier,
-        amount,
-        additionalInfo,
-        userId: session.user.id,
-        paymentProofUrl: blobUrl, // <== pass the Blob URL
-      };
 
       const response = await fetch("/api/sponsorships", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(payload),
+        body: JSON.stringify({
+          tier: selectedTier.name,
+          amount: selectedTier.price,
+          additionalInfo,
+          userId: session.user.id,
+          paymentProofUrl,
+        }),
       });
 
       if (!response.ok) {
@@ -181,7 +184,9 @@ function Sponsors() {
       }
 
       setIsDialogOpen(false);
-      router.push("/sponsor/success"); // Or wherever you want to redirect after submission
+      router.push(
+        `/sponsor/success?tier=${selectedTier.name}&amount=${selectedTier.price}`
+      );
     } catch (err: any) {
       setError(err.message || "Failed to submit sponsorship");
     } finally {
@@ -203,7 +208,7 @@ function Sponsors() {
       </div>
       <div className="max-w-7xl mx-auto">
         <h1 className="text-4xl font-bold text-center text-white mb-12">
-          <p className=""> Sponsorship Opportunities</p>
+          Sponsorship Opportunities
         </h1>
         <div className="">
           {session?.user && (
@@ -224,7 +229,7 @@ function Sponsors() {
                   {tier.name} SPONSOR
                 </CardTitle>
                 <div className="text-3xl font-extrabold text-center mt-2">
-                  {tier.price}
+                  ${tier.price.toLocaleString()}
                 </div>
               </CardHeader>
 
@@ -241,7 +246,7 @@ function Sponsors() {
 
               <CardFooter className="p-6">
                 <Button
-                  onClick={() => handleBecomeSponsor(tier.name)}
+                  onClick={() => handleBecomeSponsor(tier)}
                   className={`w-full ${tier.featured ? "bg-white text-purple-900 hover:bg-gray-100" : "bg-purple-700 hover:bg-purple-600"}`}
                   size="lg"
                 >
@@ -270,11 +275,12 @@ function Sponsors() {
         </div>
       </div>
 
-      {/* Sponsorship Application Dialog */}
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <DialogContent className="sm:max-w-[600px]">
           <DialogHeader>
-            <DialogTitle>Apply for {selectedTier} Sponsorship</DialogTitle>
+            <DialogTitle>
+              Apply for {selectedTier?.name} Sponsorship
+            </DialogTitle>
             <DialogDescription>
               {session?.user && (
                 <div className="mb-2">
@@ -282,6 +288,13 @@ function Sponsors() {
                     Applying as: {session.user.name}
                   </p>
                   <p className="text-sm">{session.user.email}</p>
+                </div>
+              )}
+              {selectedTier && (
+                <div className="mb-2">
+                  <p className="font-bold">
+                    Amount: ${selectedTier.price.toLocaleString()}
+                  </p>
                 </div>
               )}
               Please provide additional information and proof of payment.
@@ -308,31 +321,40 @@ function Sponsors() {
                 accept="image/*,.pdf"
                 className="cursor-pointer"
               />
-              {previewUrl && (
-                <div className="mt-2">
-                  {paymentProof?.type.startsWith("image/") ? (
-                    <img
-                      src={previewUrl}
-                      alt="Payment proof preview"
-                      className="max-w-full h-40 object-contain border rounded"
-                    />
-                  ) : (
-                    <div className="p-4 border rounded bg-gray-100">
-                      PDF file selected: {paymentProof?.name}
-                    </div>
-                  )}
-                </div>
-              )}
+              {previewUrl &&
+                (typeof previewUrl === "string" &&
+                previewUrl.startsWith("data:image") ? (
+                  <img
+                    src={previewUrl}
+                    alt="Proof of Payment Preview"
+                    className="rounded-md mt-2 max-h-48"
+                  />
+                ) : (
+                  <p className="text-sm text-muted-foreground">{previewUrl}</p>
+                ))}
             </div>
 
-            {error && <div className="text-red-500 text-sm">{error}</div>}
+            {error && (
+              <p className="text-red-500 text-sm font-medium">{error}</p>
+            )}
+          </div>
 
+          <div className="flex justify-end gap-4">
+            <Button
+              variant="outline"
+              onClick={() => setIsDialogOpen(false)}
+              disabled={isSubmitting}
+            >
+              Cancel
+            </Button>
             <Button
               onClick={handleSubmit}
-              disabled={isSubmitting || !paymentProof}
-              className="mt-4"
+              disabled={isSubmitting}
+              className="bg-purple-700 hover:bg-purple-600 text-white"
             >
-              {isSubmitting ? "Submitting..." : "Submit Application"}
+              {isSubmitting
+                ? "Submitting..."
+                : `Confirm ${selectedTier?.name} Sponsorship`}
             </Button>
           </div>
         </DialogContent>
