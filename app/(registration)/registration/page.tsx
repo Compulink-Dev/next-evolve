@@ -79,7 +79,11 @@ export default function Registration() {
             callbackUrl: `/${data.type}/dashboard`,
           });
 
-          window.location.href = `/api/auth/callback/credentials?${params.toString()}`;
+          await signIn("credentials", {
+            email: data.email,
+            password: (data as OnlineRegistrationFormData).password,
+            callbackUrl: `/${data.type}/dashboard`,
+          });
         } else {
           window.location.href =
             responseData.redirectUrl || "/sign-in?registered=true";
