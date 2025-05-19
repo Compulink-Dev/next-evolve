@@ -16,12 +16,7 @@ export async function POST(req: NextRequest) {
 
     const body = await req.json();
 
-    const { tier, amount, additionalInfo, paymentProof, userId } = body;
-
-    if (!tier || !amount || !userId) {
-      return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
-    }
-
+    const { tier, amount, additionalInfo, userId } = body;
 
 
     if (!tier || !amount || !userId) {

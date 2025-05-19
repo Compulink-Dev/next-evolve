@@ -94,6 +94,20 @@ export default function Registration() {
 
   const currentMode = watch("mode");
 
+  // Function to handle downloading the offline registration form
+  const handleDownloadForm = () => {
+    // Path to your document in the public folder
+    const formPath = `/uploads/Registration.docx`;
+
+    // Create a temporary anchor element to trigger the download
+    const link = document.createElement("a");
+    link.href = formPath;
+    link.download = `Registration.docx`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   return (
     <div className="bg-purple-900 md:h-screen">
       <div className="max-w-4xl mx-auto p-8 text-slate-400">
@@ -118,241 +132,282 @@ export default function Registration() {
           </Button>
           <Button
             variant={mode === "offline" ? "default" : "outline"}
-            onClick={() => setValue("mode", "online")}
+            onClick={() => {
+              setMode("offline"); // Add this line
+              setValue("mode", "offline");
+            }}
           >
             Offline Registration
           </Button>
         </div>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-          <input type="hidden" {...register("type")} />
-          <input type="hidden" {...register("mode")} />
+        {mode === "online" ? (
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+            <input type="hidden" {...register("type")} />
+            <input type="hidden" {...register("mode")} />
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-              <Label>First Name</Label>
-              <Input
-                {...register("firstName")}
-                placeholder="Enter your first name"
-                className="bg-transparent placeholder:text-slate-400"
-              />
-              {errors.firstName && (
-                <span className="text-red-600 text-xs">
-                  {errors.firstName.message}
-                </span>
-              )}
-            </div>
-
-            <div>
-              <Label>Last Name</Label>
-              <Input
-                {...register("lastName")}
-                placeholder="Enter your last name"
-                className="bg-transparent placeholder:text-slate-400"
-              />
-              {errors.lastName && (
-                <span className="text-red-600 text-xs">
-                  {errors.lastName.message}
-                </span>
-              )}
-            </div>
-
-            <div>
-              <Label>Job Title</Label>
-              <Input
-                {...register("jobTitle")}
-                placeholder="Enter your job title"
-                className="bg-transparent placeholder:text-slate-400"
-              />
-              {errors.jobTitle && (
-                <span className="text-red-600 text-xs">
-                  {errors.jobTitle.message}
-                </span>
-              )}
-            </div>
-
-            <div>
-              <Label>Company</Label>
-              <Input
-                {...register("company")}
-                placeholder="Enter your company name"
-                className="bg-transparent placeholder:text-slate-400"
-              />
-              {errors.company && (
-                <span className="text-red-600 text-xs">
-                  {errors.company.message}
-                </span>
-              )}
-            </div>
-
-            <div>
-              <Label>Email</Label>
-              <Input
-                {...register("email")}
-                placeholder="Enter your email address"
-                className="bg-transparent placeholder:text-slate-400"
-              />
-              {errors.email && (
-                <span className="text-red-600">{errors.email.message}</span>
-              )}
-            </div>
-
-            {currentMode === "online" && (
-              <>
-                <div>
-                  <Label>Password</Label>
-                  <Input
-                    {...register("password")}
-                    placeholder="Enter your password"
-                    type="password"
-                    className="bg-transparent placeholder:text-slate-400"
-                  />
-                  {(errors as any).password && (
-                    <span className="text-red-600 text-xs">
-                      {(errors as any).password.message}
-                    </span>
-                  )}
-                </div>
-
-                <div>
-                  <Label>Confirm Password</Label>
-                  <Input
-                    {...register("confirmPassword")}
-                    placeholder="Confirm your password"
-                    type="password"
-                    className="bg-transparent placeholder:text-slate-400"
-                  />
-                  {(errors as any).confirmPassword && (
-                    <span className="text-red-600 text-xs">
-                      {(errors as any).confirmPassword.message}
-                    </span>
-                  )}
-                </div>
-              </>
-            )}
-
-            <div>
-              <Label>Phone Number</Label>
-              <Input
-                {...register("phoneNumber")}
-                placeholder="Enter your phone number"
-                className="bg-transparent placeholder:text-slate-400"
-              />
-              {errors.phoneNumber && (
-                <span className="text-red-600">
-                  {errors.phoneNumber.message}
-                </span>
-              )}
-            </div>
-
-            <div>
-              <Label>Country/Region</Label>
-              <select
-                {...register("country")}
-                className="w-full bg-transparent border p-2 rounded-lg"
-              >
-                {countries.map((country) => (
-                  <option key={country.name} value={country.name}>
-                    {country.name}
-                  </option>
-                ))}
-              </select>
-              {errors.country && (
-                <span className="text-red-600 text-xs">
-                  {errors.country.message}
-                </span>
-              )}
-            </div>
-
-            <div>
-              <Label>State/Province</Label>
-              <Input
-                {...register("state")}
-                placeholder="Enter your state or province"
-                className="bg-transparent placeholder:text-slate-400"
-              />
-              {errors.state && (
-                <span className="text-red-600 text-xs">
-                  {errors.state.message}
-                </span>
-              )}
-            </div>
-
-            <div>
-              <Label>Industry</Label>
-              <Input
-                {...register("industry")}
-                placeholder="Enter your industry"
-                className="bg-transparent placeholder:text-slate-400"
-              />
-              {errors.industry && (
-                <span className="text-red-600 text-xs">
-                  {errors.industry.message}
-                </span>
-              )}
-            </div>
-
-            <div>
-              <Label>Company Size</Label>
-              <select
-                {...register("companySize")}
-                className="w-full bg-transparent border p-2 rounded-lg"
-              >
-                <option value=""></option>
-                <option value="Micro Enterprise: 1-9 employees">
-                  Micro Enterprise: 1-9 employees
-                </option>
-                <option value="Small Enterprise: 10-49 employees">
-                  Small Enterprise: 10-49 employees
-                </option>
-                <option value="Medium Enterprise: 50-249 employees">
-                  Medium Enterprise: 50-249 employees
-                </option>
-                <option value="Large Enterprise: 250-999 employees">
-                  Large Enterprise: 250-999 employees
-                </option>
-                <option value="Enterprise: 1000+ employees">
-                  Enterprise: 1000+ employees
-                </option>
-              </select>
-              {errors.companySize && (
-                <span className="text-red-600 text-xs">
-                  {errors.companySize.message}
-                </span>
-              )}
-            </div>
-
-            {role === "sponsor" && (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <Label>Sponsorship Level</Label>
-                <select
-                  {...register("sponsorshipLevel")}
-                  className="w-full bg-transparent border p-2 rounded-lg"
-                >
-                  <option value=""></option>
-                  <option value="Platinum">Platinum</option>
-                  <option value="Gold">Gold</option>
-                  <option value="Silver">Silver</option>
-                  <option value="Bronze">Bronze</option>
-                </select>
-                {(errors as any).sponsorshipLevel && (
+                <Label>First Name</Label>
+                <Input
+                  {...register("firstName")}
+                  placeholder="Enter your first name"
+                  className="bg-transparent placeholder:text-slate-400"
+                />
+                {errors.firstName && (
                   <span className="text-red-600 text-xs">
-                    {(errors as any).sponsorshipLevel.message}
+                    {errors.firstName.message}
                   </span>
                 )}
               </div>
-            )}
-          </div>
 
-          <Button
-            type="submit"
-            className="w-full mt-4 bg-purple-950 hover:bg-purple-700"
-            disabled={loading}
-          >
-            {loading ? "Submitting..." : "Submit"}
-          </Button>
-          <ToastContainer />
-        </form>
+              <div>
+                <Label>Last Name</Label>
+                <Input
+                  {...register("lastName")}
+                  placeholder="Enter your last name"
+                  className="bg-transparent placeholder:text-slate-400"
+                />
+                {errors.lastName && (
+                  <span className="text-red-600 text-xs">
+                    {errors.lastName.message}
+                  </span>
+                )}
+              </div>
+
+              <div>
+                <Label>Job Title</Label>
+                <Input
+                  {...register("jobTitle")}
+                  placeholder="Enter your job title"
+                  className="bg-transparent placeholder:text-slate-400"
+                />
+                {errors.jobTitle && (
+                  <span className="text-red-600 text-xs">
+                    {errors.jobTitle.message}
+                  </span>
+                )}
+              </div>
+
+              <div>
+                <Label>Company</Label>
+                <Input
+                  {...register("company")}
+                  placeholder="Enter your company name"
+                  className="bg-transparent placeholder:text-slate-400"
+                />
+                {errors.company && (
+                  <span className="text-red-600 text-xs">
+                    {errors.company.message}
+                  </span>
+                )}
+              </div>
+
+              <div>
+                <Label>Email</Label>
+                <Input
+                  {...register("email")}
+                  placeholder="Enter your email address"
+                  className="bg-transparent placeholder:text-slate-400"
+                />
+                {errors.email && (
+                  <span className="text-red-600">{errors.email.message}</span>
+                )}
+              </div>
+
+              {currentMode === "online" && (
+                <>
+                  <div>
+                    <Label>Password</Label>
+                    <Input
+                      {...register("password")}
+                      placeholder="Enter your password"
+                      type="password"
+                      className="bg-transparent placeholder:text-slate-400"
+                    />
+                    {(errors as any).password && (
+                      <span className="text-red-600 text-xs">
+                        {(errors as any).password.message}
+                      </span>
+                    )}
+                  </div>
+
+                  <div>
+                    <Label>Confirm Password</Label>
+                    <Input
+                      {...register("confirmPassword")}
+                      placeholder="Confirm your password"
+                      type="password"
+                      className="bg-transparent placeholder:text-slate-400"
+                    />
+                    {(errors as any).confirmPassword && (
+                      <span className="text-red-600 text-xs">
+                        {(errors as any).confirmPassword.message}
+                      </span>
+                    )}
+                  </div>
+                </>
+              )}
+
+              <div>
+                <Label>Phone Number</Label>
+                <Input
+                  {...register("phoneNumber")}
+                  placeholder="Enter your phone number"
+                  className="bg-transparent placeholder:text-slate-400"
+                />
+                {errors.phoneNumber && (
+                  <span className="text-red-600">
+                    {errors.phoneNumber.message}
+                  </span>
+                )}
+              </div>
+
+              <div>
+                <Label>Country/Region</Label>
+                <select
+                  {...register("country")}
+                  className="w-full bg-transparent border p-2 rounded-lg"
+                >
+                  {countries.map((country) => (
+                    <option key={country.name} value={country.name}>
+                      {country.name}
+                    </option>
+                  ))}
+                </select>
+                {errors.country && (
+                  <span className="text-red-600 text-xs">
+                    {errors.country.message}
+                  </span>
+                )}
+              </div>
+
+              <div>
+                <Label>State/Province</Label>
+                <Input
+                  {...register("state")}
+                  placeholder="Enter your state or province"
+                  className="bg-transparent placeholder:text-slate-400"
+                />
+                {errors.state && (
+                  <span className="text-red-600 text-xs">
+                    {errors.state.message}
+                  </span>
+                )}
+              </div>
+
+              <div>
+                <Label>Industry</Label>
+                <Input
+                  {...register("industry")}
+                  placeholder="Enter your industry"
+                  className="bg-transparent placeholder:text-slate-400"
+                />
+                {errors.industry && (
+                  <span className="text-red-600 text-xs">
+                    {errors.industry.message}
+                  </span>
+                )}
+              </div>
+
+              <div>
+                <Label>Company Size</Label>
+                <select
+                  {...register("companySize")}
+                  className="w-full bg-transparent border p-2 rounded-lg"
+                >
+                  <option value=""></option>
+                  <option value="Micro Enterprise: 1-9 employees">
+                    Micro Enterprise: 1-9 employees
+                  </option>
+                  <option value="Small Enterprise: 10-49 employees">
+                    Small Enterprise: 10-49 employees
+                  </option>
+                  <option value="Medium Enterprise: 50-249 employees">
+                    Medium Enterprise: 50-249 employees
+                  </option>
+                  <option value="Large Enterprise: 250-999 employees">
+                    Large Enterprise: 250-999 employees
+                  </option>
+                  <option value="Enterprise: 1000+ employees">
+                    Enterprise: 1000+ employees
+                  </option>
+                </select>
+                {errors.companySize && (
+                  <span className="text-red-600 text-xs">
+                    {errors.companySize.message}
+                  </span>
+                )}
+              </div>
+
+              {role === "sponsor" && (
+                <div>
+                  <Label>Sponsorship Level</Label>
+                  <select
+                    {...register("sponsorshipLevel")}
+                    className="w-full bg-transparent border p-2 rounded-lg"
+                  >
+                    <option value=""></option>
+                    <option value="Platinum">Platinum</option>
+                    <option value="Gold">Gold</option>
+                    <option value="Silver">Silver</option>
+                    <option value="Bronze">Bronze</option>
+                  </select>
+                  {(errors as any).sponsorshipLevel && (
+                    <span className="text-red-600 text-xs">
+                      {(errors as any).sponsorshipLevel.message}
+                    </span>
+                  )}
+                </div>
+              )}
+            </div>
+
+            <Button
+              type="submit"
+              className="w-full mt-4 bg-purple-950 hover:bg-purple-700"
+              disabled={loading}
+            >
+              {loading ? "Submitting..." : "Submit"}
+            </Button>
+          </form>
+        ) : (
+          <div className="bg-purple-800 p-6 rounded-lg">
+            <h2 className="text-xl font-bold mb-4">Offline Registration</h2>
+            <p className="mb-4">
+              To register offline, please download the registration form below,
+              fill it out completely, and submit it to our office.
+            </p>
+
+            <div className="mb-6">
+              <h3 className="font-semibold mb-2">Download Form:</h3>
+              <Button
+                onClick={handleDownloadForm}
+                className="bg-purple-950 hover:bg-purple-700"
+              >
+                Download {role.charAt(0).toUpperCase() + role.slice(1)}{" "}
+                Registration Form
+              </Button>
+            </div>
+
+            <div className="mb-6">
+              <h3 className="font-semibold mb-2">Submission Instructions:</h3>
+              <ol className="list-decimal pl-5 space-y-2">
+                <li>Download and print the registration form</li>
+                <li>Fill out all required fields</li>
+                <li>Sign and date the form</li>
+                <li>Submit via email or in person to our office</li>
+              </ol>
+            </div>
+
+            <div className="text-sm text-purple-200">
+              <p>
+                Need help? Contact our registration team at
+                info@evolveictsummit.com
+              </p>
+            </div>
+          </div>
+        )}
+        <ToastContainer />
       </div>
     </div>
   );
