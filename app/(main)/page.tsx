@@ -10,6 +10,8 @@ import GeneralPartners from "@/components/general-partners";
 import Countdown from "./_components/countdown";
 import Title from "./_components/title";
 import Partnership from "@/components/partnership";
+import InteractiveFloorPlan from "./_components/inetractivePlan";
+import ExhibitorBoothPage from "./_components/booth";
 
 function HomePage() {
   const { data: session, status } = useSession();
@@ -41,7 +43,8 @@ function HomePage() {
       <HomeEvent />
       <HomeSpeakers />
       <Ticketing />
-      <GeneralPartners />
+      {/* <GeneralPartners /> */}
+      <ExhibitorBoothPage />
       <Partnership />
     </div>
   );

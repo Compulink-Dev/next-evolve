@@ -13,9 +13,16 @@ export async function POST(req: NextRequest) {
 
 
 export async function GET() {
+ try {
     await connectDB()
     const speakers = await Speakers.find()
     return NextResponse.json({ speakers })
+ } catch (error) {
+      return NextResponse.json(
+        {error: "Failed to fetch exhibitors"},
+        {status: 500}
+      )
+ }
 }
 
 export async function DELETE(req: NextRequest) {

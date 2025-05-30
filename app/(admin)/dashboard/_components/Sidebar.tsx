@@ -40,6 +40,11 @@ const menuItems = [
         icon: <MdInfoOutline />,
       },
       {
+        title: "Events",
+        path: "/dashboard/event",
+        icon: <MdEventNote />,
+      },
+      {
         title: "Speakers",
         path: "/dashboard/speakers",
         icon: <MdOutlineMic />,
@@ -50,9 +55,14 @@ const menuItems = [
         icon: <FaUsers />,
       },
       {
-        title: "Events",
-        path: "/dashboard/event",
-        icon: <MdEventNote />,
+        title: "Exhibitors",
+        path: "/dashboard/exhibitors",
+        icon: <FaUsers />,
+      },
+      {
+        title: "Attendee",
+        path: "/dashboard/attendee",
+        icon: <FaUsers />,
       },
       {
         title: "Summit",
@@ -89,11 +99,11 @@ const menuItems = [
         path: "/dashboard/reports",
         icon: <MdAnalytics />,
       },
-      {
-        title: "Visitors",
-        path: "/dashboard/visitors",
-        icon: <MdPeople />,
-      },
+      // {
+      //   title: "Visitors",
+      //   path: "/dashboard/visitors",
+      //   icon: <MdPeople />,
+      // },
     ],
   },
   {

@@ -13,7 +13,7 @@ export interface IExhibitor extends Document {
 
 const ExhibitorSchema = new Schema<IExhibitor>(
   {
-    userId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+    userId: { type: Schema.Types.ObjectId, ref: 'Registration', required: true },
     boothNumber: { type: String, required: true, unique: true },
     status: {
       type: String,
