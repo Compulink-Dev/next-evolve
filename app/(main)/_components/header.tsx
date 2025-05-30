@@ -42,9 +42,9 @@ function Header() {
           <Link className="hover:text-purple-500" href={"/about"}>
             About us
           </Link>
-          <Link className="hover:text-purple-500" href={"/event"}>
+          {/* <Link className="hover:text-purple-500" href={"/event"}>
             Events
-          </Link>
+          </Link> */}
           <Link className="hover:text-purple-500" href={"/gallery"}>
             Gallery
           </Link>
