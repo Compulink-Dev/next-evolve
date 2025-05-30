@@ -18,23 +18,17 @@ function Partnership() {
         />
       </div>
       <div className="space-x-8 flex items-center justify-center">
-        <Link
-          href={
-            "https://compulink.odoo.com/event/evolve-ict-summit-2025-1/register"
-          }
-        >
+        <Link href={"/selection"}>
           <Button className="bg-blue-800 hover:bg-blue-600">
             Partner with us
           </Button>
         </Link>
-        <Button className="bg-blue-800 hover:bg-blue-600">
-          Register for Exhibition
-        </Button>
-        <Link
-          href={
-            "https://compulink.odoo.com/event/evolve-ict-summit-2025-1/register"
-          }
-        >
+        <Link href={"/selection"}>
+          <Button className="bg-blue-800 hover:bg-blue-600">
+            Register for Exhibition
+          </Button>
+        </Link>
+        <Link href={"/selection"}>
           <Button
             className=" hover:bg-blue-900"
             style={{ background: Colors.primary }}

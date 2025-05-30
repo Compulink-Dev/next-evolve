@@ -45,12 +45,8 @@ const TicketCard = ({
             <Badge key={index} title={perk} />
           ))}
         </div>
-        <Link
-          href={
-            "https://compulink.odoo.com/event/evolve-ict-summit-2025-1/register"
-          }
-        >
-         <Button className="bg-blue-600 hover:bg-blue-400 mt-8 w-full">
+        <Link href={"/selection"}>
+          <Button className="bg-blue-600 hover:bg-blue-400 mt-8 w-full">
             {isSponsor ? "Partner with us" : "Buy a Ticket"}
           </Button>
         </Link>
@@ -86,22 +82,53 @@ function Ticketing() {
       {
         type: "Platinum Sponsorship",
         price: "$15 000",
-        perks: ["15 Delegates", "Logo Placement","Co-Naming rights","Logo on all advertising","Logo on screen in the conference main auditorium and Break Away","Crew Shirts Co-branded","Logo on Conference packs.","Banners inside and outside the venue.","15 Delegate tickets.","6 x 6 Exhibition Space at the Venue","Name mentions on all radio and online advertising."],
+        perks: [
+          "15 Delegates",
+          "Logo Placement",
+          "Co-Naming rights",
+          "Logo on all advertising",
+          "Logo on screen in the conference main auditorium and Break Away",
+          "Crew Shirts Co-branded",
+          "Logo on Conference packs.",
+          "Banners inside and outside the venue.",
+          "15 Delegate tickets.",
+          "6 x 6 Exhibition Space at the Venue",
+          "Name mentions on all radio and online advertising.",
+        ],
       },
       {
         type: "Gold Sponsorship",
         price: "$10 00",
-        perks: ["Logo on all advertising as gold sponsor.", "Logo on screen in the conference main auditorium","Banners inside and outside the venue.","10 Delegate tickets.","3 x 3 m Exhibition Space at the Venue.","Logo on all online advertising"],
+        perks: [
+          "Logo on all advertising as gold sponsor.",
+          "Logo on screen in the conference main auditorium",
+          "Banners inside and outside the venue.",
+          "10 Delegate tickets.",
+          "3 x 3 m Exhibition Space at the Venue.",
+          "Logo on all online advertising",
+        ],
       },
       {
         type: "Silver Sponsorship",
         price: "$7 500",
-        perks: ["Logo on all advertising as silver sponsor.", "Logo on screen in the conference main auditorium as silver sponsor.","Speciﬁc number of banners inside and outside the venue.","7 Delegate tickets.","3 x 3 m Exhibition Space at the venue","Logo on all online advertising."],
+        perks: [
+          "Logo on all advertising as silver sponsor.",
+          "Logo on screen in the conference main auditorium as silver sponsor.",
+          "Speciﬁc number of banners inside and outside the venue.",
+          "7 Delegate tickets.",
+          "3 x 3 m Exhibition Space at the venue",
+          "Logo on all online advertising.",
+        ],
       },
       {
         type: "Bronze Sponsorship",
         price: "$5 00",
-        perks: ["Logo on screen in the conference main auditorium.", "Banners inside and outside the venue","5 Delegate tickets.","Logo on all online advertising as bronze sponsor"],
+        perks: [
+          "Logo on screen in the conference main auditorium.",
+          "Banners inside and outside the venue",
+          "5 Delegate tickets.",
+          "Logo on all online advertising as bronze sponsor",
+        ],
       },
     ],
     exhibitors: [
@@ -203,7 +230,10 @@ function Ticketing() {
             ))
           }
         </div>
-        <p className="my-8 text-white text-2xl text-center animate-pulse">The 30th of June 2025 is the cut off date for registration and payment.</p>
+        <p className="my-8 text-white text-2xl text-center animate-pulse">
+          The 30th of June 2025 is the cut off date for registration and
+          payment.
+        </p>
       </div>
     </div>
   );
