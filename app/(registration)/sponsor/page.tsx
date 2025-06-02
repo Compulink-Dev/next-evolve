@@ -19,6 +19,13 @@ import {
   DialogTitle,
   DialogDescription,
 } from "@/components/ui/dialog";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
@@ -29,6 +36,7 @@ interface Tier {
   featured: boolean;
   color: string;
   textColor: string;
+  paymentLink: string; // Add this line
 }
 
 const sponsorshipTiers: Tier[] = [
@@ -49,6 +57,8 @@ const sponsorshipTiers: Tier[] = [
     featured: true,
     color: "bg-gradient-to-br from-gray-200 to-gray-400",
     textColor: "text-gray-800",
+    paymentLink:
+      "https://www.paynow.co.zw/Payment/Link/?q=c2VhcmNoPWRldmNvbXB1bGluayU0MGdtYWlsLmNvbSZhbW91bnQ9MTUwMDAuMDAmcmVmZXJlbmNlPVBsYXRpbXVuJmw9MQ%3d%3d",
   },
   {
     name: "GOLD",
@@ -64,6 +74,8 @@ const sponsorshipTiers: Tier[] = [
     featured: false,
     color: "bg-gradient-to-br from-yellow-400 to-yellow-600",
     textColor: "text-yellow-900",
+    paymentLink:
+      "https://www.paynow.co.zw/Payment/Link/?q=c2VhcmNoPWRldmNvbXB1bGluayU0MGdtYWlsLmNvbSZhbW91bnQ9MTAwMDAuMDAmcmVmZXJlbmNlPUdvbGQmbD0x",
   },
   {
     name: "SILVER",
@@ -79,6 +91,8 @@ const sponsorshipTiers: Tier[] = [
     featured: false,
     color: "bg-gradient-to-br from-gray-300 to-gray-500",
     textColor: "text-gray-800",
+    paymentLink:
+      "https://www.paynow.co.zw/Payment/Link/?q=c2VhcmNoPWRldmNvbXB1bGluayU0MGdtYWlsLmNvbSZhbW91bnQ9MTAwMDAuMDAmcmVmZXJlbmNlPUdvbGQmbD0x",
   },
   {
     name: "BRONZE",
@@ -92,6 +106,8 @@ const sponsorshipTiers: Tier[] = [
     featured: false,
     color: "bg-gradient-to-br from-amber-600 to-amber-800",
     textColor: "text-amber-100",
+    paymentLink:
+      "https://www.paynow.co.zw/Payment/Link/?q=c2VhcmNoPWRldmNvbXB1bGluayU0MGdtYWlsLmNvbSZhbW91bnQ9MTAwMDAuMDAmcmVmZXJlbmNlPUdvbGQmbD0x",
   },
 ];
 
@@ -101,6 +117,15 @@ function Sponsors() {
   const [selectedTier, setSelectedTier] = useState<Tier | null>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [additionalInfo, setAdditionalInfo] = useState("");
+  const [paymentMethod, setPaymentMethod] = useState<
+    "web" | "ecocash" | "onemoney"
+  >("web");
+  const [mobileNumber, setMobileNumber] = useState("");
+  const [isProcessingPayment, setIsProcessingPayment] = useState(false);
+  const [paymentError, setPaymentError] = useState("");
+  const [paymentInitiated, setPaymentInitiated] = useState(false);
+  const [pollUrl, setPollUrl] = useState("");
+  const [paymentInstructions, setPaymentInstructions] = useState("");
   const [paymentProof, setPaymentProof] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -114,6 +139,105 @@ function Sponsors() {
     }
     setSelectedTier(tier);
     setIsDialogOpen(true);
+    setPaymentInitiated(false);
+    setPaymentError("");
+  };
+
+  const handlePayment = async () => {
+    if (!selectedTier || !session?.user?.email) return;
+
+    setIsProcessingPayment(true);
+    setPaymentError("");
+
+    try {
+      // Validate mobile number if needed
+      if (paymentMethod !== "web" && !mobileNumber) {
+        throw new Error("Please enter your mobile number");
+      }
+
+      const response = await fetch("/api/paynow/initiate", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          paymentMethod,
+          mobileNumber: paymentMethod !== "web" ? mobileNumber : undefined,
+          email: session.user.email,
+          tierName: selectedTier.name,
+          tierPrice: selectedTier.price,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Payment initiation failed");
+      }
+
+      // Handle response
+      if (paymentMethod === "web" && data.redirectUrl) {
+        window.location.href = data.redirectUrl;
+      } else if (paymentMethod !== "web" && data.instructions) {
+        setPaymentInstructions(data.instructions);
+        setPaymentInitiated(true);
+        setPollUrl(data.pollUrl);
+
+        // Optional: Start polling for payment status
+        startPolling(data.pollUrl);
+      } else {
+        throw new Error("Unexpected response from payment gateway");
+      }
+    } catch (error: any) {
+      setPaymentError(error.message || "Payment processing failed");
+      console.error("Payment error:", error);
+    } finally {
+      setIsProcessingPayment(false);
+    }
+  };
+
+  // Optional polling function
+  const startPolling = async (pollUrl: string) => {
+    let attempts = 0;
+    const maxAttempts = 10;
+    const interval = 5000; // 5 seconds
+
+    const poll = async () => {
+      attempts++;
+      try {
+        const response = await fetch("/api/paynow/webhook", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ pollUrl }),
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+          // Payment successful
+          setPaymentInitiated(false);
+          router.push(
+            `/sponsor/success?tier=${selectedTier?.name}&amount=${selectedTier?.price}`
+          );
+          return;
+        }
+
+        if (attempts < maxAttempts) {
+          setTimeout(poll, interval);
+        } else {
+          setPaymentError("Payment verification timed out");
+        }
+      } catch (error) {
+        console.error("Polling error:", error);
+        if (attempts < maxAttempts) {
+          setTimeout(poll, interval);
+        }
+      }
+    };
+
+    setTimeout(poll, interval);
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -297,7 +421,8 @@ function Sponsors() {
                   </p>
                 </div>
               )}
-              Please provide additional information and proof of payment.
+              Please choose your payment method and provide any additional
+              information.
             </DialogDescription>
           </DialogHeader>
 
@@ -313,49 +438,107 @@ function Sponsors() {
             </div>
 
             <div className="grid gap-2">
-              <Label>Payment Proof</Label>
-              <Input
-                type="file"
-                ref={fileInputRef}
-                onChange={handleFileChange}
-                accept="image/*,.pdf"
-                className="cursor-pointer"
-              />
-              {previewUrl &&
-                (typeof previewUrl === "string" &&
-                previewUrl.startsWith("data:image") ? (
-                  <img
-                    src={previewUrl}
-                    alt="Proof of Payment Preview"
-                    className="rounded-md mt-2 max-h-48"
-                  />
-                ) : (
-                  <p className="text-sm text-muted-foreground">{previewUrl}</p>
-                ))}
+              <Label>Payment Method</Label>
+              <Select
+                value={paymentMethod}
+                onValueChange={(value: "web" | "ecocash" | "onemoney") =>
+                  setPaymentMethod(value)
+                }
+              >
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Select payment method" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="web">Paynow Web</SelectItem>
+                  <SelectItem value="ecocash">Ecocash</SelectItem>
+                  <SelectItem value="onemoney">OneMoney</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
 
-            {error && (
-              <p className="text-red-500 text-sm font-medium">{error}</p>
+            {(paymentMethod === "ecocash" || paymentMethod === "onemoney") && (
+              <div className="grid gap-2">
+                <Label>Mobile Number</Label>
+                <Input
+                  type="tel"
+                  value={mobileNumber}
+                  onChange={(e) => setMobileNumber(e.target.value)}
+                  placeholder={`Enter your ${paymentMethod === "ecocash" ? "Econet" : "NetOne"} number`}
+                />
+              </div>
+            )}
+
+            {paymentInitiated && paymentInstructions && (
+              <div className="p-4 bg-gray-100 rounded-md">
+                <h4 className="font-medium mb-2">Payment Instructions</h4>
+                <p className="whitespace-pre-line">{paymentInstructions}</p>
+                <p className="mt-2 text-sm text-gray-600">
+                  You'll receive a prompt on your phone to complete the payment.
+                </p>
+              </div>
+            )}
+
+            {paymentError && (
+              <p className="text-red-500 text-sm font-medium">{paymentError}</p>
             )}
           </div>
 
           <div className="flex justify-end gap-4">
             <Button
               variant="outline"
-              onClick={() => setIsDialogOpen(false)}
-              disabled={isSubmitting}
+              onClick={() => {
+                setIsDialogOpen(false);
+                setPaymentInitiated(false);
+              }}
+              disabled={isProcessingPayment}
             >
               Cancel
             </Button>
-            <Button
-              onClick={handleSubmit}
-              disabled={isSubmitting}
-              className="bg-purple-700 hover:bg-purple-600 text-white"
-            >
-              {isSubmitting
-                ? "Submitting..."
-                : `Confirm ${selectedTier?.name} Sponsorship`}
-            </Button>
+            {!paymentInitiated ? (
+              <Button
+                onClick={handlePayment}
+                disabled={
+                  isProcessingPayment ||
+                  (paymentMethod !== "web" && !mobileNumber)
+                }
+                className="bg-purple-700 hover:bg-purple-600 text-white"
+              >
+                {isProcessingPayment ? (
+                  <div className="flex items-center gap-2">
+                    <svg
+                      className="animate-spin h-4 w-4 text-white"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                    >
+                      <circle
+                        className="opacity-25"
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        strokeWidth="4"
+                      ></circle>
+                      <path
+                        className="opacity-75"
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                      ></path>
+                    </svg>
+                    Processing...
+                  </div>
+                ) : (
+                  `Pay $${selectedTier?.price.toLocaleString()}`
+                )}
+              </Button>
+            ) : (
+              <Button
+                onClick={() => window.location.reload()}
+                className="bg-green-600 hover:bg-green-700 text-white"
+              >
+                Done
+              </Button>
+            )}
           </div>
         </DialogContent>
       </Dialog>

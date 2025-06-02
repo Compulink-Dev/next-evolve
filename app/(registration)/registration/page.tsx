@@ -97,12 +97,12 @@ export default function Registration() {
   // Function to handle downloading the offline registration form
   const handleDownloadForm = () => {
     // Path to your document in the public folder
-    const formPath = `/uploads/Registration.docx`;
+    const formPath = `/register.pdf`;
 
     // Create a temporary anchor element to trigger the download
     const link = document.createElement("a");
     link.href = formPath;
-    link.download = `Registration.docx`;
+    link.download = `register.pdf`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
