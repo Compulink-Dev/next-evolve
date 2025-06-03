@@ -7,21 +7,33 @@ export async function POST(request: Request) {
     await connectDB();
     const data = await request.json();
 
-    // Check if user already registered
-    const existingAttendee = await Attendee.findOne({ userId: data.userId });
-    if (existingAttendee) {
+    console.log("Incoming attendee data:", data); // Add this for debugging
+
+    // Validate required fields
+    if (!data.userId || !data.seatNumber) {
       return NextResponse.json(
-        { error: "You're already registered as an attendee" },
+        { error: "userId and seatNumber are required" },
         { status: 400 }
       );
+    }
+
+    // Check for existing attendee
+    const existingAttendee = await Attendee.findOne({
+      $or: [{ userId: data.userId }, { seatNumber: data.seatNumber }],
+    });
+
+    if (existingAttendee) {
+      const errorMessage = existingAttendee.userId.equals(data.userId)
+        ? "You're already registered as an attendee"
+        : "This seat number is already taken";
+      return NextResponse.json({ error: errorMessage }, { status: 400 });
     }
 
     const attendee = new Attendee({
       userId: data.userId,
       seatNumber: data.seatNumber,
       additionalInfo: data.additionalInfo,
-      paymentProof: data.paymentProof,
-      status: "pending",
+      status: data.status || "pending", // Default to pending_payment
     });
 
     await attendee.save();
@@ -30,10 +42,10 @@ export async function POST(request: Request) {
       { message: "Attendee registered successfully", attendee },
       { status: 201 }
     );
-  } catch (error) {
+  } catch (error: any) {
     console.error("Error:", error);
     return NextResponse.json(
-      { error: "Failed to register attendee" },
+      { error: `Failed to register attendee : , ${error.message}` },
       { status: 500 }
     );
   }

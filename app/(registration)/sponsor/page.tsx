@@ -146,27 +146,57 @@ function Sponsors() {
   const handlePayment = async () => {
     if (!selectedTier || !session?.user?.email) return;
 
+    if (!selectedTier || !session?.user?.email) {
+      setPaymentError("Missing required information");
+      setIsProcessingPayment(false);
+      return;
+    }
+
     setIsProcessingPayment(true);
     setPaymentError("");
 
     try {
+      const sponsorshipResponse = await fetch("/api/sponsorships", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          tier: selectedTier.name,
+          amount: selectedTier.price,
+          additionalInfo,
+          userId: session.user.id,
+        }),
+      });
+
+      if (!sponsorshipResponse.ok) {
+        throw new Error("Failed to create sponsorship record");
+      }
+
       // Validate mobile number if needed
       if (paymentMethod !== "web" && !mobileNumber) {
         throw new Error("Please enter your mobile number");
       }
+
+      const payload = {
+        paymentMethod,
+        mobileNumber: paymentMethod !== "web" ? mobileNumber : undefined,
+        email:
+          process.env.NODE_ENV === "development"
+            ? "digitalpayments@compulink.co.zw" // Your merchant email
+            : session.user.email, // User's email in production
+        tierName: selectedTier.name,
+        tierPrice: selectedTier.price,
+      };
+
+      console.log("Sending payload:", payload);
 
       const response = await fetch("/api/paynow/initiate", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          paymentMethod,
-          mobileNumber: paymentMethod !== "web" ? mobileNumber : undefined,
-          email: session.user.email,
-          tierName: selectedTier.name,
-          tierPrice: selectedTier.price,
-        }),
+        body: JSON.stringify(payload),
       });
 
       const data = await response.json();
@@ -473,7 +503,7 @@ function Sponsors() {
                 <h4 className="font-medium mb-2">Payment Instructions</h4>
                 <p className="whitespace-pre-line">{paymentInstructions}</p>
                 <p className="mt-2 text-sm text-gray-600">
-                  You'll receive a prompt on your phone to complete the payment.
+                  {`You'll receive a prompt on your phone to complete the payment.`}
                 </p>
               </div>
             )}

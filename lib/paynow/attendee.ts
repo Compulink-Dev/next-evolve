@@ -44,7 +44,7 @@ export const paynowService = {
       // Configure URLs with fallback
       const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
       paynow.resultUrl = `${baseUrl}/api/paynow/webhook`;
-      paynow.returnUrl = `${baseUrl}/sponsor/success`;
+      paynow.returnUrl = `${baseUrl}/attendee/success`;
 
        // Handle test mode email requirement
        const isTestMode = !process.env.PAYNOW_PRODUCTION_MODE || 

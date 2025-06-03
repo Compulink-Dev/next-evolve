@@ -47,15 +47,15 @@ const formSchema = z.object({
     .min(10, {
       message: "Bio must be at least 10 characters.",
     })
-    .max(10000, {
-      message: "Bio must not be longer than 10000 characters.",
+    .max(2000, {
+      message: "Bio must not be longer than 500 characters.",
     }),
   timeline: z
     .string()
     .min(2, {
-      message: "Enter position",
+      message: "Enter company",
     })
-    .max(200),
+    .max(50),
 });
 
 interface SpeakersFormProps {

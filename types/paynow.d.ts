@@ -40,6 +40,7 @@ declare module 'paynow' {
     }
   }
   
+  
   interface WebInitResponse {
     success: boolean;
     redirectUrl: string;

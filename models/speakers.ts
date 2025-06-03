@@ -7,6 +7,7 @@ const speakersSchema = new Schema(
         position: String,
         bio: String,
         imageUrl: String,
+        timeline: String 
     },
     {
         timestamps: true

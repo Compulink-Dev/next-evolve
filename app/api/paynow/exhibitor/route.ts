@@ -1,16 +1,17 @@
-import { paynowService } from "@/lib/paynow";
+import { paynowService } from "@/lib/paynow/exhibitor";
 import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
   try {
-    const { paymentMethod, mobileNumber, email, tierName, tierPrice } = await request.json();
+    const { paymentMethod, mobileNumber, email, tierName, tierPrice, attendeeId } = await request.json();
 
     console.log("Payload ", {
       paymentMethod,
       mobileNumber,
       email,
       tierName,
-      tierPrice
+      tierPrice,
+      attendeeId
     });
 
       // Add validation
@@ -30,7 +31,7 @@ export async function POST(request: Request) {
 
 
     const response = await paynowService.initiatePayment({
-      reference: `Sponsorship-${tierName}-${Date.now()}`,
+      reference: `Attendee-${attendeeId}-${Date.now()}`,
       amount: tierPrice,
       email,
       paymentMethod,

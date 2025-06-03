@@ -1,3 +1,4 @@
+// app/api/sponsorships/latest/route.ts
 import { connectDB } from '@/lib/connectToDB';
 import { getServerSession } from 'next-auth';
 import { NextResponse } from 'next/server';

@@ -5,9 +5,9 @@ import Speakers from "@/models/speakers"
 import { NextRequest, NextResponse } from "next/server"
 
 export async function POST(req: NextRequest) {
-    const { name, company, position, bio, imageUrl } = await req.json()
+    const { name, company, position, bio, imageUrl,timeline } = await req.json()
     await connectDB()
-    await Speakers.create({ name, company, position, bio, imageUrl })
+    await Speakers.create({ name, company, position, bio, imageUrl,timeline })
     return NextResponse.json({ message: "Speakers Created" }, { status: 201 })
 }
 

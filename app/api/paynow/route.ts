@@ -1,77 +1,60 @@
-import { NextResponse } from 'next/server';
-import { Paynow } from 'paynow';
-
-// Type definitions
-interface PaymentResponse {
-  success: boolean;
-  redirectUrl?: string;
-  instructions?: string;
-  pollUrl?: string;
-  error?: string;
-}
+import { paynowService } from "@/lib/paynow/attendee";
+import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
   try {
-    // Verify environment variables
-    if (!process.env.PAYNOW_INTEGRATION_ID || !process.env.PAYNOW_INTEGRATION_KEY) {
-      throw new Error('Paynow credentials not configured');
-    }
+    const { paymentMethod, mobileNumber, email, tierName, tierPrice, attendeeId } = await request.json();
 
-    const { paymentMethod, mobileNumber, email, tierName, tierPrice } = await request.json();
+    console.log("Payload ", {
+      paymentMethod,
+      mobileNumber,
+      email,
+      tierName,
+      tierPrice,
+      attendeeId
+    });
 
-    // Initialize Paynow
-    const paynow = new Paynow(
-      process.env.PAYNOW_INTEGRATION_ID,
-      process.env.PAYNOW_INTEGRATION_KEY
-    );
-
-    // Configure URLs
-    paynow.resultUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/api/paynow/webhook`;
-    paynow.returnUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/sponsor/success`;
-
-    // Create payment
-    const payment = paynow.createPayment(`Sponsorship-${tierName}-${Date.now()}`, email);
-    payment.add(`${tierName} Sponsorship`, tierPrice);
-
-    let response: PaymentResponse = { success: false };
-
-    // Process payment based on method
-    if (paymentMethod === 'web') {
-      const webResponse = await paynow.send(payment);
-      if (webResponse.success) {
-        response = {
-          success: true,
-          redirectUrl: webResponse.redirectUrl,
-          pollUrl: webResponse.pollUrl
-        };
+      // Add validation
+      if (!paymentMethod || !email || !tierName || !tierPrice) {
+        return NextResponse.json(
+          { error: 'Missing required fields' },
+          { status: 400 }
+        );
       }
-    } else if (paymentMethod === 'ecocash' || paymentMethod === 'onemoney') {
-      if (!mobileNumber) {
-        throw new Error('Mobile number is required');
+  
+      if (paymentMethod !== 'web' && !mobileNumber) {
+        return NextResponse.json(
+          { error: 'Mobile number required for mobile payments' },
+          { status: 400 }
+        );
       }
-      const mobileResponse = await paynow.sendMobile(payment, mobileNumber, paymentMethod);
-      if (mobileResponse.success) {
-        response = {
-          success: true,
-          instructions: mobileResponse.instructions,
-          pollUrl: mobileResponse.pollUrl
-        };
-      }
-    }
+
+
+    const response = await paynowService.initiatePayment({
+      reference: `Attendee-${attendeeId}-${Date.now()}`,
+      amount: tierPrice,
+      email,
+      paymentMethod,
+      mobileNumber: paymentMethod !== 'web' ? mobileNumber : undefined
+    });
 
     if (!response.success) {
+      console.error('Paynow error:', response.error);
       return NextResponse.json(
-        { error: 'Failed to initiate payment' },
+        { error: response.error || 'Payment initiation failed' },
         { status: 400 }
       );
     }
 
     return NextResponse.json(response);
   } catch (error: any) {
-    console.error('Paynow error:', error);
+    console.error('API error:', error);
     return NextResponse.json(
-      { error: error.message || 'Internal server error' },
-      { status: 500 }
+      { 
+        error: error.message || 'Internal server error',
+        stack: process.env.NODE_ENV === 'development' ? error.stack : undefined
+      },
+      { status: 500 },
     );
   }
 }
