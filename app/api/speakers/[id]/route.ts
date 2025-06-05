@@ -16,3 +16,10 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
     await Speakers.findByIdAndUpdate(id, { name, company, position, bio, imageUrl, timeline })
     return NextResponse.json({ message: "Speaker Updated" }, { status: 200 })
 }
+
+export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {
+    const { id } = params
+    await connectDB()
+    await Speakers.findByIdAndDelete(id)
+    return NextResponse.json({ message: "Speaker Deleted" }, { status: 201 })
+}

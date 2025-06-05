@@ -12,6 +12,7 @@ import Values from "./_components/values";
 import GeneralPartners from "@/components/general-partners";
 import Ticketing from "../_components/ticketing";
 import Partnership from "@/components/partnership";
+import Speakers from "../_components/home-speakers";
 
 function About() {
   return (
@@ -25,6 +26,7 @@ function About() {
         <Venue />
         <Subscribe />
         <Objectives />
+        <Speakers />
         <Ticketing />
         {/* <Pricing /> */}
         {/* <GeneralPartners /> */}
