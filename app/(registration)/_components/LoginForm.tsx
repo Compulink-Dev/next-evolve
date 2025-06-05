@@ -42,6 +42,8 @@ export function LoginForm() {
       // Redirect based on user type
       if (sessionData?.user?.type) {
         router.push(`/${sessionData.user.type}`);
+      } else if (sessionData?.user?.type === "admin") {
+        router.push(`/dashboard`);
       } else {
         // Fallback to home if type isn't available
         router.push("/");

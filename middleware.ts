@@ -6,6 +6,8 @@ export default withAuth(
     const { pathname } = req.nextUrl;
     const { token } = req.nextauth;
 
+    const isOtpVerified = token?.role === "admin"
+
     // Redirect to appropriate dashboard based on type
     if (pathname === "/selection") {
       if (token?.type === "sponsor") {
@@ -19,6 +21,9 @@ export default withAuth(
       }
     }
 
+    if (pathname.startsWith('/dashboard') && !isOtpVerified) {
+      return NextResponse.redirect(new URL('/dashboard/otp', req.url))
+    }
     // Protect role-specific routes
     // if (pathname.startsWith("/sponsor") && token?.type !== "sponsor") {
     //   return NextResponse.redirect(new URL("/sign-in", req.url));
@@ -47,6 +52,7 @@ export const config = {
     "/sponsor/:path*",
     "/exhibitor/:path*", 
     "/attendee/:path*",
-    "/attachee/:path*"
+    "/attachee/:path*",
+    "/dashboard/:path"
   ],
 };

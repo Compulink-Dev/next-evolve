@@ -9,7 +9,7 @@ type GalleryItem = {
   _id: string;
   title: string;
   description: string;
-  date: Date;
+  date: string | Date;
   imageUrl: string;
   videoUrl?: string;
   gallery: string[];
@@ -35,6 +35,13 @@ export default function AdminGalleryPage() {
     try {
       const res = await fetch("/api/gallery");
       const data = await res.json();
+
+      // Ensure dates are properly formatted
+      const formattedItems = data.map((item: any) => ({
+        ...item,
+        date: item.date ? new Date(item.date) : new Date(),
+      }));
+
       setGalleryItems(data);
     } catch (error) {
       toast({
@@ -56,13 +63,17 @@ export default function AdminGalleryPage() {
         : "/api/gallery";
       const method = selectedItem ? "PUT" : "POST";
 
+      // Ensure date is properly formatted
+      const submissionData = {
+        ...data,
+        date: new Date(data.date).toISOString(),
+        videos: data.videos || [],
+      };
+
       const res = await fetch(url, {
         method,
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          ...data,
-          videos: data.videos || [], // Ensure videos is always an array
-        }),
+        body: JSON.stringify(submissionData),
       });
 
       const result = await res.json();
@@ -217,7 +228,9 @@ export default function AdminGalleryPage() {
           <GalleryForm
             item={{
               ...selectedItem,
-              date: selectedItem.date.toISOString(), // 👈 Convert Date to ISO string
+              date: selectedItem.date
+                ? new Date(selectedItem.date).toISOString().split("T")[0]
+                : new Date().toISOString().split("T")[0],
             }}
             onSubmit={handleSubmit}
             isLoading={isLoading.submit}

@@ -1,64 +1,75 @@
-import { FC, useState } from 'react';
-import Image from 'next/image';
-import { Dialog, DialogContent, DialogOverlay, DialogTrigger } from '@/components/ui/dialog'; // Ensure correct import paths based on your project
-import { DialogClose } from '@radix-ui/react-dialog';
+"use client";
+import { FC, useState } from "react";
+import Image from "next/image";
+import {
+  Dialog,
+  DialogContent,
+  DialogOverlay,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { DialogClose } from "@radix-ui/react-dialog";
+import { X } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 interface GalleryItemProps {
-    image: {
-        id: string;
-        src: string;
-        alt: string;
-    };
+  image: {
+    id: string;
+    src: string;
+    alt: string;
+  };
 }
 
 const GalleryItem: FC<GalleryItemProps> = ({ image }) => {
-    const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false);
 
-    return (
-        <div className="gallery-item">
-            {/* Dialog Trigger */}
-            <Dialog open={open} onOpenChange={setOpen}>
-                <DialogTrigger asChild>
-                    <div className="cursor-pointer">
-                        <Image
-                            src={image.src}
-                            alt={image.alt}
-                            width={300}
-                            height={200}
-                            className="rounded-lg shadow-lg object-cover w-full h-full"
-                        />
-                    </div>
-                </DialogTrigger>
+  return (
+    <div className="gallery-item">
+      <Dialog open={open} onOpenChange={setOpen}>
+        <DialogTrigger asChild>
+          <div className="cursor-pointer">
+            <Image
+              src={image.src}
+              alt={image.alt}
+              width={300}
+              height={200}
+              className="rounded-lg shadow-lg object-cover w-full h-[250px]"
+            />
+          </div>
+        </DialogTrigger>
 
-                {/* Dialog Content */}
-                <DialogOverlay className="fixed inset-0 bg-black bg-opacity-50 z-50" />
-                <DialogContent className="fixed inset-0 flex items-center justify-center z-50">
-                    <div className="relative bg-white rounded-lg shadow-lg w-full max-w-md sm:max-w-lg md:max-w-2xl lg:max-w-4xl p-4 md:p-6">
-                        {/* Close Button */}
-                        <DialogClose asChild>
-                            <button
-                                className="absolute top-2 right-2 text-gray-600 hover:text-gray-900 bg-transparent rounded-full p-1"
-                                aria-label="Close"
-                            >
-                                ✕
-                            </button>
-                        </DialogClose>
+        {/* Full-screen overlay */}
+        <DialogOverlay className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50" />
 
-                        {/* Centered Image */}
-                        <div className="w-full flex justify-center">
-                            <Image
-                                src={image.src}
-                                alt={image.alt}
-                                width={1200}
-                                height={800}
-                                className="rounded-lg object-contain w-full h-auto max-h-[80vh]"
-                            />
-                        </div>
-                    </div>
-                </DialogContent>
-            </Dialog>
-        </div>
-    );
+        {/* Dialog content - now properly centered */}
+        <DialogContent className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 w-full max-w-[90vw] h-full max-h-[90vh] p-0 m-0 border-none bg-transparent">
+          <div className="relative w-full h-full flex items-center justify-center bg-purple-950/95">
+            {/* Close Button */}
+            <DialogClose asChild>
+              <Button
+                variant={"ghost"}
+                size={"icon"}
+                className="absolute top-4 right-4 text-white hover:bg-white/10 z-50 rounded-full p-2"
+                aria-label="Close"
+              >
+                <X className="h-6 w-6" />
+              </Button>
+            </DialogClose>
+
+            {/* Image Container */}
+            <div className="relative w-full h-full flex items-center justify-center p-4">
+              <Image
+                src={image.src}
+                alt={image.alt}
+                fill
+                className="object-contain"
+                sizes="(max-width: 768px) 90vw, (max-width: 1200px) 80vw, 70vw"
+              />
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+    </div>
+  );
 };
 
 export default GalleryItem;

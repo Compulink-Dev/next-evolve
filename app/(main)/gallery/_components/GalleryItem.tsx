@@ -37,11 +37,13 @@ const GalleryItem: FC<GalleryItemProps> = ({ image }) => {
           </div>
         </DialogTrigger>
 
-        {/* Full-screen dialog */}
-        <DialogOverlay className="fixed inset-0 text-white bg-purple/10 backdrop-blur-sm z-50" />
-        <DialogContent className="fixed inset-0 z-50 flex items-center justify-center p-0 m-0 max-w-none w-full h-full">
-          <div className="relative w-full h-full bg-purple-950 flex items-center justify-center">
-            {/* Close Button - positioned at top-right corner */}
+        {/* Full-screen overlay */}
+        <DialogOverlay className="fixed inset-0 bg-purple-700/90 backdrop-blur-sm z-50" />
+
+        {/* Dialog content - now properly centered */}
+        <DialogContent className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 w-full max-w-[90vw] h-full max-h-[90vh] p-0 m-0 border-none bg-transparent data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0">
+          <div className="relative w-full h-full flex items-center justify-center ">
+            {/* Close Button */}
             <DialogClose asChild>
               <Button
                 variant={"ghost"}
@@ -53,8 +55,8 @@ const GalleryItem: FC<GalleryItemProps> = ({ image }) => {
               </Button>
             </DialogClose>
 
-            {/* Image Container - centered with max dimensions */}
-            <div className="relative w-full h-full max-w-[90vw] max-h-[90vh] p-4 flex items-center justify-center">
+            {/* Image Container */}
+            <div className="relative w-full h-full flex items-center justify-center p-4">
               <Image
                 src={image.src}
                 alt={image.alt}

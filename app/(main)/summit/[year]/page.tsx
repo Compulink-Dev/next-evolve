@@ -234,8 +234,8 @@ export default function EventDetails({ params }: { params: { year: string } }) {
         onOpenChange={(open) => !open && setSelectedImage(null)}
       >
         <DialogOverlay className="fixed inset-0 bg-purple-900/80 backdrop-blur-sm z-50" />
-        <DialogContent className="fixed inset-0 z-50 flex items-center justify-center p-0 m-0 max-w-none w-full h-full">
-          <div className="relative w-full h-full bg-purple-950 flex items-center justify-center">
+        <DialogContent className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 w-full max-w-[90vw] h-full max-h-[90vh] p-0 m-0 border-none bg-transparent">
+          <div className="relative w-full h-full flex items-center justify-center ">
             {/* Close Button */}
             <DialogClose asChild>
               <Button
@@ -249,7 +249,7 @@ export default function EventDetails({ params }: { params: { year: string } }) {
             </DialogClose>
 
             {/* Image Container */}
-            <div className="relative w-full h-full max-w-[90vw] max-h-[90vh] p-4 flex items-center justify-center">
+            <div className="relative w-full h-full flex items-center justify-center p-4">
               {selectedImage && (
                 <Image
                   src={selectedImage}
