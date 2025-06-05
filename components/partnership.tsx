@@ -17,7 +17,7 @@ function Partnership() {
           subtitle="Community of the world"
         />
       </div>
-      <div className="space-x-8 flex items-center justify-center">
+      <div className="space-x-8 flex flex-wrap items-center justify-center">
         <Link href={"/selection"}>
           <Button className="bg-blue-800 hover:bg-blue-600">
             Partner with us
