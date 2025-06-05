@@ -28,7 +28,7 @@ export async function verifyOtpToken(email: string, token: string): Promise<bool
   
   // Use timing-safe comparison
   return crypto.timingSafeEqual(
-    //@ts-expect-error
+    //@ts-ignore
     Buffer.from(stored.otp),
     Buffer.from(token)
   )
