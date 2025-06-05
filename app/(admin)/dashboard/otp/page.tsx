@@ -37,8 +37,8 @@ export default function OtpPage() {
           OTP Verification
         </h1>
         <p className="mb-6 text-center">
-          We've sent a one-time password to your registered email/phone. Please
-          enter it below.
+          {` We've sent a one-time password to your registered email/phone. Please
+          enter it below.`}
         </p>
 
         {error && (
@@ -75,7 +75,7 @@ export default function OtpPage() {
 
         <div className="mt-4 text-center text-sm">
           <p>
-            Didn't receive code?{" "}
+            {`Didn't receive code?`}{" "}
             <button className="text-blue-600">Resend</button>
           </p>
         </div>
