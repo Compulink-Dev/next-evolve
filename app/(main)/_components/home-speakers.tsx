@@ -51,7 +51,7 @@ export default async function Speakers() {
       {/* Full Day Speakers Section */}
       {fullDaySpeakers.length > 0 && (
         <>
-          <SectionTitle>Full Day Speakers</SectionTitle>
+          <SectionTitle>Conference Speakers</SectionTitle>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
             {fullDaySpeakers.map((speaker: any) => (
               <SpeakerCard
@@ -72,7 +72,7 @@ export default async function Speakers() {
       {/* Half Day Speakers Section */}
       {halfDaySpeakers.length > 0 && (
         <>
-          <SectionTitle>Half Day Speakers</SectionTitle>
+          <SectionTitle>Half-Day Students Conference Speakers</SectionTitle>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {halfDaySpeakers.map((speaker: any) => (
               <SpeakerCard
