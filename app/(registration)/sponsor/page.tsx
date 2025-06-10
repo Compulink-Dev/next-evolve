@@ -28,6 +28,7 @@ import {
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import CustomDialog from "./_components/CustomDialog";
 
 interface Tier {
   name: string;
@@ -47,7 +48,6 @@ const sponsorshipTiers: Tier[] = [
       "Co-Naming rights",
       "Logo on all advertising",
       "Logo on screens in main auditorium and breakaway rooms",
-      "Co-branded crew shirts",
       "Logo on conference packs",
       "Banners inside and outside venue",
       "15 Delegate tickets",
@@ -133,6 +133,15 @@ function Sponsors() {
   const [paymentMethod, setPaymentMethod] = useState<
     "web" | "ecocash" | "onemoney"
   >("web");
+  const [isCustomDialogOpen, setIsCustomDialogOpen] = useState(false);
+  const [customPackage, setCustomPackage] = useState({
+    name: "",
+    budget: "",
+    objectives: "",
+    benefits: "",
+    contactEmail: session?.user?.email || "",
+    contactName: session?.user?.name || "",
+  });
   const [mobileNumber, setMobileNumber] = useState("");
   const [isProcessingPayment, setIsProcessingPayment] = useState(false);
   const [paymentError, setPaymentError] = useState("");
@@ -435,7 +444,14 @@ function Sponsors() {
           <Button
             variant="outline"
             size="lg"
-            className="text-white border-white hover:bg-white hover:text-purple-900"
+            className="text-purple-400 border-white hover:bg-white hover:text-purple-900"
+            onClick={() => {
+              if (!session) {
+                router.push("/sign-in");
+                return;
+              }
+              setIsCustomDialogOpen(true); // This will trigger the dialog
+            }}
           >
             Contact Us for Custom Options
           </Button>
@@ -585,6 +601,13 @@ function Sponsors() {
           </div>
         </DialogContent>
       </Dialog>
+      {isCustomDialogOpen && (
+        <CustomDialog
+          open={isCustomDialogOpen}
+          onOpenChange={setIsCustomDialogOpen}
+          session={session}
+        />
+      )}
     </div>
   );
 }

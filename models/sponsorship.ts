@@ -14,7 +14,7 @@ export interface ISponsorship extends Document {
 const SponsorshipSchema = new Schema<ISponsorship>(
   {
     userId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
-    tier: { type: String, required: true, enum: ['PLATINUM', 'GOLD', 'SILVER', 'BRONZE', 'CUSTOM'] },
+    tier: { type: String, required: true, enum: ['PLATINUM', 'GOLD', 'SILVER', 'BRONZE','STARTUP', 'CUSTOM'] },
     amount: { type: Number, required: true },
     status: { type: String, enum: ['pending', 'approved', 'rejected'], default: 'pending' },
     paymentProof: { type: String },
