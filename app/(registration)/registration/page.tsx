@@ -352,6 +352,7 @@ export default function Registration() {
                     <option value="Gold">Gold</option>
                     <option value="Silver">Silver</option>
                     <option value="Bronze">Bronze</option>
+                    <option value="Startup">Startup</option>
                   </select>
                   {(errors as any).sponsorshipLevel && (
                     <span className="text-red-600 text-xs">

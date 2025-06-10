@@ -109,6 +109,19 @@ const sponsorshipTiers: Tier[] = [
     paymentLink:
       "https://www.paynow.co.zw/Payment/Link/?q=c2VhcmNoPWRldmNvbXB1bGluayU0MGdtYWlsLmNvbSZhbW91bnQ9MTAwMDAuMDAmcmVmZXJlbmNlPUdvbGQmbD0x",
   },
+  {
+    name: "STARTUP",
+    price: 250,
+    features: [
+      "3 x 3 Exhibition space",
+      "4 Innovators sharing a 3 x 3 exhibition cubicle",
+    ],
+    featured: false,
+    color: "bg-gradient-to-br from-green-600 to-green-800",
+    textColor: "text-green-100",
+    paymentLink:
+      "https://www.paynow.co.zw/Payment/Link/?q=c2VhcmNoPWRldmNvbXB1bGluayU0MGdtYWlsLmNvbSZhbW91bnQ9MTAwMDAuMDAmcmVmZXJlbmNlPUdvbGQmbD0x",
+  },
 ];
 
 function Sponsors() {

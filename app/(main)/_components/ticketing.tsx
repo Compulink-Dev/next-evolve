@@ -130,6 +130,16 @@ function Ticketing() {
           "Logo on all online advertising as bronze sponsor",
         ],
       },
+      {
+        type: "Startup",
+        price: "$250",
+        perks: [
+          "3 x 3 space for exhibition",
+          "4 innovators sharing a 3x3 exhibition cubicle",
+          "5 Delegate tickets.",
+          "Logo on all online advertising as bronze sponsor",
+        ],
+      },
     ],
     exhibitors: [
       {
