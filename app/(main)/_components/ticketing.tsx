@@ -98,7 +98,7 @@ function Ticketing() {
       },
       {
         type: "Gold Sponsorship",
-        price: "$10 00",
+        price: "$10 000",
         perks: [
           "Logo on all advertising as gold sponsor.",
           "Logo on screen in the conference main auditorium",
@@ -122,7 +122,7 @@ function Ticketing() {
       },
       {
         type: "Bronze Sponsorship",
-        price: "$5 00",
+        price: "$5 000",
         perks: [
           "Logo on screen in the conference main auditorium.",
           "Banners inside and outside the venue",
