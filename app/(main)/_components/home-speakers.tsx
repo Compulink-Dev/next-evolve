@@ -1,25 +1,26 @@
-import React from "react";
+"use client";
+import React, { useEffect, useState } from "react";
 import SpeakerCard from "./speakerCards";
 import Title from "./title";
 
-async function getSpeakers() {
-  try {
-    const baseUrl = process.env.NEXT_PUBLIC_API_URL || "/api";
-    const res = await fetch(`${baseUrl}/speakers`, {
-      cache: "no-store",
-    });
-    if (!res.ok) {
-      throw new Error("Failed to fetch speakers");
-    }
-    return res.json();
-  } catch (error) {
-    console.log(error);
-    return { speakers: [] };
-  }
-}
-
 export default async function Speakers() {
-  const { speakers } = await getSpeakers();
+  const [speakers, setSpeakers] = useState([]);
+
+  useEffect(() => {
+    const getSpeakers = async () => {
+      try {
+        const baseUrl = process.env.NEXT_PUBLIC_API_URL || "/api";
+        const res = await fetch(`${baseUrl}/speakers`);
+        const data = await res.json();
+        setSpeakers(data.speakers || []);
+      } catch (error) {
+        console.error(error);
+        setSpeakers([]);
+      }
+    };
+
+    getSpeakers();
+  }, []);
 
   // Separate speakers by timeline
   const fullDaySpeakers = speakers.filter(
