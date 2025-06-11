@@ -7,6 +7,8 @@ export interface IExhibitor extends Document {
   status: 'pending' | 'approved' | 'rejected';
   paymentProof?: string;
   additionalInfo?: string;
+  logoUrl?:string;
+  link?: string;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -21,6 +23,8 @@ const ExhibitorSchema = new Schema<IExhibitor>(
       default: 'pending',
     },
     paymentProof: { type: String },
+    logoUrl: {type: String},
+    link: {type: String},
     additionalInfo: { type: String },
   },
   { timestamps: true }

@@ -35,7 +35,7 @@ export async function POST(req: NextRequest) {
     }
 
     const body = await req.json();
-    const { boothNumber, paymentProof, additionalInfo } = body;
+    const { boothNumber, paymentProof, additionalInfo,logoUrl,link } = body;
 
     // Check if booth is already taken (approved)
     const existing = await Exhibitor.findOne({ 
@@ -60,6 +60,8 @@ export async function POST(req: NextRequest) {
       boothNumber,
       paymentProof,
       additionalInfo,
+      logoUrl,
+      link,
       status: 'pending' // Default status
     });
 

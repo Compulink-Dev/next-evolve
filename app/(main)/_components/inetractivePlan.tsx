@@ -2,6 +2,12 @@
 import Title from "./title";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import Link from "next/link";
 
 interface Exhibitor {
   userId: {
@@ -10,6 +16,8 @@ interface Exhibitor {
     company?: string | null;
   } | null;
   boothNumber: string;
+  logoUrl: string;
+  link: string;
   status: string;
 }
 
@@ -62,12 +70,18 @@ export default function InteractiveFloorPlan({
     const company = exhibitor.userId.company || "No company";
     const firstName = exhibitor.userId.firstName || "";
     const lastName = exhibitor.userId.lastName || "";
+    const link = exhibitor.link || "";
+    const logoUrl = exhibitor.logoUrl || "/default-logo.png";
 
     const name = `${firstName} ${lastName}`.trim();
 
     return {
-      info: name ? `${company} (${name})` : company,
+      company, // Add company to the returned object
+      name, // Add name to the returned object
+      logoUrl,
       status: exhibitor.status,
+      link,
+      info: name ? `${company} (${name})` : company, // Keep info for backward compatibility if needed
     };
   };
 
@@ -135,21 +149,54 @@ export default function InteractiveFloorPlan({
                     }
 
                     return (
-                      <div
-                        key={boothNumber}
-                        className={boothClass}
-                        title={
-                          exhibitorData
-                            ? exhibitorData.status === "approved"
-                              ? `Approved: ${exhibitorData.info}`
-                              : `Pending approval: ${boothNumber}`
-                            : isSelected
-                              ? `Your booth: ${boothNumber}`
-                              : `Booth ${boothNumber} is available`
-                        }
-                      >
-                        {boothNumber}
-                      </div>
+                      <Tooltip key={boothNumber}>
+                        <TooltipTrigger asChild>
+                          <div className={boothClass}>{boothNumber}</div>
+                        </TooltipTrigger>
+                        <TooltipContent className="max-w-xs">
+                          {exhibitorData ? (
+                            <Link href={exhibitorData.link} target="_blank">
+                              <div className="flex flex-col items-center p-2">
+                                {exhibitorData.logoUrl && (
+                                  <div className="relative w-full h-24 mb-2">
+                                    <Image
+                                      src={exhibitorData.logoUrl}
+                                      alt={`${exhibitorData.company} logo`}
+                                      fill
+                                      className="object-contain rounded"
+                                    />
+                                  </div>
+                                )}
+                                <h4 className="font-bold text-center">
+                                  {exhibitorData.company}
+                                </h4>
+                                {exhibitorData.name && (
+                                  <p className="text-sm text-gray-600">
+                                    {exhibitorData.name}
+                                  </p>
+                                )}
+                                <p className="text-xs mt-1">
+                                  Status:{" "}
+                                  <span
+                                    className={`font-semibold ${
+                                      exhibitorData.status === "approved"
+                                        ? "text-green-500"
+                                        : exhibitorData.status === "pending"
+                                          ? "text-yellow-500"
+                                          : "text-red-500"
+                                    }`}
+                                  >
+                                    {exhibitorData.status}
+                                  </span>
+                                </p>
+                                <p className="text-xs">Booth: {boothNumber}</p>
+                              </div>
+                            </Link>
+                          ) : (
+                            <p>Booth {boothNumber} is available</p>
+                          )}
+                        </TooltipContent>
+                      </Tooltip>
                     );
                   })}
                 </div>
