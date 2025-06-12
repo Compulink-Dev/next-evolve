@@ -88,6 +88,7 @@
     "sonner": "^1.4.41",
     "stripe": "^14.25.0",
     "svix": "^1.21.0",
+    "swiper": "^11.2.8",
     "swr": "^2.2.5",
     "tailwind-merge": "^2.5.2",
     "tailwindcss-animate": "^1.0.7",
