@@ -1,12 +1,14 @@
 import { withAuth } from "next-auth/middleware";
 import { NextResponse } from "next/server";
+import { cookies } from "next/headers";
 
 export default withAuth(
   function middleware(req) {
     const { pathname } = req.nextUrl;
     const { token } = req.nextauth;
 
-    const isOtpVerified = token?.role === "admin"
+    // Check for OTP verification cookie
+    const isOtpVerified = cookies().get("otp-verified")?.value === "true";
 
     // Redirect to appropriate dashboard based on type
     if (pathname === "/selection") {
@@ -21,22 +23,10 @@ export default withAuth(
       }
     }
 
+    // Only require OTP for dashboard routes
     if (pathname.startsWith('/dashboard') && !isOtpVerified) {
-      return NextResponse.redirect(new URL('/dashboard/otp', req.url))
+      return NextResponse.redirect(new URL('/otp', req.url));
     }
-    // Protect role-specific routes
-    // if (pathname.startsWith("/sponsor") && token?.type !== "sponsor") {
-    //   return NextResponse.redirect(new URL("/sign-in", req.url));
-    // }
-    // if (pathname.startsWith("/exhibitor") && token?.type !== "exhibitor") {
-    //   return NextResponse.redirect(new URL("/sign-in", req.url));
-    // }
-    // if (pathname.startsWith("/attendee") && token?.type !== "attendee") {
-    //   return NextResponse.redirect(new URL("/sign-in", req.url));
-    // }
-    // if (pathname.startsWith("/attachee") && token?.type !== "attachee") {
-    //   return NextResponse.redirect(new URL("/sign-in", req.url));
-    // }
 
     return NextResponse.next();
   },
@@ -53,6 +43,8 @@ export const config = {
     "/exhibitor/:path*", 
     "/attendee/:path*",
     "/attachee/:path*",
-    "/dashboard/:path"
+    "/dashboard/:path*",
+    "/otp",
+    "/selection"
   ],
 };

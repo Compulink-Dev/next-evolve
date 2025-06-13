@@ -169,6 +169,18 @@ button {
   display: block;
 }
 
+html[dir='rtl'] .swiper-wrapper {
+  flex-direction: row-reverse;
+}
+
+.swiper-slide {
+  transition: transform 0.3s ease;
+}
+
+.swiper-slide:hover {
+  transform: scale(1.05);
+}
+
 @keyframes slowBounce {
 
   0%,

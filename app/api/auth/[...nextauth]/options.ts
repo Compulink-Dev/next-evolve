@@ -7,8 +7,7 @@ import Registration from '@/models/registration';
 import bcrypt from 'bcryptjs';
 
 export const authOptions: NextAuthOptions = {
-
-  debug: process.env.NODE_ENV === 'development', // Add this line
+  debug: process.env.NODE_ENV === 'development',
   providers: [
     CredentialsProvider({
       name: "Credentials",
@@ -24,44 +23,43 @@ export const authOptions: NextAuthOptions = {
           }
           await connectDB();
 
- const user = await Registration.findOne({ 
-      email: credentials.email.toLowerCase() // Case insensitive search
-    });   
-    if (!user) {
-      console.log('No user found for email:', credentials.email);
-      throw new Error('User not found');
-    }
+          const user = await Registration.findOne({ 
+            email: credentials.email.toLowerCase()
+          });   
+          
+          if (!user) {
+            console.log('No user found for email:', credentials.email);
+            throw new Error('User not found');
+          }
 
-    console.log('Found user:', {
-      email: user.email,
-      mode: user.mode,
-      hasPassword: !!user.password
-    });
+          console.log('Found user:', {
+            email: user.email,
+            mode: user.mode,
+            hasPassword: !!user.password
+          });
 
+          if (user.mode === 'online') {
+            const passwordMatch = await bcrypt.compare(
+              credentials.password, 
+              user.password
+            );
 
-              // Only compare passwords for online registrations
-              if (user.mode === 'online') {
-                const passwordMatch = await bcrypt.compare(
-                  credentials.password, 
-                  user.password
-                );
+            console.log('Password match result:', passwordMatch);
 
-                console.log('Password match result:', passwordMatch);
-    
-                if (!passwordMatch) {
-                  throw new Error('Invalid password');
-                }
-              } else {
-                // For offline registrations, you might want to implement a different auth method
-                throw new Error('Please contact support for offline registration access');
-              }
+            if (!passwordMatch) {
+              throw new Error('Invalid password');
+            }
+          } else {
+            throw new Error('Please contact support for offline registration access');
+          }
 
           return {
             id: user._id.toString(),
             name: `${user.firstName} ${user.lastName}`,
             email: user.email,
-            role: user.type || 'attendee', // Use 'type' field from registration
-            type: user.type // Add type to user object
+            role: user.type || 'attendee',
+            type: user.type,
+            otpVerified: user.otpVerified || false
           };
         } catch (error) {
           console.error('Authorization error:', error);
@@ -71,39 +69,36 @@ export const authOptions: NextAuthOptions = {
     })
   ],
   callbacks: {
-    async jwt({ token, user }) {
-      console.log('JWT callback - token:', token);
-      console.log('JWT callback - user:', user);
+    async jwt({ token, user }) {    
       if (user) {
-        //@ts-expect-error
-        token.role = user.role;
-        token.id = user.id;
-        //@ts-ignore
-        token.type = user.type; // Add type to token
-        token.email = user.email; // Make sure email is included
+        return {
+          ...token,
+          id: user.id,
+          name: user.name,
+          email: user.email,
+          role: user.role,
+          type: user.type,
+          otpVerified: user.otpVerified || false
+        };
       }
       return token;
     },
     async session({ session, token }) {
-      console.log('Session callback - session:', session);
-      console.log('Session callback - token:', token);
       if (session.user) {
-        session.user.role = token.role;
-        //@ts-ignore
-        session.user.type = token.type; // Add type to session 
-        session.user.id = token.sub as any;
-        session.user.email = token.email as string;
-        // @ts-ignore
-        session.user.type = token.type; // Add user type to session
+        Object.assign(session.user, {
+          id: token.id ?? '',
+          role: token.role ?? '',
+          type: token.type ?? '',
+          email: token.email ?? '',
+          otpVerified: token.otpVerified ?? false,
+        });
       }
       return session;
     },
     async redirect({ url, baseUrl }) {
-      // If callbackUrl is relative (e.g. "/exhibitor/dashboard"), prefix it
       if (url.startsWith("/")) {
         return `${baseUrl}${url}`;
       }
-      // If callbackUrl is an absolute URL on the same origin, allow it
       try {
         const dest = new URL(url);
         if (dest.origin === baseUrl) {
@@ -112,19 +107,17 @@ export const authOptions: NextAuthOptions = {
       } catch {
         /* not a valid absolute URL */
       }
-      // Fallback to home
       return baseUrl;
     }
-    
   },
   pages: {
     signIn: '/sign-in',
-    error: '/', // Error code passed in query string as ?error=
+    error: '/',
   },
   session: {
     strategy: "jwt",
-    maxAge: 30 * 24 * 60 * 60, // 30 days
-    updateAge: 24 * 60 * 60, // 24 hours
+    maxAge: 30 * 24 * 60 * 60,
+    updateAge: 24 * 60 * 60,
   },
   secret: process.env.NEXTAUTH_SECRET,
   cookies: {
@@ -135,7 +128,7 @@ export const authOptions: NextAuthOptions = {
         sameSite: "lax",
         path: "/",
         secure: process.env.NODE_ENV === "production",
-        domain: process.env.NODE_ENV === 'production' ? 'www.evolveictsummit.com' : undefined, // 
+        domain: process.env.NODE_ENV === 'production' ? 'www.evolveictsummit.com' : undefined,
       },
     },
   },

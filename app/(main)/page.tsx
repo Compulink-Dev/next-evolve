@@ -12,6 +12,7 @@ import Title from "./_components/title";
 import Partnership from "@/components/partnership";
 import InteractiveFloorPlan from "./_components/inetractivePlan";
 import ExhibitorBoothPage from "./_components/booth";
+import SponsorCarousel from "@/components/SponsorCarousel";
 
 function HomePage() {
   const { data: session, status } = useSession();
@@ -45,6 +46,7 @@ function HomePage() {
       <Ticketing />
       {/* <GeneralPartners /> */}
       <ExhibitorBoothPage />
+      <SponsorCarousel />
       <Partnership />
     </div>
   );

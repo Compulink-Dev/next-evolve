@@ -1,10 +1,8 @@
-// app/dashboard/otp/page.tsx
 "use client";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 
-// Known OTP code (in production, use environment variables)
-const KNOWN_OTP = "123456";
+const KNOWN_OTP = "123456"; // Replace with environment variable in production
 
 export default function OtpPage() {
   const [otp, setOtp] = useState("");
@@ -24,19 +22,29 @@ export default function OtpPage() {
         throw new Error("Invalid OTP code");
       }
 
-      // Set cookie via API route
+      // First set the cookie via API
       const res = await fetch("/api/cookies", {
         method: "POST",
+        credentials: "include",
         headers: {
           "Content-Type": "application/json",
         },
       });
 
       if (!res.ok) {
-        throw new Error("Failed to verify OTP");
+        throw new Error("Failed to set verification cookie");
       }
 
-      // Use window.location to ensure cookie is available
+      // Then verify the cookie was set
+      const verifyRes = await fetch("/api/verify-cookie", {
+        credentials: "include",
+      });
+
+      if (!verifyRes.ok) {
+        throw new Error("Cookie verification failed");
+      }
+
+      // Force full page reload to ensure cookie is available
       window.location.href = callbackUrl;
     } catch (err) {
       setError(err instanceof Error ? err.message : "An error occurred");
@@ -50,16 +58,11 @@ export default function OtpPage() {
         <h1 className="text-2xl font-bold mb-6 text-center">
           OTP Verification
         </h1>
-        <p className="mb-6 text-center">
-          Please enter the OTP code to access the dashboard.
-        </p>
-
         {error && (
           <div className="mb-4 p-2 bg-red-100 text-red-700 rounded">
             {error}
           </div>
         )}
-
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label htmlFor="otp" className="block text-sm font-medium mb-2">
@@ -77,7 +80,6 @@ export default function OtpPage() {
               autoComplete="one-time-code"
             />
           </div>
-
           <button
             type="submit"
             disabled={loading}

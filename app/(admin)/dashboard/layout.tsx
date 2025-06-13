@@ -1,29 +1,24 @@
 import React from "react";
 import Sidebar from "./_components/Sidebar";
 import Navbar from "./_components/Navbar";
-import { authOptions } from "@/app/api/auth/[...nextauth]/options";
-import { getServerSession } from "next-auth";
+import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
 async function DashboardLayout({ children }: { children: React.ReactNode }) {
-  const session = await getServerSession(authOptions);
+  const cookieStore = cookies();
+  const isOtpVerified = cookieStore.get("otp-verified")?.value === "true";
 
-  const isOtpVerified = session?.user?.role === "admin";
-
-  if (!session) {
-    redirect("/api/auth/signin?callbackUrl=/dashboard/otp");
+  if (!isOtpVerified) {
+    redirect("/otp");
   }
 
-  if (session && !isOtpVerified) {
-    redirect("/dashboard/otp");
-  }
   return (
     <div>
       <div className="flex">
-        <div className="" style={{ flex: 1 }}>
+        <div style={{ flex: 1 }}>
           <Sidebar />
         </div>
-        <div className="" style={{ flex: 5 }}>
+        <div style={{ flex: 5 }}>
           <Navbar />
           <div className="p-2">{children}</div>
         </div>

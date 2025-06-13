@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { sponsorSchema, SponsorInput } from "@/lib/validators/sponsorSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Input } from "@/components/ui/input";
 
 export default function AdminSponsorDashboard() {
   const [sponsors, setSponsors] = useState<any[]>([]);
@@ -24,14 +25,14 @@ export default function AdminSponsorDashboard() {
   }, []);
 
   const fetchSponsors = async () => {
-    const res = await fetch("/api/sponsors");
+    const res = await fetch("/api/sponsor");
     const data = await res.json();
     setSponsors(data);
   };
 
   const onSubmit = async (data: SponsorInput) => {
     const method = editingId ? "PUT" : "POST";
-    const url = editingId ? `/api/sponsors/${editingId}` : "/api/sponsors";
+    const url = editingId ? `/api/sponsor/${editingId}` : "/api/sponsor";
 
     await fetch(url, {
       method,
@@ -60,26 +61,23 @@ export default function AdminSponsorDashboard() {
   };
 
   return (
-    <div className="p-8 bg-gray-900 text-white min-h-screen">
+    <div className="p-8 min-h-screen">
       <h1 className="text-3xl font-bold mb-6">Sponsor Management</h1>
 
       {/* Form */}
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="space-y-4 bg-gray-800 p-6 rounded-lg shadow"
+        className="space-y-4  p-6 rounded-lg shadow"
       >
         <div>
           <label className="block mb-1">Name</label>
-          <input
-            {...register("name")}
-            className="w-full p-2 rounded text-black"
-          />
+          <Input {...register("name")} className="w-full p-2 rounded " />
           {errors.name && <p className="text-red-500">{errors.name.message}</p>}
         </div>
 
         <div>
           <label className="block mb-1">Link</label>
-          <input
+          <Input
             {...register("link")}
             className="w-full p-2 rounded text-black"
           />
@@ -102,7 +100,7 @@ export default function AdminSponsorDashboard() {
 
         <div>
           <label className="block mb-1">Image URL</label>
-          <input
+          <Input
             {...register("imageUrl")}
             className="w-full p-2 rounded text-black"
           />
@@ -126,7 +124,7 @@ export default function AdminSponsorDashboard() {
           {sponsors.map((sponsor) => (
             <div
               key={sponsor._id}
-              className="bg-gray-800 p-4 rounded shadow flex flex-col items-center text-center"
+              className="p-4 rounded shadow flex flex-col items-center text-center"
             >
               <img
                 src={sponsor.imageUrl}
