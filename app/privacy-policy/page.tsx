@@ -22,7 +22,7 @@ export default function PrivacyPolicyPage() {
           Privacy Policy for Evolve ICT Summit
         </h1>
         <p className="mb-4">
-          <strong>Effective Date:</strong> 16/06/2025
+          <strong>{`Effective Date:`}</strong> {`16/06/2025`}
         </p>
 
         <h2 className="text-xl font-semibold mt-6 mb-2">
@@ -53,11 +53,11 @@ export default function PrivacyPolicyPage() {
           2. How We Use Your Information
         </h2>
         <ul className="list-disc ml-6 mb-4">
-          <li>Register attendees, sponsors, exhibitors, and speakers</li>
-          <li>Send event updates, confirmations, and newsletters</li>
+          <li>{`Register attendees, sponsors, exhibitors, and speakers`}</li>
+          <li>{`Send event updates, confirmations, and newsletters`}</li>
           <li>Respond to inquiries or requests</li>
           <li>Improve our website and services</li>
-          <li>Enforce our terms, protect rights, and prevent fraud</li>
+          <li>{`Enforce our terms, protect rights, and prevent fraud`}</li>
         </ul>
 
         <h2 className="text-xl font-semibold mt-6 mb-2">
@@ -69,7 +69,7 @@ export default function PrivacyPolicyPage() {
             parties.
           </li>
           <li>
-            Service providers involved in event logistics, email, or analytics
+            {` Service providers involved in event logistics, email, or analytics`}
           </li>
           <li>Partners or sponsors (with your consent)</li>
           <li>Government or law enforcement when required by law</li>
@@ -108,7 +108,7 @@ export default function PrivacyPolicyPage() {
         </p>
 
         <h2 className="text-xl font-semibold mt-6 mb-2">
-          8. Children's Privacy
+          {`8. Children's Privacy`}
         </h2>
         <p className="mb-4">
           We do not knowingly collect personal information from children under
