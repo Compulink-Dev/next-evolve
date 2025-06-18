@@ -10,7 +10,7 @@ export default function LoginPage() {
           <div className="mb-6">
             <Image src={"/logo.png"} alt="Logo" height={200} width={200} />
           </div>
-          <CardTitle className="">Login In</CardTitle>
+          <CardTitle className="">Login</CardTitle>
         </CardHeader>
         <CardContent>
           <LoginForm />
