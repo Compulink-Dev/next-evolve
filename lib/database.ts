@@ -11,7 +11,7 @@ if (!uri) {
   throw new Error('Please define MONGODB_URI environment variable');
 }
 
-export async function connectDB(): Promise<Db> {
+export async function connect(): Promise<Db> {
   if (db) return db;
 
   try {

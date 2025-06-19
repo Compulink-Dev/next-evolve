@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
-import connect from "@/lib/database";
 import Post from "@/schemas/Post";
+import { connectDB } from "@/lib/connectToDB";
 
 export const GET = async (request: NextRequest) => {
     try {
-        await connect()
+        await connectDB()
         await Post.create({ title: "", description: "" })
         return new NextResponse("Connection in progress", { status: 200 })
     } catch (error) {
