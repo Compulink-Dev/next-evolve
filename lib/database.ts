@@ -1,17 +1,27 @@
-import mongoose from "mongoose";
+// lib/connectToDB.ts
+import { MongoClient, Db } from 'mongodb';
 
+const uri = process.env.MONGODB_URI as string;
+const options = {};
 
-async function connect() {
-    try {
-        //@ts-ignore
-        await mongoose.connect(process.env.MONGODB_URI)
-        console.log('Mongo connection successful');
+let client: MongoClient;
+let db: Db;
 
-    } catch (error) {
-        console.log(error);
-        throw new Error("Error in connecting to mongodb")
-    }
+if (!uri) {
+  throw new Error('Please define MONGODB_URI environment variable');
 }
 
+export async function connectDB(): Promise<Db> {
+  if (db) return db;
 
-export default connect
+  try {
+    client = new MongoClient(uri, options);
+    await client.connect();
+    db = client.db(); // Add your database name if needed: client.db('your-db-name')
+    console.log('MongoDB connected successfully');
+    return db;
+  } catch (error) {
+    console.error('Error connecting to MongoDB:', error);
+    throw error;
+  }
+}

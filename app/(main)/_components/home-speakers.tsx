@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import SpeakerCard from "./speakerCards";
 import Title from "./title";
+import RegisterCard from "@/components/RegisterCard";
 
 export default async function Speakers() {
   const [speakers, setSpeakers] = useState([]);
