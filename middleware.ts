@@ -45,6 +45,5 @@ export const config = {
     "/attachee/:path*",
     "/dashboard/:path*",
     "/otp",
-    "/selection"
   ],
 };
