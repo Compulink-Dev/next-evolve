@@ -1,15 +1,8 @@
 // app/attendee/[id]/page.tsx
 import { notFound } from "next/navigation";
-import RegisterCard from "@/components/RegisterCard";
 import { connectDB } from "@/lib/connectToDB";
 import attendeeCard from "@/models/attendeeCard";
-
-interface Attendee {
-  _id: string;
-  name: string;
-  organization: string;
-  imageUrl: string;
-}
+import ClientAttendeePage from "./ClientAttendeePage";
 
 export default async function AttendeePage({
   params,
@@ -18,21 +11,11 @@ export default async function AttendeePage({
 }) {
   await connectDB();
 
-  const attendee = (await attendeeCard
-    .findById(params.id)
-    .lean()) as Attendee | null;
+  const attendee = await attendeeCard.findById(params.id).lean();
 
   if (!attendee) {
     return notFound();
   }
 
-  return (
-    <div className="min-h-screen flex items-center justify-center p-4 bg-gray-100">
-      <RegisterCard
-        name={attendee.name}
-        organization={attendee.organization}
-        imageUrl={attendee.imageUrl}
-      />
-    </div>
-  );
+  return <ClientAttendeePage attendee={JSON.parse(JSON.stringify(attendee))} />;
 }
