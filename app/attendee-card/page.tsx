@@ -65,12 +65,13 @@ export default function RegistrationPage() {
 
       const data = await response.json();
 
+      // Redirect to attendee card page
+      router.push(`/attendee-card/${data._id}`);
+
+      // Optional: You can still keep these state updates if needed elsewhere
       setAttendeeId(data._id || "");
       setPdfPublicUrl(data.publicUrl);
       setSuccess(true);
-
-      // Trigger automatic download
-      await handleDownload();
     } catch (err: any) {
       console.error("Registration error:", err);
       setError(err.message || "Registration failed. Please try again.");
