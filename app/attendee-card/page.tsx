@@ -65,6 +65,10 @@ export default function RegistrationPage() {
 
       const data = await response.json();
 
+      // Store the data in localStorage for the attendee page to access
+      localStorage.setItem("autoDownload", "true");
+      localStorage.setItem("attendeeData", JSON.stringify(data));
+
       // Redirect to attendee card page
       router.push(`/attendee-card/${data._id}`);
 
@@ -106,54 +110,6 @@ export default function RegistrationPage() {
     } catch (error) {
       console.error("Download error:", error);
       setError("Failed to download PDF. Please try again.");
-    }
-  };
-
-  const shareOnSocialMedia = (platform: string) => {
-    if (!pdfPublicUrl) {
-      setError("No shareable link available");
-      return;
-    }
-
-    const text = `I'm attending EVOLVE ICT Summit 2025! Check out my attendee card. #EVOLVEICT2025`;
-    const encodedText = encodeURIComponent(text);
-    const encodedUrl = encodeURIComponent(pdfPublicUrl);
-
-    switch (platform) {
-      case "twitter":
-        window.open(
-          `https://twitter.com/intent/tweet?text=${encodedText}&url=${encodedUrl}`,
-          "_blank",
-          "width=550,height=420"
-        );
-        break;
-      case "facebook":
-        window.open(
-          `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}&quote=${encodedText}`,
-          "_blank",
-          "width=580,height=400"
-        );
-        break;
-      case "linkedin":
-        window.open(
-          `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`,
-          "_blank",
-          "width=550,height=420"
-        );
-        break;
-      case "whatsapp":
-        window.open(
-          `https://wa.me/?text=${encodedText}%20${encodedUrl}`,
-          "_blank",
-          "width=800,height=600"
-        );
-        break;
-      case "email":
-        window.open(
-          `mailto:?subject=My EVOLVE ICT Summit 2025 Attendee Card&body=${encodedText}%0A%0A${encodedUrl}`,
-          "_blank"
-        );
-        break;
     }
   };
 
@@ -232,7 +188,7 @@ export default function RegistrationPage() {
                   </button>
                 </div>
 
-                <div className="pt-4">
+                {/* <div className="pt-4">
                   <h3 className="text-sm font-medium text-gray-700 mb-2">
                     Share on Social Media
                   </h3>
@@ -293,7 +249,7 @@ export default function RegistrationPage() {
                       WhatsApp
                     </button>
                   </div>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>
