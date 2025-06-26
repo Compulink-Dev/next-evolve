@@ -1,6 +1,8 @@
+"use";
 // components/RegisterCard.tsx
+import { getDominantColor } from "@/utils/getDomainColor";
 import Image from "next/image";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 interface RegisterCardProps {
   name: string;
@@ -13,6 +15,16 @@ const RegisterCard: React.FC<RegisterCardProps> = ({
   organization,
   imageUrl,
 }) => {
+  const [bgColor, setBgColor] = useState("bg-white");
+
+  useEffect(() => {
+    if (imageUrl) {
+      getDominantColor(imageUrl).then((color) => {
+        setBgColor(color);
+      });
+    }
+  }, [imageUrl]);
+
   return (
     <div className="relative w-full max-w-md mx-auto aspect-[3/4] rounded-lg overflow-hidden bg-blue-900">
       {/* Background image - now perfectly fitted */}
@@ -52,12 +64,14 @@ const RegisterCard: React.FC<RegisterCardProps> = ({
         {/* Attendee image */}
         {imageUrl && (
           <div className="flex justify-center mb-2">
-            <div className="relative w-28 h-28 md:w-36 md:h-36 border-4 border-yellow-400 rounded-lg bg-white p-1">
+            <div className="relative w-28 h-28 md:w-36 md:h-36 border-4 border-yellow-400 rounded-lg overflow-hidden">
+              <div className="absolute inset-0 bg-white/5"></div>{" "}
+              {/* subtle matte */}
               <Image
                 src={imageUrl}
                 alt={`${name}'s photo`}
                 fill
-                className="rounded-lg object-cover"
+                className="rounded-lg object-contain"
               />
             </div>
           </div>
