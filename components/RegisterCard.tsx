@@ -56,22 +56,23 @@ const RegisterCard: React.FC<RegisterCardProps> = ({
 
         {/* I AM ATTENDING badge */}
         <div className="flex justify-center mb-2 md:mb-4">
-          <div className="bg-yellow-400 text-xs md:text-lg text-black md:font-bold py-1 md:py-2 px-2 md:px-5 rounded-lg">
-            I AM ATTENDING
+          <div className="bg-yellow-400 flex items-center justify-center text-xs md:text-lg text-black md:font-bold  rounded-lg">
+            <p className="p-4 "> I AM ATTENDING</p>
           </div>
         </div>
 
         {/* Attendee image */}
         {imageUrl && (
           <div className="flex justify-center mb-2">
-            <div className="relative w-28 h-28 md:w-36 md:h-36 border-4 border-yellow-400 rounded-lg overflow-hidden">
+            <div className="relative border-4 border-yellow-400 rounded-lg overflow-hidden">
               <div className="absolute inset-0 bg-white/5"></div>{" "}
               {/* subtle matte */}
               <Image
                 src={imageUrl}
                 alt={`${name}'s photo`}
-                fill
-                className="rounded-lg object-contain"
+                height={100}
+                width={100}
+                className="rounded-lg object-contain w-full h-[100px] md:h-[200px]"
               />
             </div>
           </div>
