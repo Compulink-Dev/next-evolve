@@ -57,7 +57,10 @@ const RegisterCard: React.FC<RegisterCardProps> = ({
         {/* I AM ATTENDING badge */}
         <div className="flex justify-center mb-2 md:mb-4">
           <div className="bg-yellow-400 flex items-center justify-center text-xs md:text-lg text-black md:font-bold  rounded-lg">
-            <p className="p-4 "> I AM ATTENDING</p>
+            <p className="px-4 py-1 text-purple-950 font-bold">
+              {" "}
+              I AM ATTENDING
+            </p>
           </div>
         </div>
 
