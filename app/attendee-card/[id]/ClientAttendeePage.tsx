@@ -80,18 +80,44 @@ export default function ClientAttendeePage({
     downloadLink.click();
     document.body.removeChild(downloadLink);
   };
+
   const downloadPng = async () => {
     if (!generatedPng) {
       const png = await generatePng();
       if (!png) return;
     }
 
-    const downloadLink = document.createElement("a");
-    downloadLink.href = generatedPng!;
-    downloadLink.download = `EVOLVE-ICT-Attendee-Card-${attendee.name || "attendee"}.png`;
-    document.body.appendChild(downloadLink);
-    downloadLink.click();
-    document.body.removeChild(downloadLink);
+    // iOS-specific handling
+    if (/iPad|iPhone|iPod/.test(navigator.userAgent)) {
+      // Create a new window with the image
+      const newWindow = window.open();
+      if (newWindow) {
+        newWindow.document.write(`
+          <!DOCTYPE html>
+          <html>
+            <head>
+              <title>Download Attendee Card</title>
+              <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            </head>
+            <body style="margin:0;padding:0;display:flex;justify-content:center;align-items:center;height:100vh;">
+              <img src="${generatedPng}" style="max-width:100%;max-height:100%;" />
+              <p style="position:absolute;bottom:20px;text-align:center;">
+                Press and hold the image to save it
+              </p>
+            </body>
+          </html>
+        `);
+        newWindow.document.close();
+      }
+    } else {
+      // Standard download for other devices
+      const downloadLink = document.createElement("a");
+      downloadLink.href = generatedPng!;
+      downloadLink.download = `EVOLVE-ICT-Attendee-Card-${attendee.name || "attendee"}.png`;
+      document.body.appendChild(downloadLink);
+      downloadLink.click();
+      document.body.removeChild(downloadLink);
+    }
   };
 
   const shareOnSocialMedia = async (platform: string) => {
@@ -109,6 +135,9 @@ export default function ClientAttendeePage({
       const publicUrl = `https://www.facebook.com/share/16UPfqWroj/`;
       const encodedText = encodeURIComponent(text);
       const encodedUrl = encodeURIComponent(publicUrl);
+      const encodedImageUrl = attendee.imageUrl
+        ? encodeURIComponent(attendee.imageUrl)
+        : "";
 
       // Convert data URL to blob
       const blob = await fetch(pngToShare).then((res) => res.blob());
@@ -132,7 +161,7 @@ export default function ClientAttendeePage({
           }
           // Fallback to URL sharing
           window.open(
-            `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}&quote=${encodedText}`,
+            `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}&picture=${encodedImageUrl}&quote=${encodedText}`,
             "_blank",
             "width=580,height=400"
           );
@@ -163,7 +192,7 @@ export default function ClientAttendeePage({
           }
           // Fallback to URL sharing
           window.open(
-            `https://wa.me/?text=${encodedText}%0A%0A${encodedUrl}`,
+            `https://wa.me/?text=${encodedText}%0A%0A${publicUrl}%0A%0A${encodedImageUrl ? `Image: ${encodedImageUrl}` : ""}`,
             "_blank",
             "width=800,height=600"
           );
@@ -171,7 +200,7 @@ export default function ClientAttendeePage({
 
         case "twitter":
           window.open(
-            `https://twitter.com/intent/tweet?text=${encodedText}&url=${encodedUrl}`,
+            `https://twitter.com/intent/tweet?text=${encodedText}&url=${encodedUrl}&hashtags=EvolveICT`,
             "_blank",
             "width=550,height=420"
           );

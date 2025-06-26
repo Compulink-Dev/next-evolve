@@ -38,13 +38,13 @@ const RegisterCard: React.FC<RegisterCardProps> = ({
             alt="Event Logo"
             width={250}
             height={250}
-            className="object-contain"
+            className="object-fill w-[180px] h-[100px] md:[130px]"
           />
         </div>
 
         {/* I AM ATTENDING badge */}
-        <div className="flex justify-center mb-4">
-          <div className="bg-yellow-400 text-black font-bold py-2 px-6 rounded-lg">
+        <div className="flex justify-center mb-2 md:mb-4">
+          <div className="bg-yellow-400 text-xs md:text-lg text-black md:font-bold py-1 md:py-2 px-2 md:px-5 rounded-lg">
             I AM ATTENDING
           </div>
         </div>
@@ -52,7 +52,7 @@ const RegisterCard: React.FC<RegisterCardProps> = ({
         {/* Attendee image */}
         {imageUrl && (
           <div className="flex justify-center mb-2">
-            <div className="relative w-36 h-36 border-4 border-yellow-400 rounded-lg bg-white p-1">
+            <div className="relative w-28 h-28 md:w-36 md:h-36 border-4 border-yellow-400 rounded-lg bg-white p-1">
               <Image
                 src={imageUrl}
                 alt={`${name}'s photo`}
@@ -66,15 +66,15 @@ const RegisterCard: React.FC<RegisterCardProps> = ({
         {/* Attendee details */}
         <div className="text-center ">
           <h2 className="text-md font-bold text-white ">{name}</h2>
-          <p className="text-sm text-white border-t border-white/30 pt-4">
-            {organization}
-          </p>
+          <p className="text-sm text-white pt-2  md:pt-4">{organization}</p>
         </div>
 
         {/* Footer */}
         <div className=" text-center">
-          <p className="text-lg font-bold text-white ">3-4 JULY 2025</p>
-          <p className="text-white text-sm mb-4">
+          <p className="text-sm md:text-lg font-bold text-white ">
+            3-4 JULY 2025
+          </p>
+          <p className="text-white text-xs md:text-sm mt-2 md:mt-0 md:mb-4">
             HARARE INTERNATIONAL CONFERENCE CENTRE
           </p>
         </div>
