@@ -1,16 +1,17 @@
+// app/api/gallery/[id]/route.ts
 import { connectDB } from '@/lib/connectToDB';
 import Gallery from '@/models/gallery';
 import { NextResponse } from 'next/server';
 
-
-export async function PUT(request: Request) {
+export async function PUT(
+  request: Request,
+  { params }: { params: { id: string } }
+) {
   try {
     await connectDB();
-    const { searchParams } = new URL(request.url);
-    const id = searchParams.get('id');
     const body = await request.json();
 
-    if (!id) {
+    if (!params.id) {
       return NextResponse.json(
         { error: 'Missing item ID' },
         { status: 400 }
@@ -18,7 +19,7 @@ export async function PUT(request: Request) {
     }
 
     const updatedItem = await Gallery.findByIdAndUpdate(
-      id,
+      params.id,
       {
         $set: {
           title: body.title,
@@ -49,7 +50,6 @@ export async function PUT(request: Request) {
     );
   }
 }
-
 
 export async function DELETE(
   request: Request,

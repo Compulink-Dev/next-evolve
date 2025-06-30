@@ -1,11 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/components/ui/use-toast";
-import { UploadDropzone } from "@/lib/uploadthing";
 
 export default function VideoManager({
   videos,
@@ -19,41 +18,65 @@ export default function VideoManager({
   isLoading?: boolean;
 }) {
   const [title, setTitle] = useState("");
-  const [localVideos, setLocalVideos] = useState(videos);
-  const [key, setKey] = useState("");
+  const [youtubeUrl, setYoutubeUrl] = useState("");
   const { toast } = useToast();
 
-  useEffect(() => {
-    setLocalVideos(videos);
-  }, [videos]);
+  const extractYouTubeId = (url: string) => {
+    const regExp =
+      /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+    const match = url.match(regExp);
+    return match && match[2].length === 11 ? match[2] : null;
+  };
 
-  const handleUploadComplete = async (res: any[]) => {
-    console.log("Upload complete response:", res); // Add this
+  const handleAddVideo = async () => {
     if (!title) {
       toast({
         title: "Error",
-        description: "Please provide a title before uploading",
+        description: "Please provide a video title",
         variant: "destructive",
       });
       return;
     }
 
-    try {
-      const fileUrl = res[0].url;
-      if (!fileUrl) throw new Error("No URL returned from upload");
-
-      const newVideo = { title, url: fileUrl };
-      console.log("New video added:", newVideo);
-      setLocalVideos((prev) => [...prev, newVideo]);
-
-      await onAdd(newVideo);
-      setTitle("");
-      toast({ title: "Success", description: "Video uploaded successfully" });
-    } catch (error) {
-      setLocalVideos(videos);
+    if (!youtubeUrl) {
       toast({
         title: "Error",
-        description: "Failed to save uploaded video",
+        description: "Please provide a YouTube URL",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    const videoId = extractYouTubeId(youtubeUrl);
+    if (!videoId) {
+      toast({
+        title: "Error",
+        description:
+          "Invalid YouTube URL. Please provide a valid YouTube link.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    const embedUrl = `https://www.youtube.com/embed/${videoId}`;
+    const newVideo = { title, url: embedUrl };
+
+    try {
+      console.log("Attempting to add video:", newVideo);
+      await onAdd(newVideo);
+      console.log("Video added successfully - current videos:", videos);
+
+      setTitle("");
+      setYoutubeUrl("");
+      toast({
+        title: "Success",
+        description: "YouTube video added successfully",
+      });
+    } catch (error) {
+      console.error("Error adding video:", error);
+      toast({
+        title: "Error",
+        description: "Failed to add YouTube video. Please try again.",
         variant: "destructive",
       });
     }
@@ -62,62 +85,46 @@ export default function VideoManager({
   return (
     <div className="space-y-4">
       <div className="space-y-2">
-        <Label>Add Video</Label>
-        <div className="">
+        <Label>Add YouTube Video</Label>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <Input
             placeholder="Video Title"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             disabled={isLoading}
           />
-
-          <UploadDropzone
-            className="p-4 ut-label:text-lg ut-uploading:text-red-300"
-            endpoint="mediaPost"
-            onClientUploadComplete={(res) => {
-              handleUploadComplete(res);
-              // Add a small delay before resetting to show success
-              setTimeout(() => {
-                // This will force a re-render of the dropzone
-                setKey(Math.random().toString(36).substring(7));
-              }, 2000);
-            }}
-            onUploadError={(error: Error) => {
-              toast({
-                title: "Upload Error",
-                description: error.message,
-                variant: "destructive",
-              });
-            }}
-            config={{
-              mode: "auto",
-            }}
-            appearance={{
-              button: ({ ready }) =>
-                `px-4 py-2 rounded-md font-medium ${
-                  ready
-                    ? "bg-purple-600 text-white hover:bg-purple-700"
-                    : "bg-gray-400 text-white cursor-not-allowed"
-                }`,
-              allowedContent: "Video will appear below after upload",
-            }}
-            key={key} // Add this key prop
+          <Input
+            placeholder="YouTube URL (e.g., https://youtube.com/watch?v=...)"
+            value={youtubeUrl}
+            onChange={(e) => setYoutubeUrl(e.target.value)}
+            disabled={isLoading}
           />
         </div>
+        <Button
+          type="button"
+          onClick={handleAddVideo}
+          disabled={isLoading || !title || !youtubeUrl}
+          className="mt-2"
+        >
+          {isLoading ? "Adding..." : "Add Video"}
+        </Button>
       </div>
 
-      {localVideos.length > 0 && (
+      {videos.length > 0 && (
         <div className="space-y-4">
-          <Label>Uploaded Videos</Label>
+          <Label>YouTube Videos</Label>
           <div className="space-y-4">
-            {localVideos.map((video, index) => (
+            {videos.map((video, index) => (
               <div key={index} className="p-3 border rounded-lg">
                 <h4 className="font-medium mb-2">{video.title}</h4>
                 <div className="aspect-video w-full">
-                  <video
-                    controls
+                  <iframe
                     src={video.url}
                     className="w-full h-full rounded-lg"
+                    frameBorder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                    title={video.title}
                   />
                 </div>
                 <div className="mt-2 flex justify-end">

@@ -86,6 +86,11 @@ export default function GalleryForm({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    console.log("Submitting form data:", {
+      ...formData,
+      videos: formData.videos,
+    }); // Debug log
+
     await onSubmit({
       title: formData.title,
       description: formData.description,
