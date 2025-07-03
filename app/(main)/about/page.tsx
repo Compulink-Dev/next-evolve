@@ -13,6 +13,7 @@ import GeneralPartners from "@/components/general-partners";
 import Ticketing from "../_components/ticketing";
 import Partnership from "@/components/partnership";
 import Speakers from "../_components/home-speakers";
+import EventInfo from "./_components/event-info";
 
 function About() {
   return (
@@ -26,6 +27,9 @@ function About() {
         <Venue />
         <Subscribe />
         <Objectives />
+        <div className="bg-purple-900">
+          <EventInfo />
+        </div>
         <Speakers />
         <Ticketing />
         {/* <Pricing /> */}
