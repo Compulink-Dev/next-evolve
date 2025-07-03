@@ -13,14 +13,14 @@ function EventInfo() {
       id: "event1",
       name: "Day 1",
       image: "/event1.png",
-      pdf: "/event1.png", // PDF in public folder
+      pdf: "/home/program.pdf", // PDF in public folder
       description: "Details about the first event",
     },
     {
       id: "event2",
       name: "Day 2",
       image: "/event2.png",
-      pdf: "/event2.png", // PDF in public folder
+      pdf: "/home/program.pdf", // PDF in public folder
       description: "Details about the second event",
     },
   ];
