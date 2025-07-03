@@ -13,6 +13,7 @@ import Partnership from "@/components/partnership";
 import InteractiveFloorPlan from "./_components/inetractivePlan";
 import ExhibitorBoothPage from "./_components/booth";
 import SponsorCarousel from "@/components/SponsorCarousel";
+import EventInfo from "./about/_components/event-info";
 
 function HomePage() {
   const { data: session, status } = useSession();
@@ -42,6 +43,9 @@ function HomePage() {
       </div>
       <HomeAbout />
       <HomeEvent />
+      <div className="bg-purple-900">
+        <EventInfo />
+      </div>
       <HomeSpeakers />
       <Ticketing />
       {/* <GeneralPartners /> */}
