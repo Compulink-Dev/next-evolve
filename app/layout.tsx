@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { SessionProviderWrapper } from "@/lib/sessionWrapper";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { Toaster } from "sonner";
 
 export const metadata: Metadata = {
   title: "Evolve ICT Summit",
@@ -21,6 +22,7 @@ export default function RootLayout({
       <body>
         <SessionProviderWrapper>
           <TooltipProvider>{children}</TooltipProvider>
+          <Toaster />
         </SessionProviderWrapper>
       </body>
     </html>

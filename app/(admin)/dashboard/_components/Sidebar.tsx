@@ -1,6 +1,16 @@
+"use client";
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarGroupLabel,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+} from "@/components/ui/sidebar";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
 import {
   MdDashboard,
   MdWork,
@@ -8,7 +18,6 @@ import {
   MdPeople,
   MdOutlineSettings,
   MdHelpCenter,
-  MdLogout,
   MdHome,
   MdInfoOutline,
   MdOutlineMic,
@@ -16,9 +25,8 @@ import {
   MdEventNote,
 } from "react-icons/md";
 import { FaUsers } from "react-icons/fa";
-import MenuLink from "./Menulink";
-import { Colors } from "@/constant/colors";
-import { GalleryHorizontal, ImageDown, Repeat2 } from "lucide-react";
+import { Repeat2, ImageDown } from "lucide-react";
+import { usePathname } from "next/navigation";
 
 const menuItems = [
   {
@@ -42,6 +50,11 @@ const menuItems = [
       {
         title: "Events",
         path: "/dashboard/event",
+        icon: <MdEventNote />,
+      },
+      {
+        title: "Registrations",
+        path: "/dashboard/registrations/2026",
         icon: <MdEventNote />,
       },
       {
@@ -99,11 +112,6 @@ const menuItems = [
         path: "/dashboard/reports",
         icon: <MdAnalytics />,
       },
-      // {
-      //   title: "Visitors",
-      //   path: "/dashboard/visitors",
-      //   icon: <MdPeople />,
-      // },
     ],
   },
   {
@@ -123,30 +131,45 @@ const menuItems = [
   },
 ];
 
-function Sidebar() {
+export function AppSidebar() {
+  const pathname = usePathname();
+
   return (
-    <div className="h-full w-full border-r sticky top-28">
+    <Sidebar className="fixed left-0  w-64 border-r bg-white z-10">
       <div className="p-4 flex items-center justify-center">
         <Image src={"/home/logo.png"} alt="logo" width={100} height={100} />
       </div>
-      {menuItems.map((cat) => (
-        <ul
-          key={cat.title}
-          className="flex items-center  px-4 pt-2 text-purple-950 w-full"
-        >
-          <li className="font-bold text-lg">
-            {cat.title}
-            <span className="font-normal text-sm w-full">
-              {cat.list.map((item) => (
-                <MenuLink data={item} key={item.title} />
-              ))}
-            </span>
-          </li>
-          {/* <Link href={'/dashboard/home'}>{item.title}</Link> */}
-        </ul>
-      ))}
-    </div>
+      <SidebarContent className="h-[calc(100%-80px)] overflow-y-auto">
+        {menuItems.map((group) => (
+          <SidebarGroup key={group.title}>
+            <SidebarGroupLabel>{group.title}</SidebarGroupLabel>
+            <SidebarGroupContent>
+              <SidebarMenu>
+                {group.list.map((item) => {
+                  const isActive = pathname === item.path;
+                  return (
+                    <SidebarMenuItem key={item.title}>
+                      <SidebarMenuButton asChild>
+                        <Link
+                          href={item.path}
+                          className={`flex items-center gap-2 px-3 py-2 rounded-md transition-colors ${
+                            isActive
+                              ? "bg-blue-500 text-white"
+                              : "hover:bg-gray-100"
+                          }`}
+                        >
+                          {item.icon}
+                          <span>{item.title}</span>
+                        </Link>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                  );
+                })}
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+        ))}
+      </SidebarContent>
+    </Sidebar>
   );
 }
-
-export default Sidebar;
