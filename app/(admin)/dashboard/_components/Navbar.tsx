@@ -1,5 +1,6 @@
 import { FaBell, FaSearch } from "react-icons/fa";
 import { SidebarTrigger } from "@/components/ui/sidebar";
+import Image from "next/image";
 
 function Navbar() {
   return (
@@ -26,7 +27,7 @@ function Navbar() {
         </div>
 
         <div className="flex items-center gap-2">
-          <img
+          <Image
             src="https://via.placeholder.com/40"
             alt="User Avatar"
             className="w-10 h-10 rounded-full"
