@@ -1,59 +1,12 @@
-"use client";
+import Maintenance from "@/components/Maintanance";
+import React from "react";
 
-import React, { useEffect } from "react";
-import { useSession } from "next-auth/react";
-import HomeAbout from "./_components/about";
-import HomeEvent from "./_components/event";
-import HomeSpeakers from "./_components/home-speakers";
-import Ticketing from "./_components/ticketing";
-import GeneralPartners from "@/components/general-partners";
-import Countdown from "./_components/countdown";
-import Title from "./_components/title";
-import Partnership from "@/components/partnership";
-import InteractiveFloorPlan from "./_components/inetractivePlan";
-import ExhibitorBoothPage from "./_components/booth";
-import SponsorCarousel from "@/components/SponsorCarousel";
-import EventInfo from "./about/_components/event-info";
-
-function HomePage() {
-  const { data: session, status } = useSession();
-
-  const eventDate = new Date("2025-07-03T00:00:00");
-
-  useEffect(() => {
-    if (session) {
-      console.log("✅ Session:", session);
-    } else {
-      console.log("🚫 No session found.");
-    }
-  }, [session]);
-
+function Home() {
   return (
     <div>
-      <div className="p-8 bg-purple-950">
-        <div className="text-white flex flex-col lg:flex-row gap-8 items-center justify-between">
-          <div>
-            <Title title={"Countdown"} />
-            <p className="text-3xl font-bold">
-              Countdown Until the Event. Register Now
-            </p>
-          </div>
-          <Countdown targetDate={eventDate} />
-        </div>
-      </div>
-      <HomeAbout />
-      <HomeEvent />
-      <div className="bg-purple-900">
-        <EventInfo />
-      </div>
-      <HomeSpeakers />
-      <Ticketing />
-      {/* <GeneralPartners /> */}
-      <ExhibitorBoothPage />
-      <SponsorCarousel />
-      <Partnership />
+      <Maintenance />
     </div>
   );
 }
 
-export default HomePage;
+export default Home;
